@@ -17,7 +17,5 @@ public class AlarmSettingActivity extends AppCompatActivity {
         listview.setAdapter(adapter) ;
 
 
-
-
     }
 }

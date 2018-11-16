@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.SET_TIME"/>
+    <uses-permission android:name="android.permission.SET_TIME_ZONE"/>
+
 
     <application
         android:allowBackup="true"
@@ -26,6 +29,7 @@
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".LoginActivity"
             android:label="ALARM BOMB"></activity>
+        <activity android:name=".AlarmShowActivity" android:noHistory="true"></activity>
     </application>
 
 </manifest>
