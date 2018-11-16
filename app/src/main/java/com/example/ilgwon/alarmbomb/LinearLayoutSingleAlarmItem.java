@@ -22,8 +22,8 @@ public class LinearLayoutSingleAlarmItem extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.layout_single_alarm_item, this);
-        textViewTime = (TextView) layout.findViewById(R.id.textViewTime);
-        btnSingleAlarmItemCancel = (Button) findViewById(R.id.btnSingleAlarmItemCancel);
+        textViewTime = layout.findViewById(R.id.textViewTime);
+        btnSingleAlarmItemCancel = findViewById(R.id.btnSingleAlarmItemCancel);
 
         btnSingleAlarmItemCancel.setOnClickListener(new View.OnClickListener() {
 

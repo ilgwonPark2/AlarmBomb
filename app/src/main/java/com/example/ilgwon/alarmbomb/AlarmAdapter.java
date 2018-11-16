@@ -11,24 +11,25 @@ import android.widget.BaseAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import com.example.ilgwon.alarmbomb.LinearLayoutSingleAlarmItem.OnRemoveButtonClickListener;
 
 public class AlarmAdapter extends BaseAdapter {
 
     Context mContext;
-    ArrayList<String> mData;
+//    ArrayList<String> mData;
     LayoutInflater mInflate;
-    ArrayList<AlarmData> arrayListAlarmDatas;
+    ArrayList<AlarmData> arrayListAlarmData;
 
-    public AlarmAdapter(Context context, ArrayList<AlarmData> arrayListAlarmDatas) {
+    public AlarmAdapter(Context context, ArrayList<AlarmData> arrayListAlarmData) {
         mContext = context;
-        this.arrayListAlarmDatas = arrayListAlarmDatas;
+        this.arrayListAlarmData = arrayListAlarmData;
         mInflate = LayoutInflater.from(mContext);
     }
 
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return arrayListAlarmDatas.size();
+        return arrayListAlarmData.size();
     }
 
     @Override
@@ -40,11 +41,12 @@ public class AlarmAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         // TODO Auto-generated method stub
-        return arrayListAlarmDatas.get(position).reqCode;
+                    Toast.makeText(mContext, "position : " +position,Toast.LENGTH_LONG).show();
+        return arrayListAlarmData.get(position).reqCode;
     }
 
     public boolean removeData(int position) {
-        arrayListAlarmDatas.remove(position);
+        arrayListAlarmData.remove(position);
         notifyDataSetChanged();
         return false;
     }
@@ -57,19 +59,19 @@ public class AlarmAdapter extends BaseAdapter {
             layoutSingleAlarmItem = new LinearLayoutSingleAlarmItem(mContext);
             layoutSingleAlarmItem.setOnRemoveButtonClickListener(onRemoveButtonClickListener);
         }
-        layoutSingleAlarmItem.setData(arrayListAlarmDatas.get(position), position);
+        layoutSingleAlarmItem.setData(arrayListAlarmData.get(position), position);
         return layoutSingleAlarmItem;
     }
-//    LinearLayoutSingleAlarmItem.OnRemoveButtonClickListner on
+
     LinearLayoutSingleAlarmItem.OnRemoveButtonClickListener onRemoveButtonClickListener = new LinearLayoutSingleAlarmItem.OnRemoveButtonClickListener() {
 
         @Override
         public void onClicked(int hh, int mm, int reqCode, int position) {
-            Toast.makeText(mContext, "position : " + position + " reqCode :" + reqCode, 0).show();
+//            Toast.makeText(mContext, "position : " + position + " reqCode :" + reqCode, 0).show();
             AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-            //			    Intent i = new Intent(mContext ,AlarmTestForHaruActivity.class);
+
             Intent intent = new Intent(mContext, AlarmShowActivity.class);
-            Toast.makeText(mContext, "reqCode : " + reqCode, 0).show();
+//            Toast.makeText(mContext, "reqCode : " + reqCode, 0).show();
             PendingIntent pi = PendingIntent.getActivity(mContext, reqCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
             alarmManager.cancel(pi);
             removeData(position);

@@ -8,7 +8,7 @@ public class AlarmData {
     public AlarmData(int hh, int mm, int reqCode) {
         this.hh = hh;
         this.mm = mm;
-        this. reqCode = reqCode;
+        this.reqCode = reqCode;
     }
 
     @Override
@@ -16,4 +16,5 @@ public class AlarmData {
         return hh+":"+mm +" and requestCode : "+reqCode;
     }
 }
+
 

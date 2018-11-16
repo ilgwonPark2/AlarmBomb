@@ -52,11 +52,10 @@ public class AlarmAddActivity extends Activity {
                     gregorianCalendar.set(currentYY, currentMM, currentDD + 1, hh, mm, 00);
                     Log.i("TAG", gregorianCalendar.getTimeInMillis() + ":");
                 }
-//                String abc = ((String) hh);
-//                Toast.makeText(this,"result "+time, Toast.LENGTH_LONG).show();
+
                 Intent intent = new Intent(AlarmAddActivity.this, AlarmSettingActivity.class);
-                intent.putExtra("time", hh + ":" + mm);
-//                intent.putExtra("data", "dd: " + currentCalendar.getTime().toLocaleString());
+                intent.putExtra("hour", hh);
+                intent.putExtra("minute", mm);
                 intent.putExtra("reqCode", reqCode);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
