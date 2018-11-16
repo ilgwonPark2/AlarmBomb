@@ -27,6 +27,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
      Button btnAddAlarm;
      ListView listViewAlarm;
      ArrayList<AlarmData> alarmArray = new ArrayList<AlarmData>();
+    GregorianCalendar currentCalendar = new GregorianCalendar(TimeZone.getTimeZone("GMT+09:00"));
     //    private SharedPreferences sharedPref;
     //    private SharedPreferences.Editor sharedEditor;
 
@@ -118,8 +119,11 @@ public class AlarmSettingActivity extends AppCompatActivity {
 
         }
         alarmAdapter.notifyDataSetChanged();
-
-        PendingIntent pi = PendingIntent.getActivity(AlarmSettingActivity.this, reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        				Intent intent2 = new Intent(AlarmSettingActivity.this, AlarmShowActivity.class);
+        				intent2.putExtra("time", hour+":"+minute);
+        				intent2.putExtra("data", "dd: " + currentCalendar.getTime().toLocaleString());
+        				intent2.putExtra("reqCode", reqCode);
+        PendingIntent pi = PendingIntent.getActivity(AlarmSettingActivity.this, reqCode, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, gregorianCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
 
     }
