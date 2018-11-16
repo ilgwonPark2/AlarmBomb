@@ -40,6 +40,7 @@
         <activity android:name=".LoginActivity"
             android:label="ALARM BOMB"></activity>
         <activity android:name=".AlarmShowActivity" android:noHistory="true"></activity>
+        <activity android:name=".AlarmAddActivity" android:noHistory="true"></activity>
     </application>
 
 </manifest>
