@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ilgwon.alarmbomb.R;
-import com.example.ilgwon.alarmbomb.module_alarm.AlarmData;
 
 public class LinearLayoutSingleAlarmItem extends LinearLayout {
     Context mContext;
