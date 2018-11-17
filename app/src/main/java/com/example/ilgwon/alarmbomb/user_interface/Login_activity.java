@@ -27,55 +27,14 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class Login_activity extends Activity {
     private static final int RC_SIGN_IN = 900;
-    private GoogleSignInClient googleSignInClient;
     private boolean check_acc;
     // 구글api클라이언트
-
+    private GoogleSignInClient googleSignInClient;
     // 파이어베이스 인증 객체 생성
     private FirebaseAuth firebaseAuth;
-
     // 구글  로그인 버튼
     private SignInButton buttonGoogle;
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==RC_SIGN_IN){
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try{
-                GoogleSignInAccount account=task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
-                e.printStackTrace();
-            }
 
-
-
-
-        }
-    }
-
-    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // 로그인 성공
-                            Toast.makeText(getApplicationContext(),"welcome", Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                            check_acc=true;
-                        Intent intent=new Intent(Login_activity.this,AlarmSettingActivity.class);
-                        startActivity(intent);
-
-                        } else {
-                            // 로그인 실패
-                            Toast.makeText(getApplicationContext(), "retry", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,7 +43,7 @@ public class Login_activity extends Activity {
 
         firebaseAuth=FirebaseAuth.getInstance();
 
-        buttonGoogle= (SignInButton) findViewById(R.id.btn_googleSignIn);
+        buttonGoogle= findViewById(R.id.btn_googleSignIn);
 
         GoogleSignInOptions googleSignInOptions=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
@@ -114,6 +73,47 @@ public class Login_activity extends Activity {
 //        });
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==RC_SIGN_IN){
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try{
+                GoogleSignInAccount account=task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+        }
+    }
+    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // 로그인 성공
+                            Toast.makeText(getApplicationContext(),"welcome", Toast.LENGTH_SHORT).show();
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            check_acc=true;
+                            Intent intent=new Intent(Login_activity.this,AlarmSettingActivity.class);
+                            startActivity(intent);
+
+                        } else {
+                            // 로그인 실패
+                            Toast.makeText(getApplicationContext(), "retry", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+    }
+
 }
 
 
