@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +29,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
     public static final int DEFAULT_ALARM_REQUEST = 800;
 
 
-    Button btnAddAlarm;
+    FloatingActionButton btnAddAlarm;
     ListView listViewAlarm;
     ArrayList<AlarmData> alarmArray = new ArrayList<AlarmData>();
     GregorianCalendar currentCalendar = new GregorianCalendar(TimeZone.getTimeZone("GMT+09:00"));
@@ -43,7 +44,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_main);
         mContext = getApplicationContext();
-        btnAddAlarm = findViewById(R.id.btn_add_activity);
+        btnAddAlarm = findViewById(R.id.add);
         listViewAlarm = findViewById(R.id.listViewAlarm);
 
         sharedPref = getSharedPreferences("Alarm", Context.MODE_PRIVATE);
