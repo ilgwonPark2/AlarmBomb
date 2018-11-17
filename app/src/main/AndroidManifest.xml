@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".AlarmSettingActivity"
+            android:name=".Login_activity"
             android:label="ALARM BOMB LOGIN">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,7 +41,7 @@
         <!--</activity>-->
         <!--<activity android:name=".MainActivity"></activity>-->
 
-
+        <activity android:name=".AlarmSettingActivity"></activity>
         <activity android:name=".AlarmShowActivity" android:noHistory="true"></activity>
         <activity android:name=".AlarmAddActivity" android:noHistory="true"></activity>
     </application>
