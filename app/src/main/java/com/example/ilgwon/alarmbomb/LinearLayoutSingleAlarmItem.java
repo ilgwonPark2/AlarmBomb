@@ -41,8 +41,8 @@ public class LinearLayoutSingleAlarmItem extends LinearLayout {
 
     OnRemoveButtonClickListener onRemoveButtonClickListener;
 
-    void setOnRemoveButtonClickListener(OnRemoveButtonClickListener OnRemoveButtonClickListener) {
-        this.onRemoveButtonClickListener = OnRemoveButtonClickListener;
+    void setOnRemoveButtonClickListener(OnRemoveButtonClickListener onRemoveButtonClickListener) {
+        this.onRemoveButtonClickListener = onRemoveButtonClickListener;
     }
 
     public boolean setData(AlarmData alarmData, int position) {

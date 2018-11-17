@@ -1,8 +1,6 @@
 package com.example.ilgwon.alarmbomb;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -39,7 +36,7 @@ public class AlarmAddActivity extends Activity {
                 int mm = timePickerAlarmTime.getMinute();
                 //                int reqCode = DEFAULT_ALARM_REQUEST + arrayListAlarmTimeItem.size();
                 int reqCode = DEFAULT_ALARM_REQUEST;
-                //                int i = arrayListAlarmTimeItem.size();
+
                 GregorianCalendar gregorianCalendar = new GregorianCalendar(TimeZone.getTimeZone("GMT+09:00"));
 
                 int currentYY = currentCalendar.get(Calendar.YEAR);
@@ -57,6 +54,7 @@ public class AlarmAddActivity extends Activity {
                 intent.putExtra("hour", hh);
                 intent.putExtra("minute", mm);
                 intent.putExtra("reqCode", reqCode);
+
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
