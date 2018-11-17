@@ -4,6 +4,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +21,13 @@ public class AlarmAdapter extends BaseAdapter {
 //    ArrayList<String> mData;
     LayoutInflater mInflate;
     ArrayList<AlarmData> arrayListAlarmData;
+    SharedPreferences sharedPref;
 
-    public AlarmAdapter(Context context, ArrayList<AlarmData> arrayListAlarmData) {
+    public AlarmAdapter(Context context, ArrayList<AlarmData> arrayListAlarmData, SharedPreferences sharedPreferences) {
         mContext = context;
         this.arrayListAlarmData = arrayListAlarmData;
         mInflate = LayoutInflater.from(mContext);
+        this.sharedPref  = sharedPreferences;
     }
 
     @Override
@@ -48,6 +52,16 @@ public class AlarmAdapter extends BaseAdapter {
     public boolean removeData(int position) {
         arrayListAlarmData.remove(position);
         notifyDataSetChanged();
+        Log.i("check", "check position:" + position);
+        int size = sharedPref.getInt("size", 0);
+        Log.i("check", "remove check size:" + size);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove("list" + position+1 + "hh");
+        editor.remove("list" + position +1+ "mm");
+        editor.remove("list" + position +1+ "reqCode");
+        editor.remove("size" );
+        editor.putInt("size",size-1);
+        editor.commit();
         return false;
     }
 
@@ -67,11 +81,9 @@ public class AlarmAdapter extends BaseAdapter {
 
         @Override
         public void onClicked(int hh, int mm, int reqCode, int position) {
-//            Toast.makeText(mContext, "position : " + position + " reqCode :" + reqCode, 0).show();
             AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
 
             Intent intent = new Intent(mContext, AlarmShowActivity.class);
-//            Toast.makeText(mContext, "reqCode : " + reqCode, 0).show();
             PendingIntent pi = PendingIntent.getActivity(mContext, reqCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
             alarmManager.cancel(pi);
             removeData(position);

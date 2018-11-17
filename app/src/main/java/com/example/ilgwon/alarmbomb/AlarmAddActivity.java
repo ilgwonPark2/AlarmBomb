@@ -1,8 +1,6 @@
 package com.example.ilgwon.alarmbomb;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -34,50 +31,37 @@ public class AlarmAddActivity extends Activity {
         btnAddAlarm = (Button) findViewById(R.id.btnAddAlarm);
         timePickerAlarmTime = (TimePicker) findViewById(R.id.timePickerAlarmTime);
         timePickerAlarmTime.setIs24HourView(false);
-        s=(Spinner)findViewById(R.id.mission);
+        s = (Spinner) findViewById(R.id.mission);
         s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                        @Override
-                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                            mission_select= (String) parent.getItemAtPosition(position);
-                                        }
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mission_select = (String) parent.getItemAtPosition(position);
+            }
 
-                                        @Override
-                                        public void onNothingSelected(AdapterView<?> parent) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-                                        }
-                                    });
+            }
+        });
 
 
-                btnAddAlarm.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int hh = timePickerAlarmTime.getHour();
-                        int mm = timePickerAlarmTime.getMinute();
-                        //                int reqCode = DEFAULT_ALARM_REQUEST + arrayListAlarmTimeItem.size();
-                        int reqCode = DEFAULT_ALARM_REQUEST;
-                        //                int i = arrayListAlarmTimeItem.size();
-                        GregorianCalendar gregorianCalendar = new GregorianCalendar(TimeZone.getTimeZone("GMT+09:00"));
+        btnAddAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int hh = timePickerAlarmTime.getHour();
+                int mm = timePickerAlarmTime.getMinute();
+                int reqCode = DEFAULT_ALARM_REQUEST;
 
-                        int currentYY = currentCalendar.get(Calendar.YEAR);
-                        int currentMM = currentCalendar.get(Calendar.MONTH);
-                        int currentDD = currentCalendar.get(Calendar.DAY_OF_MONTH);
+                Intent intent = new Intent(AlarmAddActivity.this, AlarmSettingActivity.class);
+                intent.putExtra("hour", hh);
+                intent.putExtra("minute", mm);
+                intent.putExtra("mission", mission_select);
+                intent.putExtra("reqCode", reqCode);
 
-                        gregorianCalendar.set(currentYY, currentMM, currentDD, hh, mm, 00);
-
-                        if (gregorianCalendar.getTimeInMillis() < currentCalendar.getTimeInMillis()) {
-                            gregorianCalendar.set(currentYY, currentMM, currentDD + 1, hh, mm, 00);
-                            Log.i("TAG", gregorianCalendar.getTimeInMillis() + ":");
-                        }
-
-                        Intent intent = new Intent(AlarmAddActivity.this, AlarmSettingActivity.class);
-                        intent.putExtra("hour", hh);
-                        intent.putExtra("minute", mm);
-                        intent.putExtra("mission", mission_select);
-                        intent.putExtra("reqCode", reqCode);
-                        setResult(Activity.RESULT_OK, intent);
-                        finish();
-                    }
-                });
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+            }
+        });
 
     }
 }
