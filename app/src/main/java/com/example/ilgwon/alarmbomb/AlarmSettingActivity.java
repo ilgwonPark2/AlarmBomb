@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
@@ -106,12 +107,26 @@ public class AlarmSettingActivity extends AppCompatActivity {
         sharedEditor.putInt("size", i);
         sharedEditor.commit();
 
+
+        int currentYY = currentCalendar.get(Calendar.YEAR);
+        int currentMM = currentCalendar.get(Calendar.MONTH);
+        int currentDD = currentCalendar.get(Calendar.DAY_OF_MONTH);
+
+        gregorianCalendar.set(currentYY, currentMM, currentDD, hour, minute, 00);
+
+        if (gregorianCalendar.getTimeInMillis() < currentCalendar.getTimeInMillis()) {
+            gregorianCalendar.set(currentYY, currentMM, currentDD + 1, hour, minute, 00);
+            Log.i("Check", "gregroicanCalendar:  "+ gregorianCalendar.getTimeInMillis() + ":");
+        }
+
         Intent intent = new Intent(AlarmSettingActivity.this, AlarmShowActivity.class);
         intent.putExtra("time", hour + ":" + minute);
         intent.putExtra("data", "dd: " + currentCalendar.getTime().toLocaleString());
         intent.putExtra("reqCode", reqCode);
+
         PendingIntent pi = PendingIntent.getActivity(AlarmSettingActivity.this, reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, gregorianCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, gregorianCalendar.getTimeInMillis(), pi);
+        Log.i("Check", "gregroicanCalendar2: " + gregorianCalendar + ":");
 
     }
 
