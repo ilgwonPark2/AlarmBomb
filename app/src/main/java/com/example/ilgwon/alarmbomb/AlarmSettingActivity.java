@@ -69,11 +69,12 @@ public class AlarmSettingActivity extends AppCompatActivity {
                 Intent intent = data;
                 int hh = intent.getIntExtra("hour", 0);
                 int mm = intent.getIntExtra("minute", 0);
+                String mission=intent.getStringExtra("mission");
                 int reqCode = DEFAULT_ALARM_REQUEST + alarmArray.size();
                 int size = sharedPref.getInt("size", 0);
                 int i = (size == 0) ? 1 : size + 1;
                 Log.i("check", "check loop alarm array size:" + size + 1);
-                alarmAdd(hh, mm, reqCode, i);
+                alarmAdd(hh, mm,mission, reqCode, i);
             }
         }
     }
@@ -97,7 +98,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
     }
 
 
-    public void alarmAdd(int hour, int minute, int reqCode, int i) {
+    public void alarmAdd(int hour, int minute, String mission,int reqCode, int i) {
         GregorianCalendar gregorianCalendar = new GregorianCalendar(TimeZone.getTimeZone("GMT+09:00"));
         Log.i("check", "alarmAdd :" + hour + ", mm: " + minute + ", int i: " + i);
         sharedEditor.putInt("list" + i + "hh", hour);

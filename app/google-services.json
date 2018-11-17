@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "559444137330",
+    "firebase_url": "https://alarmbomb-5fbe8.firebaseio.com",
+    "project_id": "alarmbomb-5fbe8",
+    "storage_bucket": "alarmbomb-5fbe8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559444137330:android:353568c0dff921e1",
+        "android_client_info": {
+          "package_name": "com.example.ilgwon.alarmbomb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "559444137330-e09im38tkdvq8g077d0qtr6bgloeiu9r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ilgwon.alarmbomb",
+            "certificate_hash": "df15feaa8bd5a4a1f3183bc964b20e64193f8512"
+          }
+        },
+        {
+          "client_id": "559444137330-jo4bki5urk4hql7fdbdrt1db7sn2mg2p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm7t7Ko31ObVB-wmvDspCMqdjzvoCiU4c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "559444137330-jo4bki5urk4hql7fdbdrt1db7sn2mg2p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
