@@ -18,7 +18,8 @@ public class AlarmShowActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String time = intent.getStringExtra("time");
         String data = intent.getStringExtra("data");
+        String mission=intent.getStringExtra("mission");
         int reqCode = intent.getIntExtra("reqCode", 0);
-        textViewAlarmedTime.setText(time + "\n" + data + "\n" + reqCode);
+        textViewAlarmedTime.setText(time + "\n" + data + "\n" +mission+"\n"+ reqCode);
     }
 }

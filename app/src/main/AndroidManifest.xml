@@ -4,6 +4,7 @@
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.SET_TIME"/>
@@ -18,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".AlarmSettingActivity"
             android:label="ALARM BOMB LOGIN">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AlarmSettingActivity"></activity>
+<!--        <activity android:name=".Login_activity"
+            android:label="ALARM BOMB"></activity>-->
+        <activity android:name=".Register_act"></activity>
         <!--<activity-->
             <!--android:name=".AlarmSettingActivity"-->
             <!--android:label="ALARM BOMB LOGIN">-->
@@ -37,10 +40,14 @@
             <!--</intent-filter>-->
         <!--</activity>-->
         <!--<activity android:name=".MainActivity"></activity>-->
-        <activity android:name=".LoginActivity"
-            android:label="ALARM BOMB"></activity>
+
+
         <activity android:name=".AlarmShowActivity" android:noHistory="true"></activity>
         <activity android:name=".AlarmAddActivity" android:noHistory="true"></activity>
     </application>
+
+<!--
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+-->
 
 </manifest>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="mission">
+        <item >Do Nothing</item>
+        <item >Decibel</item>
+        <item >Shaking</item>
+        <item >Fee</item>
+
+    </string-array>
+
+
+</resources>

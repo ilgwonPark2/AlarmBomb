@@ -2,23 +2,40 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <LinearLayout
-        android:id="@+id/linearLayout1"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TimePicker
-            android:id="@+id/timePickerAlarmTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            <TimePicker
+                android:id="@+id/timePickerAlarmTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
-        <Button
-            android:id="@+id/btnAddAlarm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="버튼입니다" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/find_friend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Find Friend" />
+
+            <Spinner
+                android:id="@+id/mission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:entries="@array/mission"/>
+
+            <Button
+                android:id="@+id/btnAddAlarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="버튼입니다" />
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

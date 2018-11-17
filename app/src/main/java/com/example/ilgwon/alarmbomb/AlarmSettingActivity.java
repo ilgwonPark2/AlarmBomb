@@ -75,10 +75,11 @@ public class AlarmSettingActivity extends AppCompatActivity {
                 Intent intent = data;
                 int hh = intent.getIntExtra("hour", 0);
                 int mm = intent.getIntExtra("minute", 0);
+                String mission=intent.getStringExtra("mission");
                 int reqCode = intent.getIntExtra("reqCode", 0);
                 GregorianCalendar gregorianCalendar = new GregorianCalendar(TimeZone.getTimeZone("GMT+09:00"));
 
-                alarmAdd(hh,mm,reqCode,intent);
+                alarmAdd(hh,mm,mission,reqCode,intent);
 //                alarmAdapter.notifyDataSetChanged();
 //
 //                PendingIntent pi = PendingIntent.getActivity(AlarmSettingActivity.this, reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -107,7 +108,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
 //        alarmAdapter.notifyDataSetChanged();
     }
 
-    public void alarmAdd(int hour, int minute, int reqCode, Intent intent) {
+    public void alarmAdd(int hour, int minute, String mission, int reqCode, Intent intent) {
         GregorianCalendar gregorianCalendar = new GregorianCalendar(TimeZone.getTimeZone("GMT+09:00"));
         Toast.makeText(this, "result " + hour + "," + minute + ',' + reqCode, Toast.LENGTH_LONG).show();
 
@@ -122,6 +123,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
         				Intent intent2 = new Intent(AlarmSettingActivity.this, AlarmShowActivity.class);
         				intent2.putExtra("time", hour+":"+minute);
         				intent2.putExtra("data", "dd: " + currentCalendar.getTime().toLocaleString());
+        				intent2.putExtra("mission","mission:"+mission);
         				intent2.putExtra("reqCode", reqCode);
         PendingIntent pi = PendingIntent.getActivity(AlarmSettingActivity.this, reqCode, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, gregorianCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
