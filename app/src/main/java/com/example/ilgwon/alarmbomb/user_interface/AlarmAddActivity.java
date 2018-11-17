@@ -1,17 +1,17 @@
-package com.example.ilgwon.alarmbomb;
+package com.example.ilgwon.alarmbomb.user_interface;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
-import java.util.Calendar;
+import com.example.ilgwon.alarmbomb.R;
+
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 

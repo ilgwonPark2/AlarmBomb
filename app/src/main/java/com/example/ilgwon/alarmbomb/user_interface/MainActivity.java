@@ -1,9 +1,11 @@
-package com.example.ilgwon.alarmbomb;
+package com.example.ilgwon.alarmbomb.user_interface;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.ilgwon.alarmbomb.R;
 
 public class MainActivity extends AppCompatActivity {
 

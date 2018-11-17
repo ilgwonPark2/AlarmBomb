@@ -1,4 +1,4 @@
-package com.example.ilgwon.alarmbomb;
+package com.example.ilgwon.alarmbomb.module_alarm;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -13,7 +13,8 @@ import android.widget.BaseAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import com.example.ilgwon.alarmbomb.LinearLayoutSingleAlarmItem.OnRemoveButtonClickListener;
+
+import com.example.ilgwon.alarmbomb.user_interface.AlarmShowActivity;
 
 public class AlarmAdapter extends BaseAdapter {
 

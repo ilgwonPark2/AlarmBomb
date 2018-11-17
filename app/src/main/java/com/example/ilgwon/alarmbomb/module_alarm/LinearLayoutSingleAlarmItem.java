@@ -1,4 +1,4 @@
-package com.example.ilgwon.alarmbomb;
+package com.example.ilgwon.alarmbomb.module_alarm;
 
 
 import android.content.Context;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.ilgwon.alarmbomb.R;
+import com.example.ilgwon.alarmbomb.module_alarm.AlarmData;
 
 public class LinearLayoutSingleAlarmItem extends LinearLayout {
     Context mContext;

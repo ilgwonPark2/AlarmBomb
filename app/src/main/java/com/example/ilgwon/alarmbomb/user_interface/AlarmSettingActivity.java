@@ -1,4 +1,4 @@
-package com.example.ilgwon.alarmbomb;
+package com.example.ilgwon.alarmbomb.user_interface;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -12,6 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+
+import com.example.ilgwon.alarmbomb.R;
+import com.example.ilgwon.alarmbomb.module_alarm.AlarmAdapter;
+import com.example.ilgwon.alarmbomb.module_alarm.AlarmData;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -70,12 +74,12 @@ public class AlarmSettingActivity extends AppCompatActivity {
                 Intent intent = data;
                 int hh = intent.getIntExtra("hour", 0);
                 int mm = intent.getIntExtra("minute", 0);
-                String mission=intent.getStringExtra("mission");
+                String mission = intent.getStringExtra("mission");
                 int reqCode = DEFAULT_ALARM_REQUEST + alarmArray.size();
                 int size = sharedPref.getInt("size", 0);
                 int i = (size == 0) ? 1 : size + 1;
-                Log.i("check", "check loop alarm array size:" + size + 1);
-                alarmAdd(hh, mm,mission, reqCode, i);
+//                Log.i("check", "check loop alarm array size:" + size + 1);
+                alarmAdd(hh, mm, mission, reqCode, i);
             }
         }
     }
@@ -83,23 +87,23 @@ public class AlarmSettingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("check", "onResume");
+//        Log.i("check", "onResume");
         alarmArray.clear();
         int size = sharedPref.getInt("size", 0);
-        Log.i("check", "check size:" + size);
+//        Log.i("check", "check size:" + size);
         if (size != 0)
             for (int i = 1; i < size + 1; i++) {
                 int hh = sharedPref.getInt("list" + i + "hh", 0);
                 int mm = sharedPref.getInt("list" + i + "mm", 0);
                 int reqCode = sharedPref.getInt("list" + i + "reqCode", 0);
                 alarmArray.add(new AlarmData(hh, mm, reqCode));
-                Log.i("check", "check loop:" + i + ", " + hh + ", mm: " + mm);
+//                Log.i("check", "check loop:" + i + ", " + hh + ", mm: " + mm);
             }
         alarmAdapter.notifyDataSetChanged();
     }
 
 
-    public void alarmAdd(int hour, int minute, String mission,int reqCode, int i) {
+    public void alarmAdd(int hour, int minute, String mission, int reqCode, int i) {
         GregorianCalendar gregorianCalendar = new GregorianCalendar(TimeZone.getTimeZone("GMT+09:00"));
         Log.i("check", "alarmAdd :" + hour + ", mm: " + minute + ", int i: " + i);
         sharedEditor.putInt("list" + i + "hh", hour);
@@ -117,7 +121,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
 
         if (gregorianCalendar.getTimeInMillis() < currentCalendar.getTimeInMillis()) {
             gregorianCalendar.set(currentYY, currentMM, currentDD + 1, hour, minute, 00);
-            Log.i("Check", "gregroicanCalendar:  "+ gregorianCalendar.getTimeInMillis() + ":");
+//            Log.i("Check", "gregroicanCalendar:  " + gregorianCalendar.getTimeInMillis() + ":");
         }
 
         Intent intent = new Intent(AlarmSettingActivity.this, AlarmShowActivity.class);
@@ -127,7 +131,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
 
         PendingIntent pi = PendingIntent.getActivity(AlarmSettingActivity.this, reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.set(AlarmManager.RTC_WAKEUP, gregorianCalendar.getTimeInMillis(), pi);
-        Log.i("Check", "gregroicanCalendar2: " + gregorianCalendar + ":");
+//        Log.i("Check", "gregroicanCalendar2: " + gregorianCalendar + ":");
 
     }
 

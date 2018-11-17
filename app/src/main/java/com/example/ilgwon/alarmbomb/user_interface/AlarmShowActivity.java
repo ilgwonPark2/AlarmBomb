@@ -1,10 +1,12 @@
-package com.example.ilgwon.alarmbomb;
+package com.example.ilgwon.alarmbomb.user_interface;
 
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+
+import com.example.ilgwon.alarmbomb.R;
 
 
 public class AlarmShowActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package com.example.ilgwon.alarmbomb;
+package com.example.ilgwon.alarmbomb.module_alarm;
 
 public class AlarmData {
     public int hh;
