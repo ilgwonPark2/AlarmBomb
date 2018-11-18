@@ -12,14 +12,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import com.example.ilgwon.alarmbomb.user_interface.AlarmShowActivity;
+
+import java.util.ArrayList;
 
 public class AlarmAdapter extends BaseAdapter {
 
     Context mContext;
-//    ArrayList<String> mData;
+    //    ArrayList<String> mData;
     LayoutInflater mInflate;
     ArrayList<AlarmData> arrayListAlarmData;
     SharedPreferences sharedPref;
@@ -28,7 +28,7 @@ public class AlarmAdapter extends BaseAdapter {
         mContext = context;
         this.arrayListAlarmData = arrayListAlarmData;
         mInflate = LayoutInflater.from(mContext);
-        this.sharedPref  = sharedPreferences;
+        this.sharedPref = sharedPreferences;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class AlarmAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         // TODO Auto-generated method stub
-                    Toast.makeText(mContext, "position : " +position,Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, "position : " + position, Toast.LENGTH_LONG).show();
         return arrayListAlarmData.get(position).reqCode;
     }
 
@@ -57,11 +57,11 @@ public class AlarmAdapter extends BaseAdapter {
         int size = sharedPref.getInt("size", 0);
         Log.i("check", "remove check size:" + size);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.remove("list" + position+1 + "hh");
-        editor.remove("list" + position +1+ "mm");
-        editor.remove("list" + position +1+ "reqCode");
-        editor.remove("size" );
-        editor.putInt("size",size-1);
+        editor.remove("list" + position + 1 + "hh");
+        editor.remove("list" + position + 1 + "mm");
+        editor.remove("list" + position + 1 + "reqCode");
+        editor.remove("size");
+        editor.putInt("size", size - 1);
         editor.commit();
         return false;
     }
@@ -81,7 +81,7 @@ public class AlarmAdapter extends BaseAdapter {
     LinearLayoutSingleAlarmItem.OnRemoveButtonClickListener onRemoveButtonClickListener = new LinearLayoutSingleAlarmItem.OnRemoveButtonClickListener() {
 
         @Override
-        public void onClicked(int hh, int mm, String mission,int reqCode, int position) {
+        public void onClicked(int hh, int mm, String mission, int reqCode, int position) {
             AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
 
             Intent intent = new Intent(mContext, AlarmShowActivity.class);

@@ -27,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void settingDecibel(View view) {
-
-        Intent intent = new Intent(MainActivity.this, MissionDecibelMeterActivity.class);
-        startActivity(intent);
-    }
+//    public void settingDecibel(View view) {
+//
+//        Intent intent = new Intent(MainActivity.this, MissionDecibelMeterActivity.class);
+//        startActivity(intent);
+//    }
 }

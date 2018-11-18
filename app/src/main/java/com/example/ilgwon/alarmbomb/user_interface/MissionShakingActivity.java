@@ -1,4 +1,4 @@
-package com.example.ilgwon.alarmbomb.module_shaking;
+package com.example.ilgwon.alarmbomb.user_interface;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -9,8 +9,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ilgwon.alarmbomb.R;
+import com.example.ilgwon.alarmbomb.module_shaking.ShakeDetector;
 
-public class Shaking_activity extends AppCompatActivity {
+public class MissionShakingActivity extends AppCompatActivity {
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
@@ -19,7 +20,7 @@ public class Shaking_activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.shaking_main);
+        setContentView(R.layout.mission_shaking);
         countTextview=(TextView)findViewById(R.id.count);
         countTextview.setText("hello");
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);

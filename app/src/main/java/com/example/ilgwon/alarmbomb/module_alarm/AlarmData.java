@@ -20,11 +20,7 @@ public class AlarmData {
     public String Alarm_mission(){
         return "you have to do "+mission;
     }
-//
-//    @Override
-//    public String toString() {
-//        return hh+":"+mm +" and requestCode : "+reqCode;
-//    }
+
 }
 
 

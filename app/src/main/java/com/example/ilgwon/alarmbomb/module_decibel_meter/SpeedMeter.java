@@ -42,7 +42,6 @@ public class SpeedMeter extends View {
 
         paint = new Paint();
         paint.setTextSize(44);
-//        paint.setTypeface(MissionDecibelMeterActivity.tf);
         paint.setAntiAlias(true);  //Anti-aliasing
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setColor(Color.WHITE);

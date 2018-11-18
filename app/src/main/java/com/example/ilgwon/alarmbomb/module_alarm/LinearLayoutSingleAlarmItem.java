@@ -55,7 +55,6 @@ public class LinearLayoutSingleAlarmItem extends LinearLayout {
         this.alarmData = alarmData;
         this.position = position;
 
-        //textViewTime.setText(alarmData.hh + ":" + alarmData.mm + " and requestCode : " + alarmData.reqCode);
         textViewTime.setText(alarmData.Alarm_time());
         missionTextView.setText(alarmData.Alarm_mission());
 
