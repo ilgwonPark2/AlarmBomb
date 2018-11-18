@@ -23,6 +23,7 @@ public class AlarmShowActivity extends AppCompatActivity {
     private String data;
     private String mission;
     private int reqCode;
+    boolean isComplete = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class AlarmShowActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             stopService(intent_ringtone);
+            isComplete = true;
             switch (requestCode) {
                 case DEFAULT_MISSION_NOTHING:
                     break;
@@ -64,12 +66,14 @@ public class AlarmShowActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Intent intent_zombie = new Intent(this, MissionDecibelMeterActivity.class);
-        intent_zombie.putExtra("hour", time);
-        intent_zombie.putExtra("data", data);
-        intent_zombie.putExtra("mission", mission);
-        intent_zombie.putExtra("reqCode", reqCode);
-        startActivity(intent_zombie);
+        if (!isComplete){
+            Intent intent_zombie = new Intent(this, MissionDecibelMeterActivity.class);
+            intent_zombie.putExtra("hour", time);
+            intent_zombie.putExtra("data", data);
+            intent_zombie.putExtra("mission", mission);
+            intent_zombie.putExtra("reqCode", reqCode);
+            startActivity(intent_zombie);
+        }
     }
 
     @Override
