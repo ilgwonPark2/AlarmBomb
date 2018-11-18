@@ -8,8 +8,9 @@
         android:id="@+id/textViewAlarmedTime"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Large Text"
+        android:background="@mipmap/emma"
         android:gravity="center"
+        android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </LinearLayout>
