@@ -1,16 +1,16 @@
 package com.example.ilgwon.alarmbomb.user_interface;
 
+import android.Manifest;
 import android.app.Activity;
-import android.graphics.Color;
-//import android.graphics.Typeface;
-import android.graphics.Typeface;
-import android.os.Build;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,11 +25,11 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Date;
 
-public class MissionDecibelMeterActivity extends Activity {
+public class MissionDecibelMeterActivity extends Activity implements android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback {
     boolean refreshed = false;
     SpeedMeter speedMeter;
-//    public static Typeface tf;
-//    ImageButton infoButton;
+    //    public static Typeface tf;
+    //    ImageButton infoButton;
     ImageButton refreshButton;
     TextView minVal;
     TextView maxVal;
@@ -70,44 +70,13 @@ public class MissionDecibelMeterActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-            window.setNavigationBarColor(Color.TRANSPARENT);
-        }
         setContentView(R.layout.mission_decibel);
-        //        tf= Typeface.createFromAsset(this.getAssets(), "fonts/Let_s go Digital Regular.ttf");
+        checkPermission();
         minVal = (TextView) findViewById(R.id.minval);
-//        minVal.setTypeface(tf);
         mmVal = (TextView) findViewById(R.id.mmval);
-//        mmVal.setTypeface(tf);
         maxVal = (TextView) findViewById(R.id.maxval);
-//        maxVal.setTypeface(tf);
         curVal = (TextView) findViewById(R.id.curval);
-//        curVal.setTypeface(tf);
-        //        infoButton=(ImageButton)findViewById(R.id.infobutton);
-        //        infoButton.setOnClickListener(new View.OnClickListener() {
-        //            @Override
-        //            public void onClick(View view) {
-        //                InfoDialog.Builder builder = new InfoDialog.Builder(MainActivity.this);
-        //                builder.setMessage(getString(R.string.activity_infobull));
-        //                builder.setTitle(getString(R.string.activity_infotitle));
-        //                builder.setNegativeButton(getString(R.string.activity_infobutton),
-        //                        new android.content.DialogInterface.OnClickListener() {
-        //                            public void onClick(DialogInterface dialog, int which) {
-        //                                dialog.dismiss();
-        //                            }
-        //                        });
-        //                builder.create().show();
-        //            }
-        //        });
+
         refreshButton = (ImageButton) findViewById(R.id.refreshbutton);
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,10 +89,9 @@ public class MissionDecibelMeterActivity extends Activity {
             }
         });
 
-        speedMeter = (SpeedMeter) findViewById(R.id.speed);
+        speedMeter = findViewById(R.id.speed);
         mRecorder = new MyMediaRecorder();
     }
-
 
     /* Sub-chant analysis */
     private void startListenAudio() {
@@ -165,6 +133,7 @@ public class MissionDecibelMeterActivity extends Activity {
      */
     public void startRecord(File fFile) {
         try {
+
             mRecorder.setMyRecAudioFile(fFile);
             if (mRecorder.startRecorder()) {
                 startListenAudio();
@@ -208,5 +177,31 @@ public class MissionDecibelMeterActivity extends Activity {
         }
         mRecorder.delete();
         super.onDestroy();
+    }
+
+    public void checkPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder((MissionDecibelMeterActivity.this), 0);
+                builder.setTitle("AUDIO PERMISSION").setMessage("RECORD AUDIO, STOARGE ACCESS permission is needed to estimate decibel! Would you try to get permission again?")
+                        .setNegativeButton("No", null)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ActivityCompat.requestPermissions(MissionDecibelMeterActivity.this,
+                                        new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                                        7777);
+                            }
+                        });
+                builder.show();
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                        7777);
+            }
+        }
     }
 }

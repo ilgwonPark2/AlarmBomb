@@ -11,7 +11,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.ilgwon.alarmbomb.R;
@@ -58,7 +57,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AlarmSettingActivity.this, AlarmAddActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                //                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivityForResult(intent, 800);
             }
 
@@ -98,8 +97,8 @@ public class AlarmSettingActivity extends AppCompatActivity {
                 int hh = sharedPref.getInt("list" + i + "hh", 0);
                 int mm = sharedPref.getInt("list" + i + "mm", 0);
                 int reqCode = sharedPref.getInt("list" + i + "reqCode", 0);
-                String mission=sharedPref.getString("list"+i+"mission",null);
-                alarmArray.add(new AlarmData(hh, mm, mission,reqCode));
+                String mission = sharedPref.getString("list" + i + "mission", null);
+                alarmArray.add(new AlarmData(hh, mm, mission, reqCode));
                 //                Log.i("check", "check loop:" + i + ", " + hh + ", mm: " + mm);
             }
         alarmAdapter.notifyDataSetChanged();
@@ -111,7 +110,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
         Log.i("check", "alarmAdd :" + hour + ", mm: " + minute + ", int i: " + i);
         sharedEditor.putInt("list" + i + "hh", hour);
         sharedEditor.putInt("list" + i + "mm", minute);
-        sharedEditor.putString("list"+i+"mission",mission);
+        sharedEditor.putString("list" + i + "mission", mission);
         sharedEditor.putInt("list" + i + "reqCode", reqCode);
         sharedEditor.putInt("size", i);
         sharedEditor.commit();
@@ -131,9 +130,8 @@ public class AlarmSettingActivity extends AppCompatActivity {
         Intent intent = new Intent(AlarmSettingActivity.this, AlarmShowActivity.class);
         intent.putExtra("time", hour + ":" + minute);
         intent.putExtra("data", "dd: " + currentCalendar.getTime().toLocaleString());
-        intent.putExtra("mission",mission);
+        intent.putExtra("mission", mission);
         intent.putExtra("reqCode", reqCode);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
 
         PendingIntent pi = PendingIntent.getActivity(AlarmSettingActivity.this, reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.set(AlarmManager.RTC_WAKEUP, gregorianCalendar.getTimeInMillis(), pi);
