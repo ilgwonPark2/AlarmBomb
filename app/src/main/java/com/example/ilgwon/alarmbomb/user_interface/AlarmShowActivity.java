@@ -22,9 +22,9 @@ public class AlarmShowActivity extends AppCompatActivity {
         String time = intent.getStringExtra("time");
         String data = intent.getStringExtra("data");
         String mission = intent.getStringExtra("mission");
-        switch (mission){
+        switch (mission) {
             case "Do Nothing":
-                Toast.makeText(this, "function comes soon. (pending)",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "function comes soon. (pending)", Toast.LENGTH_LONG).show();
                 break;
             case "Decibel":
                 Intent intent_decibel = new Intent(AlarmShowActivity.this, MissionDecibelMeterActivity.class);
@@ -35,7 +35,7 @@ public class AlarmShowActivity extends AppCompatActivity {
                 startActivity(intent_shaking);
                 break;
             case "Fee":
-                Toast.makeText(this, "function comes soon. (pending)",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "function comes soon. (pending)", Toast.LENGTH_LONG).show();
                 break;
             default:
                 break;
