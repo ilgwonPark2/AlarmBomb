@@ -30,19 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--        <activity android:name=".Login_activity"
-            android:label="ALARM BOMB"></activity>-->
-        <!--<activity android:name=".Register_act"></activity>-->
-        <!--<activity-->
-            <!--android:name=".AlarmSettingActivity"-->
-            <!--android:label="ALARM BOMB LOGIN">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
-        <!--<activity android:name=".MainActivity"></activity>-->
 
         <activity android:name=".user_interface.MainActivity"></activity>
         <activity android:name=".user_interface.AlarmShowActivity" ></activity>
@@ -50,9 +37,5 @@
         <activity android:name=".user_interface.AlarmSettingActivity" ></activity>
         <activity android:name=".user_interface.MissionDecibelMeterActivity"></activity>
     </application>
-
-<!--
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
--->
 
 </manifest>

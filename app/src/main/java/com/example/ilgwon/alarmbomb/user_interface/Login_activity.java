@@ -5,16 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.ilgwon.alarmbomb.R;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,72 +40,78 @@ public class Login_activity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_act);
 
-        firebaseAuth=FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
-        buttonGoogle= findViewById(R.id.btn_googleSignIn);
+        buttonGoogle = findViewById(R.id.btn_googleSignIn);
 
-        GoogleSignInOptions googleSignInOptions=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
-        googleSignInClient= GoogleSignIn.getClient(this,googleSignInOptions);
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 
         buttonGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent signInIntent = googleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, RC_SIGN_IN); }
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+            }
 
 
         });
-//        enter.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (check_acc==true){
-//                        Intent intent=new Intent(Login_activity.this,AlarmSettingActivity.class);
-//                        startActivity(intent);
-//                    finish();}
-//
-//                else{
-//                    Toast.makeText(getApplicationContext(), "you can't enter", Toast.LENGTH_SHORT).show();
-//
-//                }}
-//
-//        });
+        //        enter.setOnClickListener(new View.OnClickListener() {
+        //            @Override
+        //            public void onClick(View v) {
+        //                if (check_acc==true){
+        //                        Intent intent=new Intent(Login_activity.this,AlarmSettingActivity.class);
+        //                        startActivity(intent);
+        //                    finish();}
+        //
+        //                else{
+        //                    Toast.makeText(getApplicationContext(), "you can't enter", Toast.LENGTH_SHORT).show();
+        //
+        //                }}
+        //
+        //        });
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==RC_SIGN_IN){
+        if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try{
-                GoogleSignInAccount account=task.getResult(ApiException.class);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 e.printStackTrace();
             }
 
 
-
-
         }
     }
+
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+        Log.i("auth2", "auth task ");
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+        Log.i("auth2", "auth task " + credential);
+
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.i("auth2", "auth before task is successful");
+                        Toast.makeText(getApplicationContext(), "welcome before" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
                         if (task.isSuccessful()) {
                             // 로그인 성공
-                            Toast.makeText(getApplicationContext(),"welcome", Toast.LENGTH_SHORT).show();
+                            Log.i("auth2", "auth task is successful");
+                            Toast.makeText(getApplicationContext(), "welcome", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                            check_acc=true;
-                            Intent intent=new Intent(Login_activity.this,AlarmSettingActivity.class);
+                            check_acc = true;
+                            Intent intent = new Intent(Login_activity.this, AlarmSettingActivity.class);
                             startActivity(intent);
-
                         } else {
                             // 로그인 실패
+                            Log.i("auth2", "auth task is not successful");
                             Toast.makeText(getApplicationContext(), "retry", Toast.LENGTH_SHORT).show();
                         }
 
