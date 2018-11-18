@@ -13,12 +13,7 @@ public class AlarmData {
         this.mission=mission;
     }
 
-    public void AlarmData(int hh, int mm, String mission, int reqCode) {
-        this.hh = hh;
-        this.mm = mm;
-        this.reqCode = reqCode;
-        this.mission=mission;
-    }
+
     public String Alarm_time(){
         return hh+" : "+mm;
     }

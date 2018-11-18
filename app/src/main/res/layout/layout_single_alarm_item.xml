@@ -31,7 +31,6 @@
         android:adjustViewBounds="true"
         android:padding="4dp"
         android:scaleType="fitCenter"
-
-        android:text="  X  " />
+        android:src="@drawable/ic_delete" />
 
 </LinearLayout>
