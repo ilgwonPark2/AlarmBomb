@@ -67,11 +67,12 @@ public class AlarmShowActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (!isComplete){
-            Intent intent_zombie = new Intent(this, MissionDecibelMeterActivity.class);
+            Intent intent_zombie = new Intent(this, AlarmShowActivity.class);
             intent_zombie.putExtra("hour", time);
             intent_zombie.putExtra("data", data);
             intent_zombie.putExtra("mission", mission);
             intent_zombie.putExtra("reqCode", reqCode);
+            stopService(intent_ringtone);
             startActivity(intent_zombie);
         }
     }
