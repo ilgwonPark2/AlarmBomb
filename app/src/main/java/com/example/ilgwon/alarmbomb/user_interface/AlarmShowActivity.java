@@ -2,7 +2,11 @@ package com.example.ilgwon.alarmbomb.user_interface;
 
 
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +26,11 @@ public class AlarmShowActivity extends AppCompatActivity {
         String time = intent.getStringExtra("time");
         String data = intent.getStringExtra("data");
         String mission = intent.getStringExtra("mission");
+
+        //  Ringtone play as a media play
+        MediaPlayer player = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
+        player.start();
+
         switch (mission) {
             case "Do Nothing":
                 Toast.makeText(this, "function comes soon. (pending)", Toast.LENGTH_LONG).show();
