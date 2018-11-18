@@ -10,15 +10,16 @@ public class AlarmData {
         this.hh = hh;
         this.mm = mm;
         this.reqCode = reqCode;
-        this.mission=mission;
+        this.mission = mission;
     }
 
 
-    public String Alarm_time(){
-        return hh+" : "+mm;
+    public String Alarm_time() {
+        return hh + " : " + mm;
     }
-    public String Alarm_mission(){
-        return "you have to do "+mission;
+
+    public String Alarm_mission() {
+        return "Mission: " + mission;
     }
 
 }
