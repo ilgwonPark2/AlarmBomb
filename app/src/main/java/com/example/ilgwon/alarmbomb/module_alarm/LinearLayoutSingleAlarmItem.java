@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,7 +14,8 @@ import com.example.ilgwon.alarmbomb.R;
 public class LinearLayoutSingleAlarmItem extends LinearLayout {
     Context mContext;
     TextView textViewTime;
-    Button btnSingleAlarmItemCancel;
+    TextView missionTextView;
+    ImageButton btnSingleAlarmItemCancel;
 
     AlarmData alarmData;
     private int position;
@@ -25,6 +27,7 @@ public class LinearLayoutSingleAlarmItem extends LinearLayout {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.layout_single_alarm_item, this);
         textViewTime = layout.findViewById(R.id.textViewTime);
+        missionTextView=layout.findViewById(R.id.missionTextView);
         btnSingleAlarmItemCancel = findViewById(R.id.btnSingleAlarmItemCancel);
 
         btnSingleAlarmItemCancel.setOnClickListener(new View.OnClickListener() {
@@ -32,13 +35,13 @@ public class LinearLayoutSingleAlarmItem extends LinearLayout {
             @Override
             public void onClick(View v) {
                 if (onRemoveButtonClickListener != null)
-                    onRemoveButtonClickListener.onClicked(alarmData.hh, alarmData.mm, alarmData.reqCode, position);
+                    onRemoveButtonClickListener.onClicked(alarmData.hh, alarmData.mm,alarmData.mission, alarmData.reqCode, position);
             }
         });
     }
 
     public interface OnRemoveButtonClickListener {
-        void onClicked(int hh, int mm, int reqCode, int position);
+        void onClicked(int hh, int mm,String mission, int reqCode, int position);
     }
 
     OnRemoveButtonClickListener onRemoveButtonClickListener;
@@ -52,7 +55,9 @@ public class LinearLayoutSingleAlarmItem extends LinearLayout {
         this.alarmData = alarmData;
         this.position = position;
 
-        textViewTime.setText(alarmData.hh + ":" + alarmData.mm + " and requestCode : " + alarmData.reqCode);
+        //textViewTime.setText(alarmData.hh + ":" + alarmData.mm + " and requestCode : " + alarmData.reqCode);
+        textViewTime.setText(alarmData.Alarm_time());
+        missionTextView.setText(alarmData.Alarm_mission());
 
         return true;
     }

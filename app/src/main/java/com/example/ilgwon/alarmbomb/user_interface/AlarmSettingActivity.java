@@ -97,7 +97,8 @@ public class AlarmSettingActivity extends AppCompatActivity {
                 int hh = sharedPref.getInt("list" + i + "hh", 0);
                 int mm = sharedPref.getInt("list" + i + "mm", 0);
                 int reqCode = sharedPref.getInt("list" + i + "reqCode", 0);
-                alarmArray.add(new AlarmData(hh, mm, reqCode));
+                String mission=sharedPref.getString("list"+i+"mission",null);
+                alarmArray.add(new AlarmData(hh, mm, mission,reqCode));
                 //                Log.i("check", "check loop:" + i + ", " + hh + ", mm: " + mm);
             }
         alarmAdapter.notifyDataSetChanged();
@@ -109,6 +110,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
         Log.i("check", "alarmAdd :" + hour + ", mm: " + minute + ", int i: " + i);
         sharedEditor.putInt("list" + i + "hh", hour);
         sharedEditor.putInt("list" + i + "mm", minute);
+        sharedEditor.putString("list"+i+"mission",mission);
         sharedEditor.putInt("list" + i + "reqCode", reqCode);
         sharedEditor.putInt("size", i);
         sharedEditor.commit();
@@ -128,6 +130,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
         Intent intent = new Intent(AlarmSettingActivity.this, AlarmShowActivity.class);
         intent.putExtra("time", hour + ":" + minute);
         intent.putExtra("data", "dd: " + currentCalendar.getTime().toLocaleString());
+        intent.putExtra("mission",mission);
         intent.putExtra("reqCode", reqCode);
 
         PendingIntent pi = PendingIntent.getActivity(AlarmSettingActivity.this, reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);

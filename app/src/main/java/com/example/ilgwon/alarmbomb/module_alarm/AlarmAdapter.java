@@ -81,7 +81,7 @@ public class AlarmAdapter extends BaseAdapter {
     LinearLayoutSingleAlarmItem.OnRemoveButtonClickListener onRemoveButtonClickListener = new LinearLayoutSingleAlarmItem.OnRemoveButtonClickListener() {
 
         @Override
-        public void onClicked(int hh, int mm, int reqCode, int position) {
+        public void onClicked(int hh, int mm, String mission,int reqCode, int position) {
             AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
 
             Intent intent = new Intent(mContext, AlarmShowActivity.class);
