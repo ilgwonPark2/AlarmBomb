@@ -56,7 +56,7 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
                 mmVal.setText(df1.format((World.minDB + World.maxDB) / 2));
                 maxVal.setText(df1.format(World.maxDB));
                 curVal.setText(df1.format(World.dbCount));
-                
+
                 if (World.dbCount > 90) {
                     Toast.makeText(getApplicationContext(), "mission complete", Toast.LENGTH_SHORT).show();
                     Intent intent = getIntent();
