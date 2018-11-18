@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "559444137330-avb8tgp0d9vam3bojkjhlkfloqkphgbe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ilgwon.alarmbomb",
+            "certificate_hash": "6d311ebf799e620f6bce2527e0747919b2d96ce7"
+          }
+        },
+        {
           "client_id": "559444137330-jo4bki5urk4hql7fdbdrt1db7sn2mg2p.apps.googleusercontent.com",
           "client_type": 3
         }
