@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,6 +56,13 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
                 mmVal.setText(df1.format((World.minDB + World.maxDB) / 2));
                 maxVal.setText(df1.format(World.maxDB));
                 curVal.setText(df1.format(World.dbCount));
+                
+                if (World.dbCount > 90) {
+                    Toast.makeText(getApplicationContext(), "mission complete", Toast.LENGTH_SHORT).show();
+                    Intent intent = getIntent();
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                }
                 if (refresh == 1) {
                     long now = new Date().getTime();
                     now = now - currentTime;
@@ -179,7 +187,7 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
         super.onDestroy();
     }
 
-    public void checkPermission(){
+    public void checkPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
