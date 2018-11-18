@@ -1,6 +1,8 @@
 package com.example.ilgwon.alarmbomb.user_interface;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -21,7 +23,7 @@ public class MissionShakingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mission_shaking);
-        countTextview=(TextView)findViewById(R.id.count);
+        countTextview = (TextView) findViewById(R.id.count);
         countTextview.setText("You shake 0 times");
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager
@@ -31,8 +33,8 @@ public class MissionShakingActivity extends AppCompatActivity {
 
             @Override
             public void onShake(int count) {
-                if(count==0){
-                    Toast.makeText(getApplicationContext(),"Reset",Toast.LENGTH_SHORT).show();
+                if (count == 0) {
+                    Toast.makeText(getApplicationContext(), "Reset", Toast.LENGTH_SHORT).show();
                 }
                 /*
                  * The following method, "handleShakeEvent(count):" is a stub //
@@ -48,22 +50,19 @@ public class MissionShakingActivity extends AppCompatActivity {
     }
 
     private void handleShakeEvent(int count) {
-
-        countTextview.setText("You shake "+count+" times");
-
-
-        if(count>100){
-            Toast.makeText(getApplicationContext(),"mission complete",Toast.LENGTH_SHORT).show();
-
+        countTextview.setText("You shake " + count + " times");
+        if (count > 2) {
+            Toast.makeText(getApplicationContext(), "mission complete", Toast.LENGTH_SHORT).show();
+            Intent intent = getIntent();
+            setResult(Activity.RESULT_OK, intent);
             finish();
         }
-
-//        set_view(count);
+        //        set_view(count);
     }
 
     //    public void set_view(int count){
-//        countTextview.setText(count);
-//    }
+    //        countTextview.setText(count);
+    //    }
     @Override
     protected void onPause() {
         mSensorManager.unregisterListener(mShakeDetector);
@@ -73,7 +72,7 @@ public class MissionShakingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
 
     }
 

@@ -37,6 +37,8 @@
         <activity android:name=".user_interface.AlarmSettingActivity" ></activity>
         <activity android:name=".user_interface.MissionDecibelMeterActivity"></activity>
         <activity android:name=".user_interface.MissionShakingActivity"></activity>
+
+        <service android:name=".service.AlarmRingService"/>
     </application>
 
 </manifest>
