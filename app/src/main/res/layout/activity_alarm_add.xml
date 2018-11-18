@@ -22,20 +22,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@android:color/transparent"
                 android:text="Find Friend" />
 
             <Spinner
                 android:id="@+id/mission"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_weight="2"
-                android:entries="@array/mission"/>
+                android:entries="@array/mission"
+                android:textAlignment="center" />
 
             <Button
                 android:id="@+id/btnAddAlarm"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="버튼입니다" />
+                android:background="@android:color/transparent"
+                android:text="Save" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
