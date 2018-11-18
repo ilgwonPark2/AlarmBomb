@@ -22,7 +22,7 @@ public class MissionShakingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mission_shaking);
         countTextview=(TextView)findViewById(R.id.count);
-        countTextview.setText("hello");
+        countTextview.setText("You shake 0 times");
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -31,19 +31,25 @@ public class MissionShakingActivity extends AppCompatActivity {
 
             @Override
             public void onShake(int count) {
+                if(count==0){
+                    Toast.makeText(getApplicationContext(),"Reset",Toast.LENGTH_SHORT).show();
+                }
                 /*
                  * The following method, "handleShakeEvent(count):" is a stub //
                  * method you would use to setup whatever you want done once the
                  * device has been shook.
                  */
+
                 handleShakeEvent(count);
             }
+
         });
 
     }
 
     private void handleShakeEvent(int count) {
-        Toast.makeText(getApplicationContext(),"shaking detected"+count,Toast.LENGTH_LONG).show();
+        countTextview.setText("You shake "+count+" times");
+
 //        set_view(count);
     }
 
