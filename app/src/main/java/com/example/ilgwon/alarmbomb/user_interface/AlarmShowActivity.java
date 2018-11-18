@@ -64,7 +64,12 @@ public class AlarmShowActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        startActivity(new Intent(this, MissionDecibelMeterActivity.class));
+        Intent intent_zombie = new Intent(this, MissionDecibelMeterActivity.class);
+        intent_zombie.putExtra("hour", time);
+        intent_zombie.putExtra("data", data);
+        intent_zombie.putExtra("mission", mission);
+        intent_zombie.putExtra("reqCode", reqCode);
+        startActivity(intent_zombie);
     }
 
     @Override
@@ -93,10 +98,6 @@ public class AlarmShowActivity extends AppCompatActivity {
                 break;
         }
         intent_ringtone = new Intent(this, AlarmRingService.class);
-        intent_ringtone.putExtra("hour", time);
-        intent_ringtone.putExtra("data", data);
-        intent_ringtone.putExtra("mission", mission);
-        intent_ringtone.putExtra("reqCode", reqCode);
         startService(intent_ringtone);
     }
 }
