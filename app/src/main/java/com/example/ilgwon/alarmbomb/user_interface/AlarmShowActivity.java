@@ -22,6 +22,7 @@ public class AlarmShowActivity extends AppCompatActivity {
     private String time;
     private String data;
     private String mission;
+    private int reqCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +34,8 @@ public class AlarmShowActivity extends AppCompatActivity {
             time = intent_pending.getStringExtra("time");
             data = intent_pending.getStringExtra("data");
             mission = intent_pending.getStringExtra("mission");
+            reqCode = intent_pending.getIntExtra("reqCode", 0);
             triggerMission(mission);
-            int reqCode = intent_pending.getIntExtra("reqCode", 0);
             textViewAlarmedTime.setText(time + "\n" + data + "\n" + mission + "\n" + reqCode);
         }
     }
@@ -92,6 +93,10 @@ public class AlarmShowActivity extends AppCompatActivity {
                 break;
         }
         intent_ringtone = new Intent(this, AlarmRingService.class);
+        intent_ringtone.putExtra("hour", time);
+        intent_ringtone.putExtra("data", data);
+        intent_ringtone.putExtra("mission", mission);
+        intent_ringtone.putExtra("reqCode", reqCode);
         startService(intent_ringtone);
     }
 }
