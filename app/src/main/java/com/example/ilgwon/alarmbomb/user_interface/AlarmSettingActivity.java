@@ -58,6 +58,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AlarmSettingActivity.this, AlarmAddActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivityForResult(intent, 800);
             }
 
@@ -132,6 +133,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
         intent.putExtra("data", "dd: " + currentCalendar.getTime().toLocaleString());
         intent.putExtra("mission",mission);
         intent.putExtra("reqCode", reqCode);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
 
         PendingIntent pi = PendingIntent.getActivity(AlarmSettingActivity.this, reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.set(AlarmManager.RTC_WAKEUP, gregorianCalendar.getTimeInMillis(), pi);

@@ -17,7 +17,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void settingAlarm(View view) {
+
         Intent intent = new Intent(MainActivity.this, AlarmSettingActivity.class);
+        startActivity(intent);
+    }
+
+    public void settingDecibel(View view) {
+
+        Intent intent = new Intent(MainActivity.this, MissionDecibelMeterActivity.class);
         startActivity(intent);
     }
 }

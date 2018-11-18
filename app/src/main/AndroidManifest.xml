@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ilgwon.alarmbomb">
 
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
@@ -9,7 +12,6 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.SET_TIME"/>
     <uses-permission android:name="android.permission.SET_TIME_ZONE"/>
-
 
     <application
         android:allowBackup="true"
@@ -19,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".user_interface.AlarmSettingActivity"
+            android:name=".user_interface.Login_activity"
             android:label="ALARM BOMB LOGIN">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,8 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--        <activity android:name=".Login_activity"
-            android:label="ALARM BOMB"></activity>-->
+       <!--<activity android:name=".user_interface.Login_activity"-->
+            <!--android:label="ALARM BOMB"></activity>-->
         <!--<activity android:name=".Register_act"></activity>-->
         <!--<activity-->
             <!--android:name=".AlarmSettingActivity"-->
@@ -41,10 +43,11 @@
         <!--</activity>-->
         <!--<activity android:name=".MainActivity"></activity>-->
 
-
-        <activity android:name=".user_interface.Login_activity"></activity>
+        <!--<activity android:name=".user_interface.Login_activity"></activity>-->
         <activity android:name=".user_interface.AlarmShowActivity" android:noHistory="true"></activity>
-        <activity android:name=".user_interface.AlarmAddActivity" android:noHistory="true"></activity>
+        <activity android:name=".user_interface.AlarmAddActivity" ></activity>
+        <activity android:name=".user_interface.AlarmSettingActivity" ></activity>
+        <activity android:name=".user_interface.MissionDecibelMeterActivity"></activity>
     </application>
 
 <!--

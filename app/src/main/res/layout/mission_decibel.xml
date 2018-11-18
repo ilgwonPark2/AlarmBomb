@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_page"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+
+        <com.example.ilgwon.alarmbomb.module_decibel_meter.SpeedMeter
+            android:id="@+id/speed"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/noise_disc" />
+
+        <!--<ImageButton-->
+            <!--android:id="@+id/infobutton"-->
+            <!--android:layout_width="48dp"-->
+            <!--android:layout_height="48dp"-->
+            <!--android:layout_gravity="right|top"-->
+            <!--android:layout_marginTop="32dp"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--android:src="@drawable/question" />-->
+
+        <ImageButton
+            android:id="@+id/refreshbutton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="32dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/refresh" />
+
+        <!--<ImageButton-->
+            <!--android:id="@+id/eggbutton"-->
+            <!--android:layout_width="48dp"-->
+            <!--android:layout_height="54dp"-->
+            <!--android:layout_gravity="left|bottom"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginBottom="16dp"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--android:scaleType="fitCenter"-->
+            <!--android:src="@drawable/egg"-->
+            <!--android:visibility="gone" />-->
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/minlabel"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_minlabel"
+                android:textColor="@color/external_progress2" />
+
+            <TextView
+                android:id="@+id/minval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="23 Db"
+                android:textColor="#ffffff"
+                android:textSize="36dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/avglabel"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_avglabel"
+                android:textColor="@color/external_progress2" />
+
+            <TextView
+                android:id="@+id/mmval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="23 Db"
+                android:textColor="#ffffff"
+                android:textSize="36dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/maxlabel"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_maxlabel"
+                android:textColor="@color/external_progress2" />
+
+            <TextView
+                android:id="@+id/maxval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="23 Db"
+                android:textColor="#ffffff"
+                android:textSize="36dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/curlabel"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_curlabel"
+                android:textColor="@color/external_progress2" />
+
+            <TextView
+                android:id="@+id/curval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="23 Db"
+                android:textColor="#ffffff"
+                android:textSize="36dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

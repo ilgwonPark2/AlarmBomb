@@ -52,7 +52,8 @@ public class AlarmAddActivity extends Activity {
                 int mm = timePickerAlarmTime.getMinute();
                 int reqCode = DEFAULT_ALARM_REQUEST;
 
-                Intent intent = new Intent(AlarmAddActivity.this, AlarmSettingActivity.class);
+                Intent intent = getIntent();
+//                Intent intent = new Intent(AlarmAddActivity.this, AlarmSettingActivity.class);
                 intent.putExtra("hour", hh);
                 intent.putExtra("minute", mm);
                 intent.putExtra("mission", mission_select);
@@ -60,6 +61,7 @@ public class AlarmAddActivity extends Activity {
 
                 setResult(Activity.RESULT_OK, intent);
                 finish();
+//                startActivity(intent);
             }
         });
 
