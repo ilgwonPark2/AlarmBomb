@@ -14,7 +14,7 @@
         android:layout_weight="1">
 
 
-        <com.example.ilgwon.alarmbomb.module_decibel_meter.SpeedMeter
+        <com.example.ilgwon.alarmbomb.module_decibel_meter.DecibelMeter
             android:id="@+id/speed"
             android:layout_width="280dp"
             android:layout_height="280dp"

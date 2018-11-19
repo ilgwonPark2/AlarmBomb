@@ -38,7 +38,7 @@ public class Login_activity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_act);
+        setContentView(R.layout.activity_login);
 
         firebaseAuth = FirebaseAuth.getInstance();
 

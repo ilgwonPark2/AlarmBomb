@@ -22,7 +22,6 @@
     <string name="activity_maxlabel">Maximum</string>
     <string name="activity_curlabel">Real Time</string>
 
-    <!-- MainActivity.java -->
     <string name="activity_infobull">This is a custom message box</string>
     <string name="activity_infotitle">About Decibel</string>
     <string name="activity_infobutton">Ok</string>

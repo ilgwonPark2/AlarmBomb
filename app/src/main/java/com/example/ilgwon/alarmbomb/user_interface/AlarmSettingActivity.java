@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -27,16 +26,13 @@ public class AlarmSettingActivity extends AppCompatActivity {
     private Context mContext;
     public static final int DEFAULT_ALARM_REQUEST = 800;
 
-
     FloatingActionButton btnAddAlarm;
     ListView listViewAlarm;
     ArrayList<AlarmData> alarmArray = new ArrayList<AlarmData>();
     GregorianCalendar currentCalendar = new GregorianCalendar(TimeZone.getTimeZone("GMT+09:00"));
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor sharedEditor;
-
     AlarmAdapter alarmAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +42,11 @@ public class AlarmSettingActivity extends AppCompatActivity {
         btnAddAlarm = findViewById(R.id.add);
         listViewAlarm = findViewById(R.id.listViewAlarm);
 
+        //  declare "Alarm" sharePref and sharedEditor.
         sharedPref = getSharedPreferences("Alarm", Context.MODE_PRIVATE);
         sharedEditor = sharedPref.edit();
 
+        // set an adapter to the listViewAlarm.
         alarmAdapter = new AlarmAdapter(mContext, alarmArray, sharedPref);
         listViewAlarm.setAdapter(alarmAdapter);
 
@@ -57,7 +55,6 @@ public class AlarmSettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AlarmSettingActivity.this, AlarmAddActivity.class);
-                //                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivityForResult(intent, 800);
             }
 
@@ -65,10 +62,15 @@ public class AlarmSettingActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * onActivityResult Callback
+     * <p>
+     * After adding a alarm, it adds that alarm to the array.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i("check", "onActivityResult");
         if (requestCode == DEFAULT_ALARM_REQUEST) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
@@ -79,12 +81,16 @@ public class AlarmSettingActivity extends AppCompatActivity {
                 int reqCode = DEFAULT_ALARM_REQUEST + alarmArray.size();
                 int size = sharedPref.getInt("size", 0);
                 int i = (size == 0) ? 1 : size + 1;
-                //                Log.i("check", "check loop alarm array size:" + size + 1);
                 alarmAdd(hh, mm, mission, reqCode, i);
             }
         }
     }
 
+    /**
+     * onResume Callback
+     *
+     * after clearing alarmArray, it refreshes data from sharedPref.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -101,17 +107,22 @@ public class AlarmSettingActivity extends AppCompatActivity {
         alarmAdapter.notifyDataSetChanged();
     }
 
-
+    /**
+     * onResume Callback
+     *
+     * @param hour, minute, mission, reqcode, i
+     *              Adding an alarm to the array(list).
+     */
     public void alarmAdd(int hour, int minute, String mission, int reqCode, int i) {
         GregorianCalendar gregorianCalendar = new GregorianCalendar(TimeZone.getTimeZone("GMT+09:00"));
-        Log.i("check", "alarmAdd :" + hour + ", mm: " + minute + ", int i: " + i);
+
+        // put following data to the sharedEditor.
         sharedEditor.putInt("list" + i + "hh", hour);
         sharedEditor.putInt("list" + i + "mm", minute);
         sharedEditor.putString("list" + i + "mission", mission);
         sharedEditor.putInt("list" + i + "reqCode", reqCode);
         sharedEditor.putInt("size", i);
         sharedEditor.commit();
-
 
         int currentYY = currentCalendar.get(Calendar.YEAR);
         int currentMM = currentCalendar.get(Calendar.MONTH);
@@ -123,15 +134,16 @@ public class AlarmSettingActivity extends AppCompatActivity {
             gregorianCalendar.set(currentYY, currentMM, currentDD + 1, hour, minute, 00);
         }
 
+        //  Put following data to the intent for the AlarmShowActivity.
         Intent intent = new Intent(AlarmSettingActivity.this, AlarmShowActivity.class);
         intent.putExtra("time", hour + ":" + minute);
         intent.putExtra("data", "dd: " + currentCalendar.getTime().toLocaleString());
         intent.putExtra("mission", mission);
         intent.putExtra("reqCode", reqCode);
 
+        //  Use PendingIntent with timer, to get an alarm in given time.
         PendingIntent pi = PendingIntent.getActivity(AlarmSettingActivity.this, reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.set(AlarmManager.RTC_WAKEUP, gregorianCalendar.getTimeInMillis(), pi);
-
     }
 
 

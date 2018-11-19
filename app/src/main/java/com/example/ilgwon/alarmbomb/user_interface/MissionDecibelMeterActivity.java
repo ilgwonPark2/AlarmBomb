@@ -17,10 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ilgwon.alarmbomb.R;
+import com.example.ilgwon.alarmbomb.module_decibel_meter.DecibelData;
+import com.example.ilgwon.alarmbomb.module_decibel_meter.DecibelMeter;
+import com.example.ilgwon.alarmbomb.module_decibel_meter.DecibelRecorder;
 import com.example.ilgwon.alarmbomb.module_decibel_meter.FileUtil;
-import com.example.ilgwon.alarmbomb.module_decibel_meter.MyMediaRecorder;
-import com.example.ilgwon.alarmbomb.module_decibel_meter.SpeedMeter;
-import com.example.ilgwon.alarmbomb.module_decibel_meter.World;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -28,9 +28,7 @@ import java.util.Date;
 
 public class MissionDecibelMeterActivity extends Activity implements android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback {
     boolean refreshed = false;
-    SpeedMeter speedMeter;
-    //    public static Typeface tf;
-    //    ImageButton infoButton;
+    DecibelMeter decibelMeter;
     ImageButton refreshButton;
     TextView minVal;
     TextView maxVal;
@@ -43,21 +41,26 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
     private Thread thread;
     float volume = 10000;
     int refresh = 0;
-    private MyMediaRecorder mRecorder;
+    private DecibelRecorder mRecorder;
 
+    /**
+     * Thread Handler.
+     */
     final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             DecimalFormat df1 = new DecimalFormat("####.0");
+            // update meter figures
             if (msg.what == 1) {
-                speedMeter.refresh();
-                minVal.setText(df1.format(World.minDB));
-                mmVal.setText(df1.format((World.minDB + World.maxDB) / 2));
-                maxVal.setText(df1.format(World.maxDB));
-                curVal.setText(df1.format(World.dbCount));
+                decibelMeter.refresh();
+                minVal.setText(df1.format(DecibelData.minDB));
+                mmVal.setText(df1.format((DecibelData.minDB + DecibelData.maxDB) / 2));
+                maxVal.setText(df1.format(DecibelData.maxDB));
+                curVal.setText(df1.format(DecibelData.dbCount));
 
-                if (World.dbCount > 90) {
+                // if decibel exceeds 90, it terminates the mission.
+                if (DecibelData.dbCount > 90) {
                     Toast.makeText(getApplicationContext(), "mission complete", Toast.LENGTH_SHORT).show();
                     Intent intent = getIntent();
                     setResult(Activity.RESULT_OK, intent);
@@ -79,40 +82,81 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mission_decibel);
+        // check permission for this mission, dynamically checking.
         checkPermission();
         minVal = (TextView) findViewById(R.id.minval);
         mmVal = (TextView) findViewById(R.id.mmval);
         maxVal = (TextView) findViewById(R.id.maxval);
         curVal = (TextView) findViewById(R.id.curval);
 
+        // set a refresh button.
         refreshButton = (ImageButton) findViewById(R.id.refreshbutton);
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 refreshed = true;
-                World.minDB = 100;
-                World.dbCount = 0;
-                World.lastDbCount = 0;
-                World.maxDB = 0;
+                DecibelData.minDB = 100;
+                DecibelData.dbCount = 0;
+                DecibelData.lastDbCount = 0;
+                DecibelData.maxDB = 0;
             }
         });
 
-        speedMeter = findViewById(R.id.speed);
-        mRecorder = new MyMediaRecorder();
+        // declare the recorder.
+        decibelMeter = findViewById(R.id.speed);
+        mRecorder = new DecibelRecorder();
     }
 
-    /* Sub-chant analysis */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        File file = FileUtil.createFile("temp.amr");
+        if (file != null) {
+            startRecord(file);
+        } else {
+            Toast.makeText(getApplicationContext(), getString(R.string.activity_recFileErr), Toast.LENGTH_LONG).show();
+        }
+        bListener = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        bListener = false;
+        //  Stop recording and delete the recording file
+        mRecorder.delete();
+        thread = null;
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (thread != null) {
+            isThreadRun = false;
+            thread = null;
+        }
+        mRecorder.delete();
+        super.onDestroy();
+    }
+
+    /**
+     * start listening Audio
+     */
     private void startListenAudio() {
+        // new Background Thread
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                // run the thread while Thread is run(listening an audio)
                 while (isThreadRun) {
                     try {
                         if (bListener) {
-                            volume = mRecorder.getMaxAmplitude();  //Get the sound pressure value
+                            //  Get the sound pressure value
+                            volume = mRecorder.getMaxAmplitude();
                             if (volume > 0 && volume < 1000000) {
-                                World.setDbCount(20 * (float) (Math.log10(volume)));  //Change the sound pressure value to the decibel value
-                                // Update with thread
+                                //  Change the sound pressure value to the decibel value
+                                //  Formula reference: https://code.i-harness.com/ko-kr/q/a297d7
+                                DecibelData.setDbCount(20 * (float) (Math.log10(volume)));
+                                //  Update with thread
                                 Message message = new Message();
                                 message.what = 1;
                                 handler.sendMessage(message);
@@ -141,7 +185,6 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
      */
     public void startRecord(File fFile) {
         try {
-
             mRecorder.setMyRecAudioFile(fFile);
             if (mRecorder.startRecorder()) {
                 startListenAudio();
@@ -154,44 +197,16 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        File file = FileUtil.createFile("temp.amr");
-        if (file != null) {
-            startRecord(file);
-        } else {
-            Toast.makeText(getApplicationContext(), getString(R.string.activity_recFileErr), Toast.LENGTH_LONG).show();
-        }
-        bListener = true;
-    }
-
     /**
-     * Stop recording
+     * check permission to the user.
      */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        bListener = false;
-        mRecorder.delete(); //Stop recording and delete the recording file
-        thread = null;
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (thread != null) {
-            isThreadRun = false;
-            thread = null;
-        }
-        mRecorder.delete();
-        super.onDestroy();
-    }
-
     public void checkPermission() {
+        // Check 3 permissions to do this mission.
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
+            // displaying AlertDialog with rationale
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder((MissionDecibelMeterActivity.this), 0);
                 builder.setTitle("AUDIO PERMISSION").setMessage("RECORD AUDIO, STOARGE ACCESS permission is needed to estimate decibel! Would you try to get permission again?")

@@ -31,7 +31,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".user_interface.MainActivity"></activity>
         <activity android:name=".user_interface.AlarmShowActivity" ></activity>
         <activity android:name=".user_interface.AlarmAddActivity" ></activity>
         <activity android:name=".user_interface.AlarmSettingActivity" ></activity>

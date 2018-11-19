@@ -10,15 +10,18 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 
 public class AlarmRingService extends Service implements MediaPlayer.OnPreparedListener {
-    //    private static final String ACTION_PLAY = "com.example.ilgwon.alarmbomb.service.PLAY";
     MediaPlayer mMediaPlayer = null;
     Thread thread;
 
 
+    /**
+     * Thread handler
+     */
     final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            // if msg.what is 1, it starts the mMediaPlayer.
             if (msg.what == 1) {
                 mMediaPlayer.start();
             } else if (msg.what == 0) {
@@ -50,14 +53,19 @@ public class AlarmRingService extends Service implements MediaPlayer.OnPreparedL
         mMediaPlayer.stop();
     }
 
+
+    /**
+     * Play ringtone
+     */
     private void playSong() {
         try {
-            //  make zombie player
+            // Play default ringtone.
             mMediaPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
             mMediaPlayer.start();
             thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    //  Make a continuous player
                     while (true) {
                         if (!mMediaPlayer.isPlaying()) {
                             Message message = new Message();
@@ -67,7 +75,6 @@ public class AlarmRingService extends Service implements MediaPlayer.OnPreparedL
                     }
                 }
             });
-
         } catch (Exception e) {
             e.printStackTrace();
         }

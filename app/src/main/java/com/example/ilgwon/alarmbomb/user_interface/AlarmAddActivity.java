@@ -12,13 +12,9 @@ import android.widget.TimePicker;
 
 import com.example.ilgwon.alarmbomb.R;
 
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
-
 public class AlarmAddActivity extends Activity {
     TimePicker timePickerAlarmTime;
     Button btnAddAlarm;
-    GregorianCalendar currentCalendar = new GregorianCalendar(TimeZone.getTimeZone("GMT+09:00"));
     public static final int DEFAULT_ALARM_REQUEST = 800;
     Spinner s;
     String mission_select;
@@ -40,11 +36,14 @@ public class AlarmAddActivity extends Activity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
-
+        /**
+         * btnAddAlarm setOnClickListener
+         *
+         * if the user clicks an add button, it puts following data to the intent and finish with the result.
+         */
         btnAddAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +18,12 @@ import java.util.ArrayList;
 public class AlarmAdapter extends BaseAdapter {
 
     Context mContext;
-    //    ArrayList<String> mData;
     LayoutInflater mInflate;
     ArrayList<AlarmData> arrayListAlarmData;
     SharedPreferences sharedPref;
 
     public AlarmAdapter(Context context, ArrayList<AlarmData> arrayListAlarmData, SharedPreferences sharedPreferences) {
+        // initialize data
         mContext = context;
         this.arrayListAlarmData = arrayListAlarmData;
         mInflate = LayoutInflater.from(mContext);
@@ -50,12 +49,15 @@ public class AlarmAdapter extends BaseAdapter {
         return arrayListAlarmData.get(position).reqCode;
     }
 
+    /**
+     * Remove an alarm item.
+     */
     public boolean removeData(int position) {
+        //  Remove an alarm item from the list
         arrayListAlarmData.remove(position);
         notifyDataSetChanged();
-        Log.i("check", "check position:" + position);
         int size = sharedPref.getInt("size", 0);
-        Log.i("check", "remove check size:" + size);
+        //  remove an alarm item from the SharedPreferences with editor and commit.
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.remove("list" + position + 1 + "hh");
         editor.remove("list" + position + 1 + "mm");
@@ -68,25 +70,28 @@ public class AlarmAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LinearLayoutSingleAlarmItem layoutSingleAlarmItem = (LinearLayoutSingleAlarmItem) convertView;
-
-        if (layoutSingleAlarmItem == null) {
-            layoutSingleAlarmItem = new LinearLayoutSingleAlarmItem(mContext);
-            layoutSingleAlarmItem.setOnRemoveButtonClickListener(onRemoveButtonClickListener);
+        AlarmSingleItem alarmSingleItemLayout = (AlarmSingleItem) convertView;
+        if (alarmSingleItemLayout == null) {
+            alarmSingleItemLayout = new AlarmSingleItem(mContext);
+            alarmSingleItemLayout.setOnRemoveButtonClickListener(onRemoveButtonClickListener);
         }
-        layoutSingleAlarmItem.setData(arrayListAlarmData.get(position), position);
-        return layoutSingleAlarmItem;
+        alarmSingleItemLayout.setData(arrayListAlarmData.get(position), position);
+        return alarmSingleItemLayout;
     }
 
-    LinearLayoutSingleAlarmItem.OnRemoveButtonClickListener onRemoveButtonClickListener = new LinearLayoutSingleAlarmItem.OnRemoveButtonClickListener() {
+    /**
+     * Each AlarmSingleItem has an OnRemoveButtonClickListener.
+     */
+    AlarmSingleItem.OnRemoveButtonClickListener onRemoveButtonClickListener = new AlarmSingleItem.OnRemoveButtonClickListener() {
 
         @Override
         public void onClicked(int hh, int mm, String mission, int reqCode, int position) {
             AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-
+            //  Cancel the PendingIntent since it is stored in this intent.
             Intent intent = new Intent(mContext, AlarmShowActivity.class);
             PendingIntent pi = PendingIntent.getActivity(mContext, reqCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
             alarmManager.cancel(pi);
+            //  call remove data method.
             removeData(position);
         }
     };

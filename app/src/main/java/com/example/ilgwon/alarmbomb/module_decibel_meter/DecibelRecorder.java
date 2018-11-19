@@ -5,11 +5,17 @@ import android.media.MediaRecorder;
 import java.io.File;
 import java.io.IOException;
 
-public class MyMediaRecorder {
+public class DecibelRecorder {
     public File myRecAudioFile;
     private MediaRecorder mMediaRecorder;
     public boolean isRecording = false;
 
+
+    /**
+     * get MaxAmplitude
+     *
+     * @return return getMaxAmplitude
+     */
     public float getMaxAmplitude() {
         if (mMediaRecorder != null) {
             try {
@@ -23,18 +29,18 @@ public class MyMediaRecorder {
         }
     }
 
-    public File getMyRecAudioFile() {
-        return myRecAudioFile;
-    }
+//    public File getMyRecAudioFile() {
+//        return myRecAudioFile;
+//    }
 
     public void setMyRecAudioFile(File myRecAudioFile) {
         this.myRecAudioFile = myRecAudioFile;
     }
 
     /**
-     * Recording
+     * Start Recording
      *
-     * @return Whether to start recording successfully
+     * @return Starting recording successfully or not
      */
     public boolean startRecorder() {
         if (myRecAudioFile == null) {
@@ -42,12 +48,10 @@ public class MyMediaRecorder {
         }
         try {
             mMediaRecorder = new MediaRecorder();
-
             mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
             mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
             mMediaRecorder.setOutputFile(myRecAudioFile.getAbsolutePath());
-
             mMediaRecorder.prepare();
             mMediaRecorder.start();
             isRecording = true;
@@ -66,7 +70,11 @@ public class MyMediaRecorder {
         return false;
     }
 
-
+    /**
+     * Stop Recording
+     *
+     * @return Stopping recording successfully or not
+     */
     public void stopRecording() {
         if (mMediaRecorder != null) {
             if (isRecording) {
@@ -83,7 +91,13 @@ public class MyMediaRecorder {
     }
 
 
+    /**
+     * Delete Recording
+     *
+     * @return Deleting recording
+     */
     public void delete() {
+        // Stop recording and remove the file.
         stopRecording();
         if (myRecAudioFile != null) {
             myRecAudioFile.delete();

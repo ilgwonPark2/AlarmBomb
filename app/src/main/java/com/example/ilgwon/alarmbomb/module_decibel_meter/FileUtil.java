@@ -6,10 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class FileUtil {
-    private static final String TAG = "FileUtil";
-
-    public static final String LOCAL = "SoundMeter";
-
+    public static final String LOCAL = "DecibelMeter";
     public static final String LOCAL_PATH = Environment.getExternalStorageDirectory().getPath() + File.separator;
 
     /**
@@ -32,9 +29,6 @@ public class FileUtil {
         }
     }
 
-    private FileUtil() {
-    }
-
     /**
      * To determine whether there is storage space *
      *
@@ -50,8 +44,10 @@ public class FileUtil {
         return null != f && f.exists();
     }
 
+    /**
+     * create a File with given fileName
+     */
     public static File createFile(String fileName) {
-
         File myCaptureFile = new File(REC_PATH + fileName);
         if (myCaptureFile.exists()) {
             myCaptureFile.delete();
