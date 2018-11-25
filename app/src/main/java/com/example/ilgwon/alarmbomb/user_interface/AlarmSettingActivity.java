@@ -142,7 +142,8 @@ public class AlarmSettingActivity extends AppCompatActivity {
         intent.putExtra("reqCode", reqCode);
 
         //  Use PendingIntent with timer, to get an alarm in given time.
-        PendingIntent pi = PendingIntent.getActivity(AlarmSettingActivity.this, reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi = PendingIntent.getActivity(AlarmSettingActivity.this,
+                reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.set(AlarmManager.RTC_WAKEUP, gregorianCalendar.getTimeInMillis(), pi);
     }
 

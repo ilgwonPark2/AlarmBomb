@@ -10,11 +10,13 @@ public class ShakeDetector implements SensorEventListener {
     private static final float SHAKE_THRESHOLD_GRAVITY = 2.7F;
     private static final int SHAKE_SLOP_TIME_MS = 500;
     private static final int SHAKE_COUNT_RESET_TIME_MS = 3000;
+    private static final int SHAKE_COUNT_RESET_TIME_100 = 5000;
+
     private OnShakeListener mListener;
     private long mShakeTimestamp;
     private int mShakeCount;
 
-
+    //sensor listener
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (mListener != null) {
@@ -37,9 +39,18 @@ public class ShakeDetector implements SensorEventListener {
                 }
 
                 // reset the shake count after 3 seconds of no shakes
-                if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
-                    mShakeCount = 0;
-                    mListener.onShake(mShakeCount);
+//                if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
+//                    mShakeCount = 0;
+//                    mListener.onShake(mShakeCount);
+//                }
+                if (90<mShakeCount){
+                    if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_100 > now) {
+                        if(110<mShakeCount) {
+                            mShakeCount = 0;
+                            mListener.onShake(mShakeCount);
+                    }
+                    }
+
                 }
 
                 mShakeTimestamp = now;
