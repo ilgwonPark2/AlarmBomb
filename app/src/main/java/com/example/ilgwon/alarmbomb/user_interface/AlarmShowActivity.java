@@ -44,7 +44,7 @@ public class AlarmShowActivity extends AppCompatActivity {
 
     /**
      * onActivityResult Callback
-     *
+     * <p>
      * if the user completes the mission, it stops the Ringtone service.
      */
     @Override
@@ -52,7 +52,7 @@ public class AlarmShowActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             stopService(intent_ringtone);
-            isComplete = true;
+
             switch (requestCode) {
                 case DEFAULT_MISSION_NOTHING:
                     break;
@@ -66,20 +66,35 @@ public class AlarmShowActivity extends AppCompatActivity {
                     break;
 
             }
+        } else {
+            if (data == null) {
+                zombie();
+            } else {
+                isComplete = true;
+            }
         }
     }
 
 
     /**
      * onDestroy callback
-     *
+     * <p>
      * if the mission is incomplete and the user stops the application, it starts mission activity continuously.
      */
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        zombie();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    protected void zombie() {
         if (!isComplete) {
-            // put saved intent to start activity again.
             Intent intent_zombie = new Intent(this, AlarmShowActivity.class);
             intent_zombie.putExtra("hour", time);
             intent_zombie.putExtra("data", data);
@@ -90,13 +105,6 @@ public class AlarmShowActivity extends AppCompatActivity {
             startActivity(intent_zombie);
         }
     }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-    }
-
 
     /**
      * Trigger the mission with given mission

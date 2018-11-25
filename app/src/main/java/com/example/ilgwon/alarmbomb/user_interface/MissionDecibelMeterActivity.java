@@ -63,6 +63,7 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
                 if (DecibelData.dbCount > 90) {
                     Toast.makeText(getApplicationContext(), "mission complete", Toast.LENGTH_SHORT).show();
                     Intent intent = getIntent();
+                    intent.putExtra("complete", true);
                     setResult(Activity.RESULT_OK, intent);
                     finish();
                 }
@@ -84,13 +85,13 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
         setContentView(R.layout.mission_decibel);
         // check permission for this mission, dynamically checking.
         checkPermission();
-        minVal = (TextView) findViewById(R.id.minval);
-        mmVal = (TextView) findViewById(R.id.mmval);
-        maxVal = (TextView) findViewById(R.id.maxval);
-        curVal = (TextView) findViewById(R.id.curval);
+        minVal = findViewById(R.id.minval);
+        mmVal = findViewById(R.id.mmval);
+        maxVal = findViewById(R.id.maxval);
+        curVal = findViewById(R.id.curval);
 
         // set a refresh button.
-        refreshButton = (ImageButton) findViewById(R.id.refreshbutton);
+        refreshButton = findViewById(R.id.refreshbutton);
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
