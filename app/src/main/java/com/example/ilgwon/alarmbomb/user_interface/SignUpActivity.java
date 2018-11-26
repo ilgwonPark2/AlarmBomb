@@ -1,13 +1,16 @@
 package com.example.ilgwon.alarmbomb.user_interface;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.ilgwon.alarmbomb.R;
@@ -18,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -31,12 +36,13 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText editTextEmail;
     private EditText editTextPassword;
     private EditText editTextAccountNum;
-    private EditText editTextAccountBank;
+    private String editTextAccountBank;
     private EditText editTextUserID;
     private Button btn;
+    private Spinner s;
 
-    private FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference=firebaseDatabase.getReference();
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference mDatabase = firebaseDatabase.getReference();
 
     private String email = "";
     private String password = "";
@@ -52,9 +58,8 @@ public class SignUpActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.signupEmail);
         editTextPassword = findViewById(R.id.signupPassword);
         editTextAccountNum = findViewById(R.id.signupAccountNum);
-        editTextAccountBank = findViewById(R.id.signupBank);
         editTextUserID = findViewById(R.id.signupUserID);
-        btn= findViewById(R.id.signupBtn);
+        btn = findViewById(R.id.signupBtn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,13 +67,24 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        s = (Spinner) findViewById(R.id.signupBank);
+        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                editTextAccountBank = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     public void singUp(View view) {
         email = editTextEmail.getText().toString();
         password = editTextPassword.getText().toString();
 
-        if(isValidEmail() && isValidPasswd()) {
+        if (isValidEmail() && isValidPasswd()) {
             createUser(email, password);
         }
     }
@@ -109,9 +125,37 @@ public class SignUpActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // 회원가입 성공
                             Toast.makeText(SignUpActivity.this, R.string.success_signup, Toast.LENGTH_SHORT).show();
+                            String uid=FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            mDatabase.child("users").child(uid).child("uid").setValue(uid);
+                            mDatabase.child("users").child(uid).child("email").setValue(editTextEmail.getText().toString());
+                            mDatabase.child("users").child(uid).child("password").setValue(editTextPassword.getText().toString());
+                            mDatabase.child("users").child(uid).child("accountNumber").setValue(editTextAccountNum.getText().toString());
+                            mDatabase.child("users").child(uid).child("accountBank").setValue(editTextAccountBank);
+                            mDatabase.child("users").child(uid).child("userID").setValue(editTextUserID.getText().toString());
+                            loginUser(editTextEmail.getText().toString(),editTextPassword.getText().toString());
                         } else {
                             // 회원가입 실패
                             Toast.makeText(SignUpActivity.this, R.string.failed_signup, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    // 로그인
+    private void loginUser(String email, String password)
+    {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // 로그인 성공
+                            Toast.makeText(SignUpActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(SignUpActivity.this, AlarmSettingActivity.class);
+                            startActivity(intent);
+                        } else {
+                            // 로그인 실패
+                            Toast.makeText(SignUpActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
