@@ -5,6 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Spinner
+        android:id="@+id/signupBank"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_alignBaseline="@+id/textView6"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="46dp"
+        android:layout_marginEnd="73dp"
+        android:layout_toEndOf="@+id/textView6"
+        android:layout_weight="2"
+        android:entries="@array/bankList"
+        android:textAlignment="center" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
@@ -52,7 +65,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="57dp"
-        android:layout_marginTop="236dp"
+        android:layout_marginTop="253dp"
         android:text="bank" />
 
     <TextView
@@ -62,7 +75,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="57dp"
-        android:layout_marginTop="293dp"
+        android:layout_marginTop="316dp"
         android:text="userID" />
 
     <EditText
@@ -101,25 +114,13 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/signupBank"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="223dp"
-        android:layout_marginEnd="39dp"
-        android:contentDescription="bank"
-        android:ems="10"
-        android:inputType="textPersonName" />
-
-    <EditText
         android:id="@+id/signupUserID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="276dp"
-        android:layout_marginEnd="38dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginEnd="31dp"
         android:ems="10"
         android:inputType="textPersonName" />
 
