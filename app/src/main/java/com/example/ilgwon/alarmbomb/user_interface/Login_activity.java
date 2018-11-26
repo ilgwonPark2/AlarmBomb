@@ -23,6 +23,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Login_activity extends Activity {
     private static final int RC_SIGN_IN = 900;
@@ -33,6 +35,9 @@ public class Login_activity extends Activity {
     private FirebaseAuth firebaseAuth;
     // 구글  로그인 버튼
     private SignInButton buttonGoogle;
+    //firebase database 사용
+    private FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference=firebaseDatabase.getReference();
 
 
     @Override
@@ -109,6 +114,9 @@ public class Login_activity extends Activity {
                             check_acc = true;
                             Intent intent = new Intent(Login_activity.this, AlarmSettingActivity.class);
                             startActivity(intent);
+                            String email=user.getEmail();
+                            databaseReference.child("user_info").push().setValue(email);
+
                         } else {
                             // 로그인 실패
                             Log.i("auth2", "auth task is not successful");
