@@ -64,7 +64,7 @@ public class AlarmAddActivity extends Activity {
                 intent.putExtra("mission", mission_select);
                 intent.putExtra("reqCode", reqCode);
                 setResult(Activity.RESULT_OK, intent);
-                if (mission_select == "Decibel") {
+                if (mission_select.equals("Decibel")) {
                     checkPermission();
                 } else {
                     finish();
@@ -79,10 +79,9 @@ public class AlarmAddActivity extends Activity {
      */
     public void checkPermission() {
         // Check 3 permissions to do this mission.
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             // displaying AlertDialog with rationale
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder((AlarmAddActivity.this), 0);
