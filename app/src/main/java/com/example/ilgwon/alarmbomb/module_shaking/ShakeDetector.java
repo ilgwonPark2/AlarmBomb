@@ -38,19 +38,19 @@ public class ShakeDetector implements SensorEventListener {
                 }
 
                 // reset the shake count after 3 seconds of no shakes
-                //                if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
-                //                    mShakeCount = 0;
-                //                    mListener.onShake(mShakeCount);
-                //                }
-                if (90 < mShakeCount) {
-                    if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_100 > now) {
-                        if (110 < mShakeCount) {
-                            mShakeCount = 0;
-                            mListener.onShake(mShakeCount);
-                        }
-                    }
-
+                if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
+                    mShakeCount = 0;
+                    mListener.onShake(mShakeCount);
                 }
+//                if (90 < mShakeCount) {
+//                    if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_100 > now) {
+//                        if (110 < mShakeCount) {
+//                            mShakeCount = 0;
+//                            mListener.onShake(mShakeCount);
+//                        }
+//                    }
+//
+//                }
 
                 mShakeTimestamp = now;
                 mShakeCount++;

@@ -78,7 +78,6 @@ public class MissionShakingActivity extends AppCompatActivity {
     private void handleShakeEvent(int count) {
         countTextview.setText("You shake " + count + " times");
         if (count > 100) {
-
             Toast.makeText(getApplicationContext(), "mission complete", Toast.LENGTH_SHORT).show();
             Intent intent = getIntent();
             setResult(Activity.RESULT_OK, intent);
@@ -86,10 +85,6 @@ public class MissionShakingActivity extends AppCompatActivity {
         }
         //        set_view(count);
     }
-
-    //    public void set_view(int count){
-    //        countTextview.setText(count);
-    //    }
     @Override
     protected void onPause() {
         mSensorManager.unregisterListener(mShakeDetector);
