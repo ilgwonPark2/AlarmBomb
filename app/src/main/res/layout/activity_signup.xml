@@ -66,7 +66,7 @@
         android:text="userID" />
 
     <EditText
-        android:id="@+id/accountNum"
+        android:id="@+id/editTextAccountNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -77,7 +77,7 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/editTextEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -89,7 +89,7 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/editTextPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -101,7 +101,7 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/bank"
+        android:id="@+id/editTextAccountBank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -113,7 +113,7 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/userID"
+        android:id="@+id/editTextUserID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -127,7 +127,7 @@
         android:id="@+id/signupBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/password"
+        android:layout_alignStart="@+id/editTextPassword"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="102dp"
         android:text="Sign Up" />
