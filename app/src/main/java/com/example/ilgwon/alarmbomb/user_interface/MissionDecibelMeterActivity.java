@@ -84,7 +84,6 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mission_decibel);
         // check permission for this mission, dynamically checking.
-        checkPermission();
         minVal = findViewById(R.id.minval);
         mmVal = findViewById(R.id.mmval);
         maxVal = findViewById(R.id.maxval);
@@ -198,34 +197,5 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
         }
     }
 
-    /**
-     * check permission to the user.
-     */
-    public void checkPermission() {
-        // Check 3 permissions to do this mission.
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
-            // displaying AlertDialog with rationale
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder((MissionDecibelMeterActivity.this), 0);
-                builder.setTitle("AUDIO PERMISSION").setMessage("RECORD AUDIO, STOARGE ACCESS permission is needed to estimate decibel! Would you try to get permission again?")
-                        .setNegativeButton("No", null)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                ActivityCompat.requestPermissions(MissionDecibelMeterActivity.this,
-                                        new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
-                                        7777);
-                            }
-                        });
-                builder.show();
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
-                        7777);
-            }
-        }
-    }
 }
