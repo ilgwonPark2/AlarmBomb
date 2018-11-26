@@ -1,6 +1,5 @@
 package com.example.ilgwon.alarmbomb.user_interface;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -50,11 +49,11 @@ public class SignUpActivity extends AppCompatActivity {
         // 파이어베이스 인증 객체 선언
         firebaseAuth = FirebaseAuth.getInstance();
 
-        editTextEmail = findViewById(R.id.editTextEmail);
-        editTextPassword = findViewById(R.id.editTextPassword);
-        editTextAccountNum = findViewById(R.id.editTextAccountNum);
-        editTextAccountBank = findViewById(R.id.editTextAccountBank);
-        editTextUserID = findViewById(R.id.editTextUserID);
+        editTextEmail = findViewById(R.id.signupEmail);
+        editTextPassword = findViewById(R.id.signupPassword);
+        editTextAccountNum = findViewById(R.id.signupAccountNum);
+        editTextAccountBank = findViewById(R.id.signupBank);
+        editTextUserID = findViewById(R.id.signupUserID);
         btn= findViewById(R.id.signupBtn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,14 +73,6 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    public void signIn(View view) {
-        email = editTextEmail.getText().toString();
-        password = editTextPassword.getText().toString();
-
-        if(isValidEmail() && isValidPasswd()) {
-            loginUser(email, password);
-        }
-    }
 
     // 이메일 유효성 검사
     private boolean isValidEmail() {
@@ -126,21 +117,4 @@ public class SignUpActivity extends AppCompatActivity {
                 });
     }
 
-    // 로그인
-    private void loginUser(String email, String password)
-    {
-        firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // 로그인 성공
-                            Toast.makeText(SignUpActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
-                        } else {
-                            // 로그인 실패
-                            Toast.makeText(SignUpActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
 }

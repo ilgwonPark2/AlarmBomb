@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.ilgwon.alarmbomb.R;
@@ -27,7 +29,11 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.regex.Pattern;
+
 public class MainActivity extends Activity {
+
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$");
     private static final int RC_SIGN_IN = 900;
     private boolean check_acc;
     // 구글api클라이언트
@@ -39,17 +45,25 @@ public class MainActivity extends Activity {
     //firebase database 사용
     private FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference=firebaseDatabase.getReference();
-    Button signupBtn ;
-
+    private Button signupBtn ;
+    private Button signinBtn;
+    private EditText signinEmail;
+    private EditText signinPassword;
+    private String email = "";
+    private String password = "";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        signinEmail = findViewById(R.id.signinID);
+        signinPassword = findViewById(R.id.signinPassword);
         firebaseAuth = FirebaseAuth.getInstance();
 
         buttonGoogle = findViewById(R.id.btn_googleSignIn);
-        signupBtn  = findViewById(R.id.signup);
+
+        signupBtn  = findViewById(R.id.signupBtn);
+        signinBtn  = findViewById(R.id.signinBtn);
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
@@ -83,6 +97,12 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Intent signUpIntent = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivityForResult(signUpIntent, 7979);
+            }
+        });
+        signinBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn(view);
             }
         });
 
@@ -136,6 +156,61 @@ public class MainActivity extends Activity {
                 });
     }
 
+
+    public void signIn(View view) {
+        email = signinEmail.getText().toString();
+        password = signinPassword.getText().toString();
+
+        if(isValidEmail() && isValidPasswd()) {
+            loginUser(email, password);
+        }
+    }
+
+    // 이메일 유효성 검사
+    private boolean isValidEmail() {
+        if (email.isEmpty()) {
+            // 이메일 공백
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            // 이메일 형식 불일치
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    // 비밀번호 유효성 검사
+    private boolean isValidPasswd() {
+        if (password.isEmpty()) {
+            // 비밀번호 공백
+            return false;
+        } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
+            // 비밀번호 형식 불일치
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    // 로그인
+    private void loginUser(String email, String password)
+    {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // 로그인 성공
+                            Toast.makeText(MainActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(MainActivity.this, AlarmSettingActivity.class);
+                            startActivity(intent);
+                        } else {
+                            // 로그인 실패
+                            Toast.makeText(MainActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 }
 
 
