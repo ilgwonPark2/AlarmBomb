@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,6 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText editTextAccountNum;
     private String editTextAccountBank;
     private EditText editTextUserID;
+    private EditText editTextPhone;
     private Button btn;
     private Spinner s;
 
@@ -59,6 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.signupPassword);
         editTextAccountNum = findViewById(R.id.signupAccountNum);
         editTextUserID = findViewById(R.id.signupUserID);
+        editTextPhone = findViewById(R.id.signupPhone);
         btn = findViewById(R.id.signupBtn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +135,10 @@ public class SignUpActivity extends AppCompatActivity {
                             mDatabase.child("users").child(uid).child("accountNumber").setValue(editTextAccountNum.getText().toString());
                             mDatabase.child("users").child(uid).child("accountBank").setValue(editTextAccountBank);
                             mDatabase.child("users").child(uid).child("userID").setValue(editTextUserID.getText().toString());
+                            mDatabase.child("users").child(uid).child("phone").setValue(editTextPhone.getText().toString());
                             loginUser(editTextEmail.getText().toString(),editTextPassword.getText().toString());
+
+
                         } else {
                             // 회원가입 실패
                             Toast.makeText(SignUpActivity.this, R.string.failed_signup, Toast.LENGTH_SHORT).show();
