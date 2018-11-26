@@ -23,6 +23,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -38,7 +40,7 @@ public class Login_activity extends Activity {
     //firebase database 사용
     private FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference=firebaseDatabase.getReference();
-
+    private DataSnapshot dataSnapshot;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -114,6 +116,9 @@ public class Login_activity extends Activity {
                             check_acc = true;
                             Intent intent = new Intent(Login_activity.this, AlarmSettingActivity.class);
                             startActivity(intent);
+
+                            //database 저장
+//                          FirebaseDatabase.getInstance().getReference().child()
                             String email=user.getEmail();
                             databaseReference.child("user_info").push().setValue(email);
 

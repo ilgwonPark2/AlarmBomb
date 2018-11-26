@@ -3,6 +3,7 @@ package com.example.ilgwon.alarmbomb.user_interface;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,20 +12,33 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import com.example.ilgwon.alarmbomb.R;
+import com.example.ilgwon.alarmbomb.module_alarm.FriendAdapter;
+import com.example.ilgwon.alarmbomb.module_alarm.FriendSingleItem;
 
 public class AlarmAddActivity extends Activity {
+    int hh;
+    int mm;
+
     TimePicker timePickerAlarmTime;
     Button btnAddAlarm;
+    Button btnAddFriend;
     public static final int DEFAULT_ALARM_REQUEST = 800;
     Spinner s;
     String mission_select;
+
+
+    public static ListView friendView;
+    public static FriendAdapter friendAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +46,8 @@ public class AlarmAddActivity extends Activity {
         setContentView(R.layout.activity_alarm_add);
 
         btnAddAlarm = (Button) findViewById(R.id.btnAddAlarm);
+        btnAddFriend=(Button)findViewById(R.id.find_friend);
+
         timePickerAlarmTime = (TimePicker) findViewById(R.id.timePickerAlarmTime);
         timePickerAlarmTime.setIs24HourView(false);
         s = (Spinner) findViewById(R.id.mission);
@@ -54,8 +70,8 @@ public class AlarmAddActivity extends Activity {
         btnAddAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int hh = timePickerAlarmTime.getHour();
-                int mm = timePickerAlarmTime.getMinute();
+                hh = timePickerAlarmTime.getHour();
+                mm = timePickerAlarmTime.getMinute();
                 int reqCode = DEFAULT_ALARM_REQUEST;
 
                 Intent intent = getIntent();
@@ -69,6 +85,21 @@ public class AlarmAddActivity extends Activity {
                 } else {
                     finish();
                 }
+            }
+        });
+        btnAddFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view =getLayoutInflater().inflate(R.layout.find_friend,null);
+                friendView=view.findViewById(R.id.friendlist);
+                friendView.setAdapter(friendAdapter);
+                AlertDialog.Builder alertBuilder=new AlertDialog.Builder(AlarmAddActivity.this);
+                alertBuilder.setTitle("find friend who wake you up!");
+                alertBuilder.setView(view);
+                alertBuilder.show();
+
+
+
             }
         });
 
