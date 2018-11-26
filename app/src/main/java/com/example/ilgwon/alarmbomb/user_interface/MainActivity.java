@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.ilgwon.alarmbomb.R;
@@ -26,7 +27,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class Login_activity extends Activity {
+public class MainActivity extends Activity {
     private static final int RC_SIGN_IN = 900;
     private boolean check_acc;
     // 구글api클라이언트
@@ -38,17 +39,17 @@ public class Login_activity extends Activity {
     //firebase database 사용
     private FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference=firebaseDatabase.getReference();
-
+    Button signupBtn ;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_main);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
         buttonGoogle = findViewById(R.id.btn_googleSignIn);
-
+        signupBtn  = findViewById(R.id.signup);
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
@@ -66,7 +67,7 @@ public class Login_activity extends Activity {
         //            @Override
         //            public void onClick(View v) {
         //                if (check_acc==true){
-        //                        Intent intent=new Intent(Login_activity.this,AlarmSettingActivity.class);
+        //                        Intent intent=new Intent(MainActivity.this,AlarmSettingActivity.class);
         //                        startActivity(intent);
         //                    finish();}
         //
@@ -76,6 +77,14 @@ public class Login_activity extends Activity {
         //                }}
         //
         //        });
+
+        signupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent signUpIntent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivityForResult(signUpIntent, 7979);
+            }
+        });
 
     }
 
@@ -112,7 +121,7 @@ public class Login_activity extends Activity {
                             Toast.makeText(getApplicationContext(), "welcome", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             check_acc = true;
-                            Intent intent = new Intent(Login_activity.this, AlarmSettingActivity.class);
+                            Intent intent = new Intent(MainActivity.this, AlarmSettingActivity.class);
                             startActivity(intent);
                             String email=user.getEmail();
                             databaseReference.child("user_info").push().setValue(email);

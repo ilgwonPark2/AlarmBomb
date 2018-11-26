@@ -16,7 +16,7 @@
     </string>
     <string name="alarm_bomb">ALARM BOMB!</string>
 
-    <!-- activity_main.xml -->
+
     <string name="activity_minlabel">Minimum</string>
     <string name="activity_avglabel">Average</string>
     <string name="activity_maxlabel">Maximum</string>
