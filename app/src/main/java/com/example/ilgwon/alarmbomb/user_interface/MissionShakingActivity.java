@@ -19,9 +19,9 @@ public class MissionShakingActivity extends AppCompatActivity {
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
     private TextView countTextview;
-    private static final int Countdown = 300 * 1000;
-    private static final int Interval = 1000;
-    private int count = 300;
+    private static final int Countdown=300*1000;
+    private static final int Interval=1000;
+    private int count=300;
     private TextView timer;
     private CountDownTimer countDownTimer;
 
@@ -29,7 +29,7 @@ public class MissionShakingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mission_shaking);
-        timer = (TextView) findViewById(R.id.timer);
+        timer=(TextView)findViewById(R.id.timer);
         countDownTimer();
         countDownTimer.start();
         countTextview = (TextView) findViewById(R.id.count);
@@ -57,13 +57,12 @@ public class MissionShakingActivity extends AppCompatActivity {
         });
 
     }
-
-    public void countDownTimer() {
-        countDownTimer = new CountDownTimer(Countdown, Interval) {
+    public void countDownTimer(){
+        countDownTimer=new CountDownTimer(Countdown,Interval) {
             @Override
             public void onTick(long l) {
-                timer.setText("You only left " + String.valueOf(count) + " sec");
-                count--;
+                timer.setText("You only left "+String.valueOf(count)+" sec");
+                count --;
 
             }
 

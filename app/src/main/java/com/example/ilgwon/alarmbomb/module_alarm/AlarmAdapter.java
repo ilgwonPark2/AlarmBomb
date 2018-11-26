@@ -45,7 +45,7 @@ public class AlarmAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         // TODO Auto-generated method stub
-//        Toast.makeText(mContext, "position : " + position, Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, "position : " + position, Toast.LENGTH_LONG).show();
         return arrayListAlarmData.get(position).reqCode;
     }
 
