@@ -17,13 +17,37 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.example.ilgwon.alarmbomb.Model.NotificationModel;
+import com.example.ilgwon.alarmbomb.Model.UserModel;
 import com.example.ilgwon.alarmbomb.R;
 import com.example.ilgwon.alarmbomb.module_alarm.FriendAdapter;
 import com.example.ilgwon.alarmbomb.module_alarm.FriendSingleItem;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import static com.example.ilgwon.alarmbomb.user_interface.MainActivity.uid;
 
 public class AlarmAddActivity extends Activity {
     int hh;
@@ -31,10 +55,12 @@ public class AlarmAddActivity extends Activity {
 
     TimePicker timePickerAlarmTime;
     Button btnAddAlarm;
-    Button btnAddFriend;
+    Button btnSearchFriend;
+    EditText search_phone;
     public static final int DEFAULT_ALARM_REQUEST = 800;
     Spinner s;
     String mission_select;
+    UserModel destinationModel;
 
 
     public static ListView friendView;
@@ -46,7 +72,8 @@ public class AlarmAddActivity extends Activity {
         setContentView(R.layout.activity_alarm_add);
 
         btnAddAlarm = (Button) findViewById(R.id.btnAddAlarm);
-        btnAddFriend=(Button)findViewById(R.id.find_friend);
+        btnSearchFriend=(Button)findViewById(R.id.search);
+        search_phone=(EditText)findViewById(R.id.friendtext);
 
         timePickerAlarmTime = (TimePicker) findViewById(R.id.timePickerAlarmTime);
         timePickerAlarmTime.setIs24HourView(false);
@@ -80,6 +107,9 @@ public class AlarmAddActivity extends Activity {
                 intent.putExtra("mission", mission_select);
                 intent.putExtra("reqCode", reqCode);
                 setResult(Activity.RESULT_OK, intent);
+
+                //send message to Friend
+                sendGcm();
                 if (mission_select == "Decibel") {
                     checkPermission();
                 } else {
@@ -87,16 +117,39 @@ public class AlarmAddActivity extends Activity {
                 }
             }
         });
-        btnAddFriend.setOnClickListener(new View.OnClickListener() {
+        btnSearchFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view =getLayoutInflater().inflate(R.layout.find_friend,null);
-                friendView=view.findViewById(R.id.friendlist);
-                friendView.setAdapter(friendAdapter);
-                AlertDialog.Builder alertBuilder=new AlertDialog.Builder(AlarmAddActivity.this);
-                alertBuilder.setTitle("find friend who wake you up!");
-                alertBuilder.setView(view);
-                alertBuilder.show();
+                String friend_phone=search_phone.getText().toString();
+                Query query=FirebaseDatabase.getInstance().getReference().child("users").orderByChild("phone").equalTo(friend_phone);
+                query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        destinationModel=new UserModel();
+                        List<String>temp=new ArrayList<String>();
+                        for(DataSnapshot d:dataSnapshot.getChildren()){
+                            temp.add(d.getValue().toString());
+                        }
+                        destinationModel.account_bank=temp.get(0).toString();
+                        destinationModel.account=temp.get(1).toString();
+                        destinationModel.destination_id=temp.get(5).toString();
+                        destinationModel.pushToken=temp.get(6).toString();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+//                if(FirebaseDatabase.getInstance().getReference().child("users").orderByChild("phone").equalTo(friend_phone)==null){
+//                    Toast.makeText(getApplicationContext(),"Nothing",Toast.LENGTH_LONG).show();
+//                }
+//                else{ //모델 데려와야해
+//                    destinationModel=new UserModel();
+//                    destinationModel.uid=uid;
+//                    destinationModel.account="";
+//                    destinationModel.destination_id="";
+//                }
 
 
 
@@ -144,5 +197,34 @@ public class AlarmAddActivity extends Activity {
         if (requestCode == 7777) {
             finish();
         }
+    }
+
+    void sendGcm(){
+        Gson gson=new Gson();
+        int new_mm=mm+5;
+        NotificationModel notificationModel= new NotificationModel();
+        notificationModel.to=destinationModel.pushToken;
+        notificationModel.notification.title=""; //보낸이 전화번호 또는 이름
+        notificationModel.notification.text="wake me up"+hh+" : "+new_mm+" ! ";
+        RequestBody requestBody=RequestBody.create(MediaType.parse("application/json; charset=utf8"),gson.toJson(notificationModel));
+        Request request=new Request.Builder()
+                .header("Content-Type","application/json")
+                .addHeader("Authorization","key=AIzaSyC0mlFTA7hMF94OS2T8ZBNg3wSSaXfgsFQ")
+                .url("https://gcm-http.googleapis.com/gcm/send")
+                .post(requestBody)
+                .build();
+        OkHttpClient okHttpClient=new OkHttpClient();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+            }
+        });
+
     }
 }

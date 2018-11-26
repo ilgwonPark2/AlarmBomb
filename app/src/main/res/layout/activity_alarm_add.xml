@@ -17,13 +17,20 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/find_friend"
+            <EditText
+                android:id="@+id/friendtext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:text="Find Friend" />
+                android:hint="find your friend by phone number"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Search" />
 
             <Spinner
                 android:id="@+id/mission"

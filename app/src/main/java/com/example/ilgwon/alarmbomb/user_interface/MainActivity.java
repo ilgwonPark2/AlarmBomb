@@ -28,7 +28,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class MainActivity extends Activity {
@@ -51,6 +54,7 @@ public class MainActivity extends Activity {
     private EditText signinPassword;
     private String email = "";
     private String password = "";
+    public static String uid;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -204,12 +208,26 @@ public class MainActivity extends Activity {
                             Toast.makeText(MainActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(MainActivity.this, AlarmSettingActivity.class);
                             startActivity(intent);
+
+                            //이번 앱에서 생성될 푸쉬토큰 생성
+                            passPushTokenToServer();
                         } else {
                             // 로그인 실패
                             Toast.makeText(MainActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+    }
+
+
+
+    //push를 위한 토큰 생성-->usertable에 추가
+    void passPushTokenToServer(){
+        uid=FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String token= FirebaseInstanceId.getInstance().getToken();
+        Map<String,Object> map=new HashMap<>();
+        map.put("pushToken",token);
+        FirebaseDatabase.getInstance().getReference().child("users").child(uid).updateChildren(map);
     }
 }
 
