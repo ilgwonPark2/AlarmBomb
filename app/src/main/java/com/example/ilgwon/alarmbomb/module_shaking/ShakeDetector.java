@@ -4,7 +4,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.widget.Toast;
 
 public class ShakeDetector implements SensorEventListener {
     private static final float SHAKE_THRESHOLD_GRAVITY = 2.7F;
@@ -39,16 +38,16 @@ public class ShakeDetector implements SensorEventListener {
                 }
 
                 // reset the shake count after 3 seconds of no shakes
-//                if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
-//                    mShakeCount = 0;
-//                    mListener.onShake(mShakeCount);
-//                }
-                if (90<mShakeCount){
+                //                if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
+                //                    mShakeCount = 0;
+                //                    mListener.onShake(mShakeCount);
+                //                }
+                if (90 < mShakeCount) {
                     if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_100 > now) {
-                        if(110<mShakeCount) {
+                        if (110 < mShakeCount) {
                             mShakeCount = 0;
                             mListener.onShake(mShakeCount);
-                    }
+                        }
                     }
 
                 }
@@ -66,6 +65,7 @@ public class ShakeDetector implements SensorEventListener {
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
+
     public void setOnShakeListener(OnShakeListener listener) {
         this.mListener = listener;
     }
