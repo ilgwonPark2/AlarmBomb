@@ -137,8 +137,6 @@ public class SignUpActivity extends AppCompatActivity {
                             mDatabase.child("users").child(uid).child("userID").setValue(editTextUserID.getText().toString());
                             mDatabase.child("users").child(uid).child("phone").setValue(editTextPhone.getText().toString());
                             loginUser(editTextEmail.getText().toString(),editTextPassword.getText().toString());
-
-
                         } else {
                             // 회원가입 실패
                             Toast.makeText(SignUpActivity.this, R.string.failed_signup, Toast.LENGTH_SHORT).show();
