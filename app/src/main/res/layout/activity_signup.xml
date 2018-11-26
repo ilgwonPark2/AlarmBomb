@@ -78,6 +78,16 @@
         android:layout_marginTop="316dp"
         android:text="userID" />
 
+    <TextView
+        android:id="@+id/userphone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="57dp"
+        android:layout_marginTop="369dp"
+        android:text="userPhone" />
+
     <EditText
         android:id="@+id/signupAccountNum"
         android:layout_width="wrap_content"
@@ -124,12 +134,24 @@
         android:ems="10"
         android:inputType="textPersonName" />
 
+    <EditText
+        android:id="@+id/signupPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="356dp"
+        android:layout_marginEnd="29dp"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
     <Button
         android:id="@+id/signupBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/signupPassword"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="102dp"
+        android:layout_marginStart="-1dp"
+        android:layout_marginBottom="60dp"
         android:text="Sign Up" />
 </RelativeLayout>
