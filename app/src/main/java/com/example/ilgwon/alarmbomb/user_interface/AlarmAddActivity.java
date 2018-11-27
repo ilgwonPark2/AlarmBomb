@@ -38,6 +38,11 @@ public class AlarmAddActivity extends Activity {
     Spinner s;
     String mission_select;
     UserModel destinationModel;
+    static String Dest_account;
+    static String Dest_account_bank;
+    static String Dest_id;
+    static String Dest_pushToken;
+
 
 
     @Override
@@ -102,9 +107,13 @@ public class AlarmAddActivity extends Activity {
                             temp.add(d.getValue().toString());
                         }
                         destinationModel.account_bank=temp.get(0).toString();
+                        Dest_account_bank=destinationModel.account_bank;
                         destinationModel.account=temp.get(1).toString();
+                        Dest_account=destinationModel.account;
                         destinationModel.destination_id=temp.get(5).toString();
+                        Dest_id=destinationModel.destination_id;
                         destinationModel.pushToken=temp.get(6).toString();
+                        Dest_pushToken=destinationModel.pushToken;
                     }
 
                     @Override
