@@ -141,17 +141,6 @@ public class AlarmAddActivity extends Activity {
 
                     }
                 });
-//                if(FirebaseDatabase.getInstance().getReference().child("users").orderByChild("phone").equalTo(friend_phone)==null){
-//                    Toast.makeText(getApplicationContext(),"Nothing",Toast.LENGTH_LONG).show();
-//                }
-//                else{ //모델 데려와야해
-//                    destinationModel=new UserModel();
-//                    destinationModel.uid=uid;
-//                    destinationModel.account="";
-//                    destinationModel.destination_id="";
-//                }
-
-
 
             }
         });
