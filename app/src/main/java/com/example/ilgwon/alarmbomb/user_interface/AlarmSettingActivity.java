@@ -80,8 +80,8 @@ public class AlarmSettingActivity extends AppCompatActivity {
                 String mission = intent.getStringExtra("mission");
                 int reqCode = DEFAULT_ALARM_REQUEST + alarmArray.size();
                 int size = sharedPref.getInt("size", 0);
-                String accountNum = intent.getStringExtra("accuntNum");
-                String accountBank = intent.getStringExtra("accuntBank");
+                String accountNum = intent.getStringExtra("accountNum");
+                String accountBank = intent.getStringExtra("accountBank");
                 int i = (size == 0) ? 1 : size + 1;
                 alarmAdd(hh, mm, mission, reqCode, i, accountNum, accountBank);
             }
