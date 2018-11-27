@@ -100,6 +100,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent signUpIntent = new Intent(getApplicationContext(), SignUpActivity.class);
+                signUpIntent.addFlags(signUpIntent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivityForResult(signUpIntent, 7979);
             }
         });
