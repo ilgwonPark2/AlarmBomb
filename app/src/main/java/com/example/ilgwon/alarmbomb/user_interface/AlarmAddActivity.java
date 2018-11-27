@@ -37,6 +37,8 @@ public class AlarmAddActivity extends Activity {
     EditText search_phone;
     Spinner s;
     String mission_select;
+    UserModel destinationModel;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
