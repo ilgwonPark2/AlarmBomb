@@ -23,6 +23,7 @@ public class AlarmAddActivity extends Activity {
     TimePicker timePickerAlarmTime;
     Button btnAddAlarm;
     public static final int DEFAULT_ALARM_REQUEST = 800;
+    Button btnSearchFriend;
     Spinner s;
     String mission_select;
 
