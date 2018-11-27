@@ -116,23 +116,29 @@ public class AlarmAddActivity extends Activity {
                         for (DataSnapshot d : dataSnapshot.getChildren()) {
                             temp.add(d.getValue().toString());
                         }
-                        String value = temp.get(0);
-                        value = value.substring(1,value.length()-1);
-                        String[] keyValue = value.split(", ");
-                        for(String pair: keyValue){
-                            String[] entry = pair.split("=");
-                            map.put(entry[0].trim(), entry[1].trim());
+                        
+                        if(temp.size() !=0){
+                            String value = temp.get(0);
+                            value = value.substring(1,value.length()-1);
+                            String[] keyValue = value.split(", ");
+                            for(String pair: keyValue){
+                                String[] entry = pair.split("=");
+                                map.put(entry[0].trim(), entry[1].trim());
+                            }
+                            destinationModel.account_bank = map.get("accountBank");
+                            Dest_account_bank = destinationModel.account_bank;
+                            destinationModel.account = map.get("accountNumber");
+                            Dest_account = destinationModel.account;
+                            destinationModel.destination_id = map.get("uid");
+                            Dest_id = destinationModel.destination_id;
+                            destinationModel.userid = map.get("userID");
+                            Dest_uid = destinationModel.userid;
+                            destinationModel.pushToken = map.get("pushToken");
+                            Dest_pushToken = destinationModel.pushToken;
+                        } else {
+                            Dest_uid="No such id exists";
                         }
-                        destinationModel.account_bank = map.get("accountBank");
-                        Dest_account_bank = destinationModel.account_bank;
-                        destinationModel.account = map.get("accountNumber");
-                        Dest_account = destinationModel.account;
-                        destinationModel.destination_id = map.get("uid");
-                        Dest_id = destinationModel.destination_id;
-                        destinationModel.userid = map.get("userID");
-                        Dest_uid = destinationModel.userid;
-                        destinationModel.pushToken = map.get("pushToken");
-                        Dest_pushToken = destinationModel.pushToken;
+
 
                         userid.setText(Dest_uid);
                     }
