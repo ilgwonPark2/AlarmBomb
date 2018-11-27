@@ -7,5 +7,6 @@ public class UserModel {
     public String account_bank;
     public String account;//상대방 아이디
     public String pushToken;
+    public String userid;
 
 }

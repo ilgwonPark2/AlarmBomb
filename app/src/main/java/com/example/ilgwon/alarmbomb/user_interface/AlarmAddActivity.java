@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.ilgwon.alarmbomb.Model.UserModel;
@@ -40,9 +41,11 @@ public class AlarmAddActivity extends Activity {
     Spinner s;
     String mission_select;
     UserModel destinationModel;
+    TextView userid;
     private String Dest_account;
     private String Dest_account_bank;
     private String Dest_id;
+    private String Dest_uid;
     private String Dest_pushToken;
 
 
@@ -54,6 +57,7 @@ public class AlarmAddActivity extends Activity {
         btnAddAlarm = (Button) findViewById(R.id.btnAddAlarm);
         btnSearchFriend = (Button) findViewById(R.id.search);
         search_phone = (EditText) findViewById(R.id.friendtext);
+        userid = findViewById(R.id.userid);
         timePickerAlarmTime = (TimePicker) findViewById(R.id.timePickerAlarmTime);
         timePickerAlarmTime.setIs24HourView(false);
         s = (Spinner) findViewById(R.id.mission);
@@ -125,8 +129,12 @@ public class AlarmAddActivity extends Activity {
                         Dest_account = destinationModel.account;
                         destinationModel.destination_id = map.get("uid");
                         Dest_id = destinationModel.destination_id;
+                        destinationModel.userid = map.get("userID");
+                        Dest_uid = destinationModel.userid;
                         destinationModel.pushToken = map.get("pushToken");
                         Dest_pushToken = destinationModel.pushToken;
+
+                        userid.setText(Dest_uid);
                     }
 
                     @Override

@@ -140,6 +140,7 @@ public class AlarmShowActivity extends AppCompatActivity {
                                 }
                                 jsonReader.close();
                                 myConnection.disconnect();
+                                stopService(intent_ringtone);
                             }
 
                         } catch (Exception e) {
