@@ -3,6 +3,7 @@ package com.example.ilgwon.alarmbomb.user_interface;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -36,6 +37,10 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
     float volume = 10000;
     int refresh = 0;
     private DecibelRecorder mRecorder;
+    CountDownTimer myCountDownTimer;
+    private static final int Countdown = 10 * 1000;
+    private static final int Interval = 1000;
+
 
     /**
      * Thread Handler.
@@ -99,6 +104,9 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
         // declare the recorder.
         decibelMeter = findViewById(R.id.speed);
         mRecorder = new DecibelRecorder();
+
+        countDownTimer();
+        myCountDownTimer.start();
     }
 
     @Override
@@ -191,5 +199,24 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
         }
     }
 
+    public void countDownTimer() {
+        myCountDownTimer = new CountDownTimer(Countdown, Interval) {
+            @Override
+            public void onTick(long l) {
+//                timer.setText("You only left " + String.valueOf(count) + " sec");
+//                count--;
 
+            }
+
+            @Override
+            public void onFinish() {
+                Intent intent = getIntent();
+                intent.putExtra("fail", true);
+                setResult(Activity.RESULT_CANCELED, intent);
+                finish();
+
+            }
+        };
+    }
 }
+

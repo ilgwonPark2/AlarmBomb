@@ -30,6 +30,8 @@ public class AlarmShowActivity extends AppCompatActivity {
     private String time;
     private String data;
     private String mission;
+    private String accountNum;
+    private String accountBank;
     private int reqCode;
     boolean isComplete = false;
     public static final int DEFAULT_MISSION_NOTHING = 900;
@@ -49,6 +51,8 @@ public class AlarmShowActivity extends AppCompatActivity {
             data = intent_pending.getStringExtra("data");
             mission = intent_pending.getStringExtra("mission");
             reqCode = intent_pending.getIntExtra("reqCode", 0);
+            accountNum = intent_pending.getStringExtra("accountNum");
+            accountBank = intent_pending.getStringExtra("accountBank");
             //  Trigger the mission.
             triggerMission(mission);
             textViewAlarmedTime.setText(time + "\n" + data + "\n" + mission + "\n" + reqCode);
@@ -94,10 +98,10 @@ public class AlarmShowActivity extends AppCompatActivity {
                             myConnection.connect();
                             JSONObject json = new JSONObject();
                             json.accumulate("apiKey", "c48300c9bdfe48f490154aa354d53072");
-                            json.accumulate("bankName", "NH농협");
-                            json.accumulate("bankAccountNo", "3122047091561");
+                            json.accumulate("bankName", accountBank);
+                            json.accumulate("bankAccountNo", accountNum);
                             json.accumulate("amount", "3000");
-                            json.accumulate("message", "토스입금버튼");
+                            json.accumulate("message", "벌금!!!!");
                             OutputStreamWriter writer = new OutputStreamWriter(myConnection.getOutputStream());
                             writer.write(json.toString());
                             writer.flush();
@@ -180,6 +184,8 @@ public class AlarmShowActivity extends AppCompatActivity {
             intent_zombie.putExtra("data", data);
             intent_zombie.putExtra("mission", mission);
             intent_zombie.putExtra("reqCode", reqCode);
+            intent_zombie.putExtra("accountBank", accountBank);
+            intent_zombie.putExtra("accountNum", accountNum);
             // stop service since a service begins after starting activity.
             stopService(intent_ringtone);
             startActivity(intent_zombie);

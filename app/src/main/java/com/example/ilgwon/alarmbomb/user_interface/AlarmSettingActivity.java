@@ -80,15 +80,17 @@ public class AlarmSettingActivity extends AppCompatActivity {
                 String mission = intent.getStringExtra("mission");
                 int reqCode = DEFAULT_ALARM_REQUEST + alarmArray.size();
                 int size = sharedPref.getInt("size", 0);
+                String accountNum = intent.getStringExtra("accuntNum");
+                String accountBank = intent.getStringExtra("accuntBank");
                 int i = (size == 0) ? 1 : size + 1;
-                alarmAdd(hh, mm, mission, reqCode, i);
+                alarmAdd(hh, mm, mission, reqCode, i, accountNum, accountBank);
             }
         }
     }
 
     /**
      * onResume Callback
-     *
+     * <p>
      * after clearing alarmArray, it refreshes data from sharedPref.
      */
     @Override
@@ -113,7 +115,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
      * @param hour, minute, mission, reqcode, i
      *              Adding an alarm to the array(list).
      */
-    public void alarmAdd(int hour, int minute, String mission, int reqCode, int i) {
+    public void alarmAdd(int hour, int minute, String mission, int reqCode, int i, String accountNum, String accountBank) {
         GregorianCalendar gregorianCalendar = new GregorianCalendar(TimeZone.getTimeZone("GMT+09:00"));
 
         // put following data to the sharedEditor.
@@ -122,6 +124,8 @@ public class AlarmSettingActivity extends AppCompatActivity {
         sharedEditor.putString("list" + i + "mission", mission);
         sharedEditor.putInt("list" + i + "reqCode", reqCode);
         sharedEditor.putInt("size", i);
+        sharedEditor.putString("list" + i + "accountNum", accountNum);
+        sharedEditor.putString("list" + i + "accountBank", accountBank);
         sharedEditor.commit();
 
         int currentYY = currentCalendar.get(Calendar.YEAR);
@@ -140,6 +144,8 @@ public class AlarmSettingActivity extends AppCompatActivity {
         intent.putExtra("data", "dd: " + currentCalendar.getTime().toLocaleString());
         intent.putExtra("mission", mission);
         intent.putExtra("reqCode", reqCode);
+        intent.putExtra("accountBank", accountNum);
+        intent.putExtra("accountNum", accountBank);
 
         //  Use PendingIntent with timer, to get an alarm in given time.
         PendingIntent pi = PendingIntent.getActivity(AlarmSettingActivity.this,

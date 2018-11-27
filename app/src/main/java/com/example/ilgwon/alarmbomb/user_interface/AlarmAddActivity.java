@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -27,6 +28,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AlarmAddActivity extends Activity {
@@ -38,11 +40,10 @@ public class AlarmAddActivity extends Activity {
     Spinner s;
     String mission_select;
     UserModel destinationModel;
-    static String Dest_account;
-    static String Dest_account_bank;
-    static String Dest_id;
-    static String Dest_pushToken;
-
+    private String Dest_account;
+    private String Dest_account_bank;
+    private String Dest_id;
+    private String Dest_pushToken;
 
 
     @Override
@@ -51,8 +52,8 @@ public class AlarmAddActivity extends Activity {
         setContentView(R.layout.activity_alarm_add);
 
         btnAddAlarm = (Button) findViewById(R.id.btnAddAlarm);
-        btnSearchFriend=(Button)findViewById(R.id.search);
-        search_phone=(EditText)findViewById(R.id.friendtext);
+        btnSearchFriend = (Button) findViewById(R.id.search);
+        search_phone = (EditText) findViewById(R.id.friendtext);
         timePickerAlarmTime = (TimePicker) findViewById(R.id.timePickerAlarmTime);
         timePickerAlarmTime.setIs24HourView(false);
         s = (Spinner) findViewById(R.id.mission);
@@ -84,6 +85,8 @@ public class AlarmAddActivity extends Activity {
                 intent.putExtra("minute", mm);
                 intent.putExtra("mission", mission_select);
                 intent.putExtra("reqCode", reqCode);
+                intent.putExtra("accountBank", Dest_account_bank);
+                intent.putExtra("accountNum", Dest_account);
                 setResult(Activity.RESULT_OK, intent);
                 if (mission_select.equals("Decibel")) {
                     checkPermission();
@@ -96,24 +99,34 @@ public class AlarmAddActivity extends Activity {
         btnSearchFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String friend_phone=search_phone.getText().toString();
-                Query query=FirebaseDatabase.getInstance().getReference().child("users").orderByChild("phone").equalTo(friend_phone);
+                String friend_phone = search_phone.getText().toString();
+                Query query = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("phone").equalTo(friend_phone);
+                Log.d("Parkil", query.toString());
                 query.addValueEventListener(new ValueEventListener() {
+
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        destinationModel=new UserModel();
-                        List<String>temp=new ArrayList<String>();
-                        for(DataSnapshot d:dataSnapshot.getChildren()){
+                        destinationModel = new UserModel();
+                        List<String> temp = new ArrayList<String>();
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        for (DataSnapshot d : dataSnapshot.getChildren()) {
                             temp.add(d.getValue().toString());
                         }
-                        destinationModel.account_bank=temp.get(0).toString();
-                        Dest_account_bank=destinationModel.account_bank;
-                        destinationModel.account=temp.get(1).toString();
-                        Dest_account=destinationModel.account;
-                        destinationModel.destination_id=temp.get(5).toString();
-                        Dest_id=destinationModel.destination_id;
-                        destinationModel.pushToken=temp.get(6).toString();
-                        Dest_pushToken=destinationModel.pushToken;
+                        String value = temp.get(0);
+                        value = value.substring(1,value.length()-1);
+                        String[] keyValue = value.split(", ");
+                        for(String pair: keyValue){
+                            String[] entry = pair.split("=");
+                            map.put(entry[0].trim(), entry[1].trim());
+                        }
+                        destinationModel.account_bank = map.get("accountBank");
+                        Dest_account_bank = destinationModel.account_bank;
+                        destinationModel.account = map.get("accountNumber");
+                        Dest_account = destinationModel.account;
+                        destinationModel.destination_id = map.get("uid");
+                        Dest_id = destinationModel.destination_id;
+                        destinationModel.pushToken = map.get("pushToken");
+                        Dest_pushToken = destinationModel.pushToken;
                     }
 
                     @Override
@@ -125,8 +138,6 @@ public class AlarmAddActivity extends Activity {
             }
         });
     }
-
-
 
 
     /**
