@@ -86,36 +86,37 @@ public class AlarmAddActivity extends Activity {
             }
         });
 
-    }
-    btnSearchFriend.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            String friend_phone=search_phone.getText().toString();
-            Query query= FirebaseDatabase.getInstance().getReference().child("users").orderByChild("phone").equalTo(friend_phone);
-            query.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    destinationModel=new UserModel();
-                    List<String> temp=new ArrayList<String>();
-                    for(DataSnapshot d:dataSnapshot.getChildren()){
-                        temp.add(d.getValue().toString());
+        btnSearchFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String friend_phone=search_phone.getText().toString();
+                Query query=FirebaseDatabase.getInstance().getReference().child("users").orderByChild("phone").equalTo(friend_phone);
+                query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        destinationModel=new UserModel();
+                        List<String>temp=new ArrayList<String>();
+                        for(DataSnapshot d:dataSnapshot.getChildren()){
+                            temp.add(d.getValue().toString());
+                        }
+                        destinationModel.account_bank=temp.get(0).toString();
+                        destinationModel.account=temp.get(1).toString();
+                        destinationModel.destination_id=temp.get(5).toString();
+                        destinationModel.pushToken=temp.get(6).toString();
                     }
-                    destinationModel.account_bank=temp.get(0).toString();
-                    destinationModel.account=temp.get(1).toString();
-                    destinationModel.destination_id=temp.get(5).toString();
-                    destinationModel.pushToken=temp.get(6).toString();
-                }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
+                    }
+                });
 
-        }
-    });
+            }
+        });
+    }
 
-}
+
+
 
     /**
      * check permission to the user.
