@@ -144,8 +144,8 @@ public class AlarmSettingActivity extends AppCompatActivity {
         intent.putExtra("data", "dd: " + currentCalendar.getTime().toLocaleString());
         intent.putExtra("mission", mission);
         intent.putExtra("reqCode", reqCode);
-        intent.putExtra("accountBank", accountNum);
-        intent.putExtra("accountNum", accountBank);
+        intent.putExtra("accountNum", accountNum);
+        intent.putExtra("accountBank", accountBank);
         intent.setFlags(intent.FLAG_ACTIVITY_NO_HISTORY);
 
         //  Use PendingIntent with timer, to get an alarm in given time.
