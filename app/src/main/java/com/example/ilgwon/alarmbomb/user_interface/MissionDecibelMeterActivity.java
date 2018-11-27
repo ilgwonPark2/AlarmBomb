@@ -38,7 +38,7 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
     int refresh = 0;
     private DecibelRecorder mRecorder;
     CountDownTimer myCountDownTimer;
-    private static final int Countdown = 10 * 1000;
+    private static final int Countdown = 30 * 1000;
     private static final int Interval = 1000;
 
 

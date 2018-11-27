@@ -19,11 +19,11 @@ public class MissionShakingActivity extends AppCompatActivity {
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
     private TextView countTextview;
-    private static final int Countdown = 300 * 1000;
-    private static final int Interval = 1000;
     private int count = 300;
     private TextView timer;
     private CountDownTimer countDownTimer;
+    private static final int Countdown = 30 * 1000;
+    private static final int Interval = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,10 @@ public class MissionShakingActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 timer.setText("Bomb sending..");
-
+                Intent intent = getIntent();
+                intent.putExtra("fail", true);
+                setResult(Activity.RESULT_CANCELED, intent);
+                finish();
             }
         };
     }
