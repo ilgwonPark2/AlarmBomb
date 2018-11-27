@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
@@ -33,6 +34,7 @@ public class AlarmAddActivity extends Activity {
     Button btnAddAlarm;
     public static final int DEFAULT_ALARM_REQUEST = 800;
     Button btnSearchFriend;
+    EditText search_phone;
     Spinner s;
     String mission_select;
 
@@ -42,6 +44,8 @@ public class AlarmAddActivity extends Activity {
         setContentView(R.layout.activity_alarm_add);
 
         btnAddAlarm = (Button) findViewById(R.id.btnAddAlarm);
+        btnSearchFriend=(Button)findViewById(R.id.search);
+        search_phone=(EditText)findViewById(R.id.friendtext);
         timePickerAlarmTime = (TimePicker) findViewById(R.id.timePickerAlarmTime);
         timePickerAlarmTime.setIs24HourView(false);
         s = (Spinner) findViewById(R.id.mission);
@@ -83,7 +87,7 @@ public class AlarmAddActivity extends Activity {
         });
 
     }
-            btnSearchFriend.setOnClickListener(new View.OnClickListener() {
+    btnSearchFriend.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             String friend_phone=search_phone.getText().toString();
