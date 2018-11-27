@@ -146,6 +146,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
         intent.putExtra("reqCode", reqCode);
         intent.putExtra("accountBank", accountNum);
         intent.putExtra("accountNum", accountBank);
+        intent.setFlags(intent.FLAG_ACTIVITY_NO_HISTORY);
 
         //  Use PendingIntent with timer, to get an alarm in given time.
         PendingIntent pi = PendingIntent.getActivity(AlarmSettingActivity.this,
