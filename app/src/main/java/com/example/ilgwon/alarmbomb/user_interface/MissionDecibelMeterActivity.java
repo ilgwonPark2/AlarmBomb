@@ -2,6 +2,7 @@ package com.example.ilgwon.alarmbomb.user_interface;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -29,6 +30,7 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
     TextView maxVal;
     TextView mmVal;
     TextView curVal;
+    TextView timer;
     long currentTime = 0;
     /* Decibel */
     private boolean bListener = true;
@@ -40,6 +42,7 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
     CountDownTimer myCountDownTimer;
     private static final int Countdown = 30 * 1000;
     private static final int Interval = 1000;
+    int count=300;
 
 
     /**
@@ -87,6 +90,7 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
         mmVal = findViewById(R.id.mmval);
         maxVal = findViewById(R.id.maxval);
         curVal = findViewById(R.id.curval);
+        timer=findViewById(R.id.timer);
 
         // set a refresh button.
         refreshButton = findViewById(R.id.refreshbutton);
@@ -203,13 +207,15 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
         myCountDownTimer = new CountDownTimer(Countdown, Interval) {
             @Override
             public void onTick(long l) {
-//                timer.setText("You only left " + String.valueOf(count) + " sec");
-//                count--;
+                timer.setText("You only left " + String.valueOf(count) + " sec");
+                count--;
 
             }
 
             @Override
             public void onFinish() {
+                timer.setText("Bomb Sending....!");
+                timer.setTextColor(Color.RED);
                 Intent intent = getIntent();
                 intent.putExtra("fail", true);
                 setResult(Activity.RESULT_CANCELED, intent);

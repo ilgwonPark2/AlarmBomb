@@ -3,6 +3,7 @@ package com.example.ilgwon.alarmbomb.user_interface;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -80,6 +81,7 @@ public class MissionShakingActivity extends AppCompatActivity {
 
     private void handleShakeEvent(int count) {
         countTextview.setText("You shake " + count + " times");
+        timer.setTextColor(Color.RED);
         if (count > 100) {
             Toast.makeText(getApplicationContext(), "mission complete", Toast.LENGTH_SHORT).show();
             Intent intent = getIntent();
