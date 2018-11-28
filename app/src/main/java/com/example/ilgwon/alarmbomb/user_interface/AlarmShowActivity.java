@@ -69,7 +69,6 @@ public class AlarmShowActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             stopService(intent_ringtone);
-
             switch (requestCode) {
                 case DEFAULT_MISSION_NOTHING:
                     break;
@@ -81,7 +80,6 @@ public class AlarmShowActivity extends AppCompatActivity {
                     break;
                 default:
                     break;
-
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (data.getBooleanExtra("fail", false)) {
@@ -140,6 +138,7 @@ public class AlarmShowActivity extends AppCompatActivity {
                                 }
                                 jsonReader.close();
                                 myConnection.disconnect();
+                                isComplete =true;
                                 stopService(intent_ringtone);
                             }
 

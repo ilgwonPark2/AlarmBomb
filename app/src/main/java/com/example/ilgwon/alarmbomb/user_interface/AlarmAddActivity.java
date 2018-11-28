@@ -116,7 +116,7 @@ public class AlarmAddActivity extends Activity {
                         for (DataSnapshot d : dataSnapshot.getChildren()) {
                             temp.add(d.getValue().toString());
                         }
-                        
+
                         if(temp.size() !=0){
                             String value = temp.get(0);
                             value = value.substring(1,value.length()-1);
