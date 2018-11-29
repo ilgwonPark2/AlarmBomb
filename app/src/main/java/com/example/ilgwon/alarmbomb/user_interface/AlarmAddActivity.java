@@ -109,7 +109,7 @@ public class AlarmAddActivity extends Activity {
                 setResult(Activity.RESULT_OK, intent);
 
                 //send message to Friend
-                sendGcm();
+                sendINV();
                 if (mission_select == "Decibel") {
                     checkPermission();
                 } else {
@@ -188,18 +188,18 @@ public class AlarmAddActivity extends Activity {
         }
     }
 
-    void sendGcm(){
+    void sendINV(){
         Gson gson=new Gson();
         int new_mm=mm+5;
         NotificationModel notificationModel= new NotificationModel();
         notificationModel.to=destinationModel.pushToken;
-        notificationModel.notification.title=""; //보낸이 전화번호 또는 이름
-        notificationModel.notification.text="wake me up"+hh+" : "+new_mm+" ! ";
+        notificationModel.notification.title="invitation"; //보낸이 전화번호 또는 이름
+        notificationModel.notification.body="wake me up"+hh+" : "+new_mm+" ! ";
         RequestBody requestBody=RequestBody.create(MediaType.parse("application/json; charset=utf8"),gson.toJson(notificationModel));
         Request request=new Request.Builder()
                 .header("Content-Type","application/json")
                 .addHeader("Authorization","key=AIzaSyC0mlFTA7hMF94OS2T8ZBNg3wSSaXfgsFQ")
-                .url("https://gcm-http.googleapis.com/gcm/send")
+                .url("https://fcm.googleapis.com/fcm/send")
                 .post(requestBody)
                 .build();
         OkHttpClient okHttpClient=new OkHttpClient();

@@ -210,7 +210,12 @@ public class MainActivity extends Activity {
                             startActivity(intent);
 
                             //이번 앱에서 생성될 푸쉬토큰 생성
-                            passPushTokenToServer();
+                            if(FirebaseInstanceId.getInstance().getToken() ==null){
+                                passPushTokenToServer();
+                            }
+                            else{
+                                Log.d("X", "token = " + FirebaseInstanceId.getInstance().getToken());
+                            }
                         } else {
                             // 로그인 실패
                             Toast.makeText(MainActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();
@@ -221,13 +226,13 @@ public class MainActivity extends Activity {
 
 
 
-    //push를 위한 토큰 생성-->usertable에 추가
+   // push를 위한 토큰 생성-->usertable에 추가
     void passPushTokenToServer(){
         uid=FirebaseAuth.getInstance().getCurrentUser().getUid();
         String token= FirebaseInstanceId.getInstance().getToken();
         Map<String,Object> map=new HashMap<>();
         map.put("pushToken",token);
-        FirebaseDatabase.getInstance().getReference().child("users").child(uid).updateChildren(map);
+        FirebaseDatabase.getInstance().getReference().child("users").child(uid).updateChildren(map); //DB에 저
     }
 }
 
