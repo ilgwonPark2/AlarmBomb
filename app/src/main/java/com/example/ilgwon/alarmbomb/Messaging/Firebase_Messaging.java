@@ -20,7 +20,7 @@ public class Firebase_Messaging extends FirebaseMessagingService {
 
         //receive type1 알람 신청 승낙?
         if(title=="invitation"){
-            Log.i(TAG,"invitation");
+            Log.i("invitation","invitation");
             //
         }
         //receive type2 승낙했음

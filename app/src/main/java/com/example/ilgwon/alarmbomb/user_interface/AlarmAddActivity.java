@@ -25,6 +25,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.ilgwon.alarmbomb.Messaging.Access_Token;
+import com.example.ilgwon.alarmbomb.Messaging.UrlSending;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 
 
@@ -45,6 +46,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -238,29 +241,14 @@ public class AlarmAddActivity extends Activity {
         }
     }
 
-    void sendINV() throws IOException {
-        notificationModel= new NotificationModel();
-        notificationModel.to=destinationModel.pushToken;
-        notificationModel.notification.title="invitation"; //보낸이 전화번호 또는 이름
-        notificationModel.notification.body="wake me up"+hh+" : "+mm+" ! ";
-        URL url=new URL("https//fcm.googleapis.com/v1/projects/alarmbomb-5fbe8/messages:send HTTP/1.1");
-        HttpsURLConnection httpURLConnection=(HttpsURLConnection)url.openConnection();
-        httpURLConnection.setRequestMethod("POST");
-        httpURLConnection.setDoInput(true);
-        httpURLConnection.setRequestProperty("Content-Type","application/json; UTF-8");
-        httpURLConnection.setRequestProperty("Authorization","Bearer "+ Access_Token.AccessToken());
-        httpURLConnection.setDoOutput(true);
-        OutputStream os=httpURLConnection.getOutputStream();
-        StringBuffer responseBody=new StringBuffer();
-        String body="{\"message\" : \n\t " +
-                "{ \"token\" : \""+notificationModel.to+"\",\n\t"+
-                "\"data\": {\n\t\t"+
-                "\"title\": \""+notificationModel.notification.title+"\",\n\t"+
-                "\"body\": "+notificationModel.notification.body+"\",\n\t}";
-        Log.i("XXXX",body);
-        os.write(body.getBytes());
-        os.flush();
-        os.close();
+    void sendINV() throws MalformedURLException,IOException {
+//        notificationModel= new NotificationModel();
+//        notificationModel.to=destinationModel.pushToken;
+//        notificationModel.notification.title="invitation"; //보낸이 전화번호 또는 이름
+//        notificationModel.notification.body="wake me up"+hh+" : "+mm+" ! ";
+        UrlSending url=new UrlSending(Dest_pushToken);
+
+
 // Gson gson=new Gson();
 //        int new_mm=mm+5;
 //
