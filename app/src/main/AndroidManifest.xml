@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ilgwon.alarmbomb">
+    package="com.thenerds.ilgwon.alarmbomb" android:versionName="1.0.0" android:versionCode="1">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -25,7 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".user_interface.MainActivity"
+            android:name="com.thenerds.ilgwon.alarmbomb.user_interface.MainActivity"
             android:label="ALARM BOMB LOGIN">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,13 +34,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".user_interface.AlarmShowActivity" ></activity>
-        <activity android:name=".user_interface.AlarmAddActivity" ></activity>
-        <activity android:name=".user_interface.AlarmSettingActivity" ></activity>
-        <activity android:name=".user_interface.MissionDecibelMeterActivity"></activity>
-        <activity android:name=".user_interface.MissionShakingActivity"></activity>
-        <activity android:name=".user_interface.SignUpActivity"></activity>
-        <service android:name=".service.AlarmRingService"/>
+        <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.AlarmShowActivity" ></activity>
+        <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.AlarmAddActivity" ></activity>
+        <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.AlarmSettingActivity" ></activity>
+        <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.MissionDecibelMeterActivity"></activity>
+        <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.MissionShakingActivity"></activity>
+        <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.SignUpActivity"></activity>
+        <service android:name="com.thenerds.ilgwon.alarmbomb.service.AlarmRingService"/>
     </application>
 
 </manifest>
