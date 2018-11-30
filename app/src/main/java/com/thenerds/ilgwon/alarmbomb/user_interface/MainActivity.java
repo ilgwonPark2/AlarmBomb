@@ -101,6 +101,8 @@ public class MainActivity extends Activity {
 
         if (isValidEmail() && isValidPasswd()) {
             loginUser(email, password);
+        } else {
+            Toast.makeText(MainActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -108,6 +110,7 @@ public class MainActivity extends Activity {
     private boolean isValidEmail() {
         if (email.isEmpty()) {
             // 이메일 공백
+            Toast.makeText(MainActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();
             return false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             // 이메일 형식 불일치
@@ -121,6 +124,7 @@ public class MainActivity extends Activity {
     private boolean isValidPasswd() {
         if (password.isEmpty()) {
             // 비밀번호 공백
+            Toast.makeText(MainActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();
             return false;
         } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
             // 비밀번호 형식 불일치
