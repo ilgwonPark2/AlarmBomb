@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -69,6 +70,7 @@ public class AlarmAddActivity extends Activity {
     Button btnAddAlarm;
     Button btnSearchFriend;
     EditText search_phone;
+    TextView userid;
     public static final int DEFAULT_ALARM_REQUEST = 800;
     Spinner s;
     String mission_select;
@@ -92,7 +94,7 @@ public class AlarmAddActivity extends Activity {
         btnAddAlarm = (Button) findViewById(R.id.btnAddAlarm);
         btnSearchFriend=(Button)findViewById(R.id.search);
         search_phone=(EditText)findViewById(R.id.friendtext);
-
+        userid=(TextView)findViewById(R.id.userid);
         timePickerAlarmTime = (TimePicker) findViewById(R.id.timePickerAlarmTime);
         timePickerAlarmTime.setIs24HourView(false);
         s = (Spinner) findViewById(R.id.mission);
