@@ -54,7 +54,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="48dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/signup_email"
+            android:text="Email"
             app:layout_constraintEnd_toStartOf="@+id/signinID"
             app:layout_constraintHorizontal_bias="0.441"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/signup_password"
+            android:text="Password"
             app:layout_constraintEnd_toStartOf="@+id/signinPassword"
             app:layout_constraintHorizontal_bias="0.272"
             app:layout_constraintStart_toStartOf="parent"
@@ -121,23 +121,14 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
+            android:layout_width="103dp"
             android:layout_height="90dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginBottom="24dp"
-            android:adjustViewBounds="true"
-            android:cropToPadding="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/bomb"
-            android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@+id/signinID"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.54"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
-            />
-
+            app:srcCompat="@drawable/bomb" />
     </android.support.constraint.ConstraintLayout>
 
 
