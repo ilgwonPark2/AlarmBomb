@@ -23,6 +23,10 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.ilgwon.alarmbomb.Messaging.Access_Token;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+
+
 import com.example.ilgwon.alarmbomb.Model.NotificationModel;
 import com.example.ilgwon.alarmbomb.Model.UserModel;
 import com.example.ilgwon.alarmbomb.R;
@@ -35,9 +39,16 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -61,6 +72,7 @@ public class AlarmAddActivity extends Activity {
     Spinner s;
     String mission_select;
     UserModel destinationModel;
+    NotificationModel notificationModel;
 
 
     public static ListView friendView;
@@ -109,7 +121,13 @@ public class AlarmAddActivity extends Activity {
                 setResult(Activity.RESULT_OK, intent);
 
                 //send message to Friend
-                sendINV();
+                try {
+                    sendINV();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 if (mission_select == "Decibel") {
                     checkPermission();
                 } else {
@@ -188,32 +206,57 @@ public class AlarmAddActivity extends Activity {
         }
     }
 
-    void sendINV(){
-        Gson gson=new Gson();
-        int new_mm=mm+5;
-        NotificationModel notificationModel= new NotificationModel();
+    void sendINV() throws IOException {
+        notificationModel= new NotificationModel();
         notificationModel.to=destinationModel.pushToken;
         notificationModel.notification.title="invitation"; //보낸이 전화번호 또는 이름
-        notificationModel.notification.body="wake me up"+hh+" : "+new_mm+" ! ";
-        RequestBody requestBody=RequestBody.create(MediaType.parse("application/json; charset=utf8"),gson.toJson(notificationModel));
-        Request request=new Request.Builder()
-                .header("Content-Type","application/json")
-                .addHeader("Authorization","key=AIzaSyC0mlFTA7hMF94OS2T8ZBNg3wSSaXfgsFQ")
-                .url("https://fcm.googleapis.com/fcm/send")
-                .post(requestBody)
-                .build();
-        OkHttpClient okHttpClient=new OkHttpClient();
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
-            }
-        });
+        notificationModel.notification.body="wake me up"+hh+" : "+mm+" ! ";
+        URL url=new URL("https//fcm.googleapis.com/v1/projects/alarmbomb-5fbe8/messages:send HTTP/1.1");
+        HttpsURLConnection httpURLConnection=(HttpsURLConnection)url.openConnection();
+        httpURLConnection.setRequestMethod("POST");
+        httpURLConnection.setDoInput(true);
+        httpURLConnection.setRequestProperty("Content-Type","application/json; UTF-8");
+        httpURLConnection.setRequestProperty("Authorization","Bearer "+ Access_Token.AccessToken());
+        httpURLConnection.setDoOutput(true);
+        OutputStream os=httpURLConnection.getOutputStream();
+        StringBuffer responseBody=new StringBuffer();
+        String body="{\"message\" : \n\t " +
+                "{ \"token\" : \""+notificationModel.to+"\",\n\t"+
+                "\"data\": {\n\t\t"+
+                "\"title\": \""+notificationModel.notification.title+"\",\n\t"+
+                "\"body\": "+notificationModel.notification.body+"\",\n\t}";
+        Log.i("XXXX",body);
+        os.write(body.getBytes());
+        os.flush();
+        os.close();
+// Gson gson=new Gson();
+//        int new_mm=mm+5;
+//
+//        NotificationModel notificationModel= new NotificationModel();
+//        notificationModel.to=destinationModel.pushToken;
+//        notificationModel.notification.title="invitation"; //보낸이 전화번호 또는 이름
+//        notificationModel.notification.body="wake me up"+hh+" : "+new_mm+" ! ";
+//        RequestBody requestBody=RequestBody.create(MediaType.parse("application/json; charset=utf8"),gson.toJson(notificationModel));
+//        Request request=new Request.Builder()
+//                .header("Content-Type","application/json")
+//                .addHeader("Authorization","Bearer AIzaSyC0mlFTA7hMF94OS2T8ZBNg3wSSaXfgsFQ")
+//                .url("//fcm.googleapis.com/v1/projects/alarmbomb-5fbe8/messages:send HTTP/1.1")
+//                .post(requestBody)
+//                .build();
+//        OkHttpClient okHttpClient=new OkHttpClient();
+//        okHttpClient.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//
+//            }
+//        });
 
     }
+
+
 }
