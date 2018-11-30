@@ -46,6 +46,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -73,6 +74,11 @@ public class AlarmAddActivity extends Activity {
     String mission_select;
     UserModel destinationModel;
     NotificationModel notificationModel;
+    private String Dest_account_bank;
+    private String Dest_account;
+    private String Dest_id;
+    private String Dest_uid;
+    private String Dest_pushToken;
 
 
     public static ListView friendView;
@@ -138,20 +144,44 @@ public class AlarmAddActivity extends Activity {
         btnSearchFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String friend_phone=search_phone.getText().toString();
-                Query query=FirebaseDatabase.getInstance().getReference().child("users").orderByChild("phone").equalTo(friend_phone);
+                String friend_phone = search_phone.getText().toString();
+                Query query = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("phone").equalTo(friend_phone);
+                Log.d("Parkil", query.toString());
                 query.addValueEventListener(new ValueEventListener() {
+
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        destinationModel=new UserModel();
-                        List<String>temp=new ArrayList<String>();
-                        for(DataSnapshot d:dataSnapshot.getChildren()){
+                        destinationModel = new UserModel();
+                        List<String> temp = new ArrayList<String>();
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        for (DataSnapshot d : dataSnapshot.getChildren()) {
                             temp.add(d.getValue().toString());
                         }
-                        destinationModel.account_bank=temp.get(0).toString();
-                        destinationModel.account=temp.get(1).toString();
-                        destinationModel.destination_id=temp.get(5).toString();
-                        destinationModel.pushToken=temp.get(6).toString();
+
+                        if(temp.size() !=0){
+                            String value = temp.get(0);
+                            value = value.substring(1,value.length()-1);
+                            String[] keyValue = value.split(", ");
+                            for(String pair: keyValue){
+                                String[] entry = pair.split("=");
+                                map.put(entry[0].trim(), entry[1].trim());
+                            }
+                            destinationModel.account_bank = map.get("accountBank");
+                            Dest_account_bank = destinationModel.account_bank;
+                            destinationModel.account = map.get("accountNumber");
+                            Dest_account = destinationModel.account;
+                            destinationModel.destination_id = map.get("uid");
+                            Dest_id = destinationModel.destination_id;
+                            destinationModel.uid = map.get("userID");
+                            Dest_uid = destinationModel.uid;
+                            destinationModel.pushToken = map.get("pushToken");
+                            Dest_pushToken = destinationModel.pushToken;
+                        } else {
+                            Dest_uid="No such id exists";
+                        }
+
+
+                        userid.setText(Dest_uid);
                     }
 
                     @Override
