@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.thenerds.ilgwon.alarmbomb.Messaging.UrlSending;
 import com.thenerds.ilgwon.alarmbomb.R;
+import com.thenerds.ilgwon.alarmbomb.service.AlarmRingService;
 
 import org.json.JSONObject;
 
@@ -34,7 +35,7 @@ public class AlarmFailureActivity extends Activity {
         setContentView(R.layout.activity_mission_failure);
         intent = getIntent();
         try {
-            sendINV();
+            sendINV("mission_failure");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,6 +100,7 @@ public class AlarmFailureActivity extends Activity {
                         }
                         jsonReader.close();
                         myConnection.disconnect();
+                        sendINV("receiveCheck");
                     }
 
                 } catch (Exception e) {
@@ -106,19 +108,20 @@ public class AlarmFailureActivity extends Activity {
                 }
             }
         });
+        stopService(new Intent(this, AlarmRingService.class));
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    void sendINV() throws MalformedURLException, IOException {
+    void sendINV(String title) throws MalformedURLException, IOException {
 
         InputStream Token_file = getResources().openRawResource(R.raw.service_account);
         JSONObject body = new JSONObject();
         JSONObject message = new JSONObject();
         JSONObject data = new JSONObject();
         try {
-            data.put("title", "mission_failure");
-            data.put("body", "ilgwonPark");
+            data.put("title", title);
+            data.put("friend_name", MainActivity.user_name);
             body.put("data", data);
             message.put("token", AlarmAddActivity.Dest_pushToken);
             message.put("data", data);
