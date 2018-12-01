@@ -42,7 +42,6 @@ public class UrlSending extends AsyncTask<InputStream, Void, Void> {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        //Log.i("HERE","HERE1");
         HttpsURLConnection httpURLConnection = null;
         try {
             httpURLConnection = (HttpsURLConnection) url.openConnection();
@@ -71,9 +70,9 @@ public class UrlSending extends AsyncTask<InputStream, Void, Void> {
             e.printStackTrace();
         }
 
-        Log.i("XXXX", String.valueOf(body));
+        Log.i("XXXX", body);
         try {
-            os.write(body.toString().getBytes("utf-8"));
+            os.write(body.getBytes("utf-8"));
             Log.i("Sending", "success");
         } catch (IOException e) {
             e.printStackTrace();
