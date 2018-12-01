@@ -20,31 +20,30 @@ public class Invitation extends AppCompatActivity {
     Button no;
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.invitation);
-        friend_name=findViewById(R.id.friendName);
-        yes=findViewById(R.id.Yes);
-        no=findViewById(R.id.No);
-        Time=findViewById(R.id.time_sent);
-        invitation=getIntent();
-        hh=invitation.getStringExtra("hour");
-        mm=invitation.getStringExtra("minute");
-        Friend=invitation.getStringExtra("friend");
+        friend_name = findViewById(R.id.friendName);
+        yes = findViewById(R.id.Yes);
+        no = findViewById(R.id.No);
+        Time = findViewById(R.id.time_sent);
+        invitation = getIntent();
+        hh = invitation.getStringExtra("hour");
+        mm = invitation.getStringExtra("minute");
+        Friend = invitation.getStringExtra("friend");
         friend_name.setText(Friend);
-        Time.setText(hh+" : "+mm);
-
+        Time.setText(hh + " : " + mm);
 
 
         super.onCreate(savedInstanceState);
     }
 
-    public void yes_act(){
+    public void yes_act() {
 
 
     }
-    public void no_act(){
+
+    public void no_act() {
 
     }
 }
