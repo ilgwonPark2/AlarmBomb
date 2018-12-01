@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:559444137330:android:353568c0dff921e1",
         "android_client_info": {
-          "package_name": "com.example.ilgwon.alarmbomb"
+          "package_name": "com.thenerds.ilgwon.alarmbomb"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "559444137330-e09im38tkdvq8g077d0qtr6bgloeiu9r.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.ilgwon.alarmbomb",
+            "package_name": "com.thenerds.ilgwon.alarmbomb",
             "certificate_hash": "df15feaa8bd5a4a1f3183bc964b20e64193f8512"
           }
         },
@@ -26,7 +26,7 @@
           "client_id": "559444137330-avb8tgp0d9vam3bojkjhlkfloqkphgbe.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.ilgwon.alarmbomb",
+            "package_name": "com.thenerds.ilgwon.alarmbomb",
             "certificate_hash": "6d311ebf799e620f6bce2527e0747919b2d96ce7"
           }
         },

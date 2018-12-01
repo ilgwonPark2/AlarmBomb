@@ -14,11 +14,11 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="success_login">로그인 성공</string>
-    <string name="failed_login">로그인 실패</string>
+    <string name="success_login">Login Success</string>
+    <string name="failed_login">Check your Email and Password Again!</string>
     <string name="alarm_bomb">ALARM BOMB!</string>
-    <string name="success_signup">회원가입 성공</string>
-    <string name="failed_signup">회원가입 실패</string>
+    <string name="success_signup">Sign Up Success</string>
+    <string name="failed_signup">Sign Up Fail, check again.</string>
 
 
     <string name="activity_minlabel">Minimum</string>
@@ -32,4 +32,18 @@
     <string name="activity_recStartErr">Unable to start recording</string>
     <string name="activity_recBusyErr">Recorder is busy or permission to record is prohibited</string>
     <string name="activity_recFileErr">Can not create file</string>
+
+    <string name="signup_email">Email</string>
+    <string name="signup_password">Password</string>
+    <string name="signup_password_condition">Password length: 4 ~ 16</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="signup_sign_up">Sign Up</string>
+    <string name="signup_id">ID</string>
+    <string name="signup_phone">Phone</string>
+    <string name="signup_phone_text">Phone# without "-"</string>
+    <string name="signup_id_text">Unique ID</string>
+    <string name="signup_email_text">Type email.</string>
+    <string name="signup_bank">Bank</string>
+    <string name="signup_account">Account#</string>
+    <string name="signup_email_type">Email type</string>
 </resources>

@@ -1,13 +1,19 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword 'ilgwonpark'
+            storePassword 'ilgwonpark'
+            storeFile file('/Users/ilgwon/AndroidStudioProjects/AlarmBomb/key_config.jks')
+        }
+    }
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.example.ilgwon.alarmbomb"
+        applicationId 'com.thenerds.ilgwon.alarmbomb'
         minSdkVersion 23
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     packagingOptions{
@@ -17,12 +23,15 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
+    }
+    productFlavors {
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:26.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
