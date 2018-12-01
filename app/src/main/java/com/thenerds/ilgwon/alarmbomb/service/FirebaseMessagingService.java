@@ -8,6 +8,7 @@ import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmReceivedActivity;
 import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmSettingActivity;
 import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmWakedActivity;
 import com.thenerds.ilgwon.alarmbomb.user_interface.Invitation;
+import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmWakedActivity;
 
 import java.util.Map;
 
@@ -26,8 +27,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         if (title.equals("invitation")) {
             Log.i("invitation", "invitation");
             Intent intent = new Intent(this, AlarmSettingActivity.class);
-
-
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
         //receive type2 승낙했음
         if (title.equals("OK")) {
