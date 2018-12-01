@@ -118,7 +118,9 @@ public class AlarmSettingActivity extends AppCompatActivity {
                 int reqCode = sharedPref.getInt("list" + i + "reqCode", 0);
                 String mission = sharedPref.getString("list" + i + "mission", null);
                 try {
-                    sendINV(hh,mm,reqCode);
+                    //last one 인것만 send
+                    if(i==size){
+                    sendINV(hh,mm,reqCode);}
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {

@@ -111,14 +111,7 @@ public class AlarmAddActivity extends Activity {
                 intent.putExtra("reqCode", reqCode);
                 setResult(Activity.RESULT_OK, intent);
 
-                //send message to Friend
-                try {
-                    sendINV();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
 
                 if (mission_select == "Decibel") {
                     checkPermission();
@@ -218,23 +211,5 @@ public class AlarmAddActivity extends Activity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    void sendINV() throws MalformedURLException, IOException {
-        InputStream Token_file = getResources().openRawResource(R.raw.service_account);
-        JSONObject body = new JSONObject();
-        JSONObject message = new JSONObject();
-        JSONObject data = new JSONObject();
-        try {
-            data.accumulate("title", "invitation");
-            data.accumulate("body", "ilgwonPark");
-            body.accumulate("data", data);
-            message.accumulate("token", Dest_pushToken);
-            message.accumulate("data", data);
-            body.accumulate("message", message);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        UrlSending url = (UrlSending) new UrlSending(body.toString()).execute(Token_file);
-    }
 }
