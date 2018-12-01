@@ -43,6 +43,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.thenerds.ilgwon.alarmbomb.user_interface.MainActivity.user_name;
+
 public class AlarmAddActivity extends Activity {
     int hh;
     int mm;
@@ -109,16 +111,6 @@ public class AlarmAddActivity extends Activity {
                 intent.putExtra("reqCode", reqCode);
                 setResult(Activity.RESULT_OK, intent);
 
-                //send message to Friend
-                try {
-                    sendINV();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
                 if (mission_select == "Decibel") {
                     checkPermission();
@@ -218,38 +210,5 @@ public class AlarmAddActivity extends Activity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    void sendINV() throws MalformedURLException, IOException, JSONException {
-        InputStream Token_file = getResources().openRawResource(R.raw.service_account);
-        JSONObject body = new JSONObject();
-        JSONObject message = new JSONObject();
-        JSONObject data = new JSONObject();
-        try {
-            data.accumulate("title", "invitation");
-            data.accumulate("body", "ilgwonPark");
-            body.accumulate("data", data);
-            message.accumulate("token", Dest_pushToken);
-            message.accumulate("data", data);
-            body.accumulate("message", message);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-//
-//        //Json data
-//        JSONObject root=new JSONObject();
-//        JSONObject second=new JSONObject();
-//        JSONObject third=new JSONObject();
-//        third.put("title","invitation");
-//        third.put("friend_name","hyein");//클라이언트 이름 넣을것
-//        second.put("token",Dest_pushToken);
-//        second.put("data",third);
-//        root.put("message",second);
-//
-//        String body2 = "{\"message\" : \n\t " +
-//                "{ \"token\" : \"" + Dest_pushToken + "\",\n\t" +
-//                "\"data\": {\n\t\t" +
-//                "\"title\": \"" + "invitation" + "\",\n\t\t" +
-//                "\"body\": " + "\"Hyein\"\n\t\t}" + "\n\t}" + "\n}";
-        UrlSending url = (UrlSending) new UrlSending(body.toString()).execute(Token_file);
-    }
+
 }
