@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -20,8 +21,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.thenerds.ilgwon.alarmbomb.R;
 
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private String email = "";
     private String password = "";
     public static String uid;
+    public static String user_name;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -165,6 +170,19 @@ public class MainActivity extends AppCompatActivity {
         Map<String, Object> map = new HashMap<>();
         map.put("pushToken", token);
         FirebaseDatabase.getInstance().getReference().child("users").child(uid).updateChildren(map);
+        FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("userID").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+             user_name= (String) dataSnapshot.getValue();
+             Log.i("NAAAAAAAAAAAme",user_name);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }
 
