@@ -1,69 +1,45 @@
-package com.example.ilgwon.alarmbomb.user_interface;
+package com.thenerds.ilgwon.alarmbomb.user_interface;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
-import com.example.ilgwon.alarmbomb.Messaging.Access_Token;
-import com.example.ilgwon.alarmbomb.Messaging.UrlSending;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-
-
-import com.example.ilgwon.alarmbomb.Model.NotificationModel;
-import com.example.ilgwon.alarmbomb.Model.UserModel;
-import com.example.ilgwon.alarmbomb.R;
-import com.example.ilgwon.alarmbomb.module_alarm.FriendAdapter;
-import com.example.ilgwon.alarmbomb.module_alarm.FriendSingleItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
+import com.thenerds.ilgwon.alarmbomb.Messaging.UrlSending;
+import com.thenerds.ilgwon.alarmbomb.Model.NotificationModel;
+import com.thenerds.ilgwon.alarmbomb.Model.UserModel;
+import com.thenerds.ilgwon.alarmbomb.R;
+import com.thenerds.ilgwon.alarmbomb.module_alarm.FriendAdapter;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
-import static com.example.ilgwon.alarmbomb.user_interface.MainActivity.uid;
 
 public class AlarmAddActivity extends Activity {
     int hh;
@@ -95,9 +71,9 @@ public class AlarmAddActivity extends Activity {
         setContentView(R.layout.activity_alarm_add);
 
         btnAddAlarm = (Button) findViewById(R.id.btnAddAlarm);
-        btnSearchFriend=(Button)findViewById(R.id.search);
-        search_phone=(EditText)findViewById(R.id.friendtext);
-        userid=(TextView)findViewById(R.id.userid);
+        btnSearchFriend = (Button) findViewById(R.id.search);
+        search_phone = (EditText) findViewById(R.id.friendtext);
+        userid = (TextView) findViewById(R.id.userid);
         timePickerAlarmTime = (TimePicker) findViewById(R.id.timePickerAlarmTime);
         timePickerAlarmTime.setIs24HourView(false);
         s = (Spinner) findViewById(R.id.mission);
@@ -139,6 +115,8 @@ public class AlarmAddActivity extends Activity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+
                 if (mission_select == "Decibel") {
                     checkPermission();
                 } else {
@@ -163,11 +141,11 @@ public class AlarmAddActivity extends Activity {
                             temp.add(d.getValue().toString());
                         }
 
-                        if(temp.size() !=0){
+                        if (temp.size() != 0) {
                             String value = temp.get(0);
-                            value = value.substring(1,value.length()-1);
+                            value = value.substring(1, value.length() - 1);
                             String[] keyValue = value.split(", ");
-                            for(String pair: keyValue){
+                            for (String pair : keyValue) {
                                 String[] entry = pair.split("=");
                                 map.put(entry[0].trim(), entry[1].trim());
                             }
@@ -182,7 +160,7 @@ public class AlarmAddActivity extends Activity {
                             destinationModel.pushToken = map.get("pushToken");
                             Dest_pushToken = destinationModel.pushToken;
                         } else {
-                            Dest_uid="No such id exists";
+                            Dest_uid = "No such id exists";
                         }
 
 
@@ -241,42 +219,21 @@ public class AlarmAddActivity extends Activity {
         }
     }
 
-    void sendINV() throws MalformedURLException,IOException {
-//        notificationModel= new NotificationModel();
-//        notificationModel.to=destinationModel.pushToken;
-//        notificationModel.notification.title="invitation"; //보낸이 전화번호 또는 이름
-//        notificationModel.notification.body="wake me up"+hh+" : "+mm+" ! ";
-        UrlSending url= (UrlSending) new UrlSending(Dest_pushToken).execute();
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    void sendINV() throws MalformedURLException, IOException {
+        //        Message message=Message.builder()
+        //                .putData(“title”,“hi”)
+        //                .putData(“body”,“hyein”)
+        //                .setToken(Dest_pushToken)
+        //                .build();
+        //
+        //        String response=Fire
+        //        notificationModel= new NotificationModel();
+        //        notificationModel.to=destinationModel.pushToken;
+        //        notificationModel.notification.title=“invitation”; //보낸이 전화번호 또는 이름
+        //        notificationModel.notification.body=“wake me up”+hh+” : “+mm+” ! “;
 
-
-// Gson gson=new Gson();
-//        int new_mm=mm+5;s
-//
-//        NotificationModel notificationModel= new NotificationModel();
-//        notificationModel.to=destinationModel.pushToken;
-//        notificationModel.notification.title="invitation"; //보낸이 전화번호 또는 이름
-//        notificationModel.notification.body="wake me up"+hh+" : "+new_mm+" ! ";
-//        RequestBody requestBody=RequestBody.create(MediaType.parse("application/json; charset=utf8"),gson.toJson(notificationModel));
-//        Request request=new Request.Builder()
-//                .header("Content-Type","application/json")
-//                .addHeader("Authorization","Bearer AIzaSyC0mlFTA7hMF94OS2T8ZBNg3wSSaXfgsFQ")
-//                .url("//fcm.googleapis.com/v1/projects/alarmbomb-5fbe8/messages:send HTTP/1.1")
-//                .post(requestBody)
-//                .build();
-//        OkHttpClient okHttpClient=new OkHttpClient();
-//        okHttpClient.newCall(request).enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//
-//            }
-//        });
-
+        InputStream Token_file = getResources().openRawResource(R.raw.service_account);
+        UrlSending url = (UrlSending) new UrlSending(Dest_pushToken).execute(Token_file);
     }
-
-
 }

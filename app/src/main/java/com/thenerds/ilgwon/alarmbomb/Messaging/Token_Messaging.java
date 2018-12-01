@@ -1,4 +1,4 @@
-package com.example.ilgwon.alarmbomb.Messaging;
+package com.thenerds.ilgwon.alarmbomb.Messaging;
 
 import com.google.firebase.iid.FirebaseInstanceIdService;
 

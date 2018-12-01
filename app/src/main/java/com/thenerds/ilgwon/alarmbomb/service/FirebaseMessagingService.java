@@ -1,5 +1,6 @@
-package com.thenerds.ilgwon.alarmbomb.Messaging;
+package com.thenerds.ilgwon.alarmbomb.service;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
@@ -20,7 +21,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         //receive type1 알람 신청 승낙?
         if (title == "invitation") {
             Log.i("invitation", "invitation");
-            //
+            startService(new Intent(getApplicationContext(), AlarmRingService.class));
         }
         //receive type2 승낙했음
         if (title == "OK") {
