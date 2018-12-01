@@ -83,72 +83,10 @@ public class AlarmShowActivity extends AppCompatActivity {
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (data.getBooleanExtra("fail", false)) {
-                AsyncTask.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            URL githubEndpoint = new URL("https://toss.im/transfer-web/linkgen-api/link");
-                            // Create connection
-                            HttpsURLConnection myConnection = (HttpsURLConnection) githubEndpoint.openConnection();
-                            myConnection.setDoInput(true);
-                            myConnection.setRequestMethod("POST");
-                            myConnection.setRequestProperty("Content-Type", "application/json");
-                            myConnection.connect();
-                            JSONObject json = new JSONObject();
-                            json.accumulate("apiKey", "c48300c9bdfe48f490154aa354d53072");
-                            json.accumulate("bankName", accountBank);
-                            json.accumulate("bankAccountNo", accountNum);
-                            json.accumulate("amount", "3000");
-                            json.accumulate("message", "벌금!!!!");
-                            OutputStreamWriter writer = new OutputStreamWriter(myConnection.getOutputStream());
-                            writer.write(json.toString());
-                            writer.flush();
-                            writer.close();
-
-                            int response = myConnection.getResponseCode();
-                            if (response == 200) {
-                                Log.d("REST POST", "The response is : " + response + "," + myConnection.getResponseMessage());
-                                InputStream responseBody = myConnection.getInputStream();
-                                InputStreamReader responseBodyReader =
-                                        new InputStreamReader(responseBody, "UTF-8");
-                                JsonReader jsonReader = new JsonReader(responseBodyReader);
-                                jsonReader.beginObject(); // Start processing the JSON object
-                                while (jsonReader.hasNext()) { // Loop through all keys
-                                    String key = jsonReader.nextName(); // Fetch the next key
-                                    if (key.equals("success")) { // Check if desired key
-                                        // Fetch the value as a String
-                                        jsonReader.beginObject();
-                                        while (jsonReader.hasNext()) {
-                                            String name = jsonReader.nextName();
-                                            Log.d("REST POST", "The response iss?s : " + name);
-                                            if (name.equals("link")) {
-                                                String link = jsonReader.nextString();
-                                                Log.d("REST POST", "The response issss : " + link);
-                                                Intent tossIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-                                                startActivity(tossIntent);
-                                            } else {
-                                                jsonReader.skipValue();
-                                            }
-                                        }
-                                        jsonReader.endObject();
-                                        break; // Break out of the loop
-                                    } else {
-                                        jsonReader.skipValue(); // Skip values of other keys
-                                    }
-                                }
-                                jsonReader.close();
-                                myConnection.disconnect();
-                                isComplete =true;
-                                stopService(intent_ringtone);
-                            }
-
-                        } catch (Exception e) {
-                            Log.e("REST POST", "Error : " + e.getMessage());
-                        }
-                    }
-                });
-                //                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.naver.com"));
-                //                startActivityForResult(intent, 9999);
+                Intent intent_failure = new Intent(this, AlarmFailureActivity.class);
+                intent_failure.putExtra("accountBank", accountBank);
+                intent_failure.putExtra("accountNum", accountNum);
+                startActivity(intent_failure);
             }
         } else {
             if (data == null) {

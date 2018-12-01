@@ -117,7 +117,6 @@ public class AlarmAddActivity extends Activity {
                     e.printStackTrace();
                 }
 
-
                 if (mission_select == "Decibel") {
                     checkPermission();
                 } else {
