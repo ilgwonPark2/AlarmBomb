@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.firebase.messaging.RemoteMessage;
 import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmReceivedActivity;
 import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmSettingActivity;
+import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmWakedActivity;
 import com.thenerds.ilgwon.alarmbomb.user_interface.Invitation;
 
 import java.util.Map;
@@ -19,7 +20,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         Map<String, String> data = remoteMessage.getData();
         String title = data.get("title");
-        String message = data.get("content");
+        //        String message = data.get("body");
 
         //receive type1 알람 신청 승낙?
         if (title.equals("invitation")) {
@@ -42,7 +43,10 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         }
         if (title.equals("mission_failure")) {
             Log.i(TAG, "mission_failure");
+            String message = data.get("friend_name");
             Intent intent = new Intent(this, AlarmReceivedActivity.class);
+            intent.putExtra("friend_name", message);
+            //            Intent intent = new Intent(this, AlarmReceivedActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
@@ -59,9 +63,10 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         if (title.equals("receiveCheck")) {
             Log.i(TAG, "received");
-            Intent intent = new Intent(this, AlarmReceivedActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            String message = data.get("friend_name");
+            Intent intent = new Intent(this, AlarmWakedActivity.class);
+            intent.putExtra("friend_name", message);
+            stopService(intent);
 
             //알람끄기
         }
