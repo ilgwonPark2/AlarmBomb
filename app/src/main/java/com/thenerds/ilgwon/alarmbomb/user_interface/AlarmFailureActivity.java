@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.util.JsonReader;
 import android.util.Log;
+import android.view.View;
 
 import com.thenerds.ilgwon.alarmbomb.Messaging.UrlSending;
 import com.thenerds.ilgwon.alarmbomb.R;
@@ -32,10 +33,15 @@ public class AlarmFailureActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mission_failure);
         intent = getIntent();
+        try {
+            sendINV();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
-    protected void sendMoney() {
+    public void sendMoney(View view) {
         final String accountBank = intent.getStringExtra("accountBank");
         final String accountNum = intent.getStringExtra("accountBank");
         AsyncTask.execute(new Runnable() {
@@ -75,10 +81,10 @@ public class AlarmFailureActivity extends Activity {
                                 jsonReader.beginObject();
                                 while (jsonReader.hasNext()) {
                                     String name = jsonReader.nextName();
-//                                    Log.d("REST POST", "The response iss?s : " + name);
+                                    //                                    Log.d("REST POST", "The response iss?s : " + name);
                                     if (name.equals("link")) {
                                         String link = jsonReader.nextString();
-//                                        Log.d("REST POST", "The response issss : " + link);
+                                        //                                        Log.d("REST POST", "The response issss : " + link);
                                         Intent tossIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
                                         startActivity(tossIntent);
                                     } else {
@@ -105,8 +111,21 @@ public class AlarmFailureActivity extends Activity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     void sendINV() throws MalformedURLException, IOException {
-        InputStream Token_file = getResources().openRawResource(R.raw.service_account);
 
-//        UrlSending url = (UrlSending) new UrlSending(AlarmAddActivity.Dest_pushToken, "").execute(Token_file);
+        InputStream Token_file = getResources().openRawResource(R.raw.service_account);
+        JSONObject body = new JSONObject();
+        JSONObject message = new JSONObject();
+        JSONObject data = new JSONObject();
+        try {
+            data.put("title", "mission_failure");
+            data.put("body", "ilgwonPark");
+            body.put("data", data);
+            message.put("token", AlarmAddActivity.Dest_pushToken);
+            message.put("data", data);
+            body.put("message", message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        UrlSending url = (UrlSending) new UrlSending(body.toString()).execute(Token_file);
     }
 }

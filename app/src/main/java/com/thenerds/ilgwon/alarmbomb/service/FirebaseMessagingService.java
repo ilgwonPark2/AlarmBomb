@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
+import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmReceivedActivity;
 import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmSettingActivity;
 
 import java.util.Map;
@@ -38,10 +39,30 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
             //알람세팅 수정
         }
-        if (title.equals("Mission_fail")) {
-            Log.i(TAG, "Mission_fail");
+        if (title.equals("mission_failure")) {
+            Log.i(TAG, "mission_failure");
+            Intent intent = new Intent(this, AlarmReceivedActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
 
-            //알람울리는 이벤트
+        if (title.equals("waked")) {
+            Log.i(TAG, "waked");
+            Intent intent = new Intent(this, AlarmReceivedActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+            //알람끄기
+        }
+
+
+        if (title.equals("receiveCheck")) {
+            Log.i(TAG, "received");
+            Intent intent = new Intent(this, AlarmReceivedActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+            //알람끄기
         }
         if (title.equals("Wake")) {
             Log.i(TAG, "Wake");
