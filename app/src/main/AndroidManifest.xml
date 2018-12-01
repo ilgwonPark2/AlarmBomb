@@ -38,6 +38,7 @@
         <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.AlarmShowActivity"></activity>
         <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.AlarmAddActivity"></activity>
         <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.AlarmSettingActivity"></activity>
+        <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.AlarmReceivedActivity"></activity>
         <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.MissionDecibelMeterActivity"></activity>
         <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.MissionShakingActivity"></activity>
         <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.SignUpActivity"></activity>
