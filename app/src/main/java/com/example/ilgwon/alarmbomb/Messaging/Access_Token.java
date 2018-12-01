@@ -12,7 +12,7 @@ public class Access_Token {
     public static String AccessToken() throws IOException
     {
         GoogleCredential googleCredential = GoogleCredential
-                .fromStream(new FileInputStream("alarmbomb-5fbe8-firebase-adminsdk-3tmaz-aa67b3d00b.json"))
+                .fromStream(new FileInputStream("com/example/ilgwon/alarmbomb/Messaging/alarmbomb-5fbe8-firebase-adminsdk-3tmaz-aa67b3d00b.json"))
                 .createScoped(Arrays.asList("https://www.googleapis.com/auth/firebase.messaging"));
 
         googleCredential.refreshToken();

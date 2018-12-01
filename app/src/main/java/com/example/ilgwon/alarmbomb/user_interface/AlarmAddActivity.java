@@ -246,11 +246,11 @@ public class AlarmAddActivity extends Activity {
 //        notificationModel.to=destinationModel.pushToken;
 //        notificationModel.notification.title="invitation"; //보낸이 전화번호 또는 이름
 //        notificationModel.notification.body="wake me up"+hh+" : "+mm+" ! ";
-        UrlSending url=new UrlSending(Dest_pushToken);
+        UrlSending url= (UrlSending) new UrlSending(Dest_pushToken).execute();
 
 
 // Gson gson=new Gson();
-//        int new_mm=mm+5;
+//        int new_mm=mm+5;s
 //
 //        NotificationModel notificationModel= new NotificationModel();
 //        notificationModel.to=destinationModel.pushToken;
