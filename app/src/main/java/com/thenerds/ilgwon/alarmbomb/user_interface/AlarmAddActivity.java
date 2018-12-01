@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -33,6 +32,8 @@ import com.thenerds.ilgwon.alarmbomb.Model.NotificationModel;
 import com.thenerds.ilgwon.alarmbomb.Model.UserModel;
 import com.thenerds.ilgwon.alarmbomb.R;
 import com.thenerds.ilgwon.alarmbomb.module_alarm.FriendAdapter;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,8 +59,8 @@ public class AlarmAddActivity extends Activity {
     private String Dest_account_bank;
     private String Dest_account;
     private String Dest_id;
-    private String Dest_uid;
-    private String Dest_pushToken;
+    static String Dest_uid;
+    static String Dest_pushToken;
 
 
     public static ListView friendView;
@@ -129,7 +130,6 @@ public class AlarmAddActivity extends Activity {
             public void onClick(View view) {
                 String friend_phone = search_phone.getText().toString();
                 Query query = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("phone").equalTo(friend_phone);
-                Log.d("Parkil", query.toString());
                 query.addValueEventListener(new ValueEventListener() {
 
                     @Override
@@ -140,7 +140,6 @@ public class AlarmAddActivity extends Activity {
                         for (DataSnapshot d : dataSnapshot.getChildren()) {
                             temp.add(d.getValue().toString());
                         }
-
                         if (temp.size() != 0) {
                             String value = temp.get(0);
                             value = value.substring(1, value.length() - 1);
@@ -162,8 +161,6 @@ public class AlarmAddActivity extends Activity {
                         } else {
                             Dest_uid = "No such id exists";
                         }
-
-
                         userid.setText(Dest_uid);
                     }
 
@@ -221,19 +218,26 @@ public class AlarmAddActivity extends Activity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     void sendINV() throws MalformedURLException, IOException {
-        //        Message message=Message.builder()
-        //                .putData(“title”,“hi”)
-        //                .putData(“body”,“hyein”)
-        //                .setToken(Dest_pushToken)
-        //                .build();
-        //
-        //        String response=Fire
-        //        notificationModel= new NotificationModel();
-        //        notificationModel.to=destinationModel.pushToken;
-        //        notificationModel.notification.title=“invitation”; //보낸이 전화번호 또는 이름
-        //        notificationModel.notification.body=“wake me up”+hh+” : “+mm+” ! “;
-
         InputStream Token_file = getResources().openRawResource(R.raw.service_account);
-        UrlSending url = (UrlSending) new UrlSending(Dest_pushToken).execute(Token_file);
+        JSONObject body = new JSONObject();
+        JSONObject message = new JSONObject();
+        JSONObject data = new JSONObject();
+        try {
+            data.accumulate("title", "invitation");
+            data.accumulate("body", "ilgwonPark");
+            body.accumulate("data", data);
+            message.accumulate("token", Dest_pushToken);
+            message.accumulate("data", data);
+            body.accumulate("message", message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String body2 = "{\"message\" : \n\t " +
+                "{ \"token\" : \"" + Dest_pushToken + "\",\n\t" +
+                "\"data\": {\n\t\t" +
+                "\"title\": \"" + "invitation" + "\",\n\t\t" +
+                "\"body\": " + "\"Hyein\"\n\t\t}" + "\n\t}" + "\n}";
+        UrlSending url = (UrlSending) new UrlSending(body.toString()).execute(Token_file);
     }
 }

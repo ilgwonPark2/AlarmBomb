@@ -1,9 +1,7 @@
 package com.thenerds.ilgwon.alarmbomb.Messaging;
 
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Environment;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
@@ -24,11 +22,15 @@ import java.util.Arrays;
 import javax.net.ssl.HttpsURLConnection;
 
 public class UrlSending extends AsyncTask<InputStream, Void, Void> {
-    String s;
-    public UrlSending(String s) {
-        this.s = s;
+//    String s;
+    String body;
+
+    public UrlSending( String body) {
+//        this.s = s;
+        this.body = body;
         //Log.i("X","here");
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected Void doInBackground(InputStream... inputstreams) {
@@ -55,7 +57,6 @@ public class UrlSending extends AsyncTask<InputStream, Void, Void> {
         httpURLConnection.setDoInput(true);
         httpURLConnection.setRequestProperty("Accecpt", "application/json");
         httpURLConnection.setRequestProperty("Content-Type", "application/json");
-        //httpURLConnection.addRequestProperty("Authorization","key=AAAAgkF4FXI:APA91bEemOL50TAv0UPRqI1Lq5kIbwads1oJvVYXFh17DNz1YOda8kgkdn-dEuNnT6vbhM3_JrLiL7Nf5LrztMIb9WvzVtp4LUkq9R-Bc5PT1xdxMBX1YUSso0hyKLCEXRxatnnRNXVL");
         try {
             httpURLConnection.setRequestProperty("Authorization", "Bearer " + AccessToken(inputstreams));
         } catch (IOException e) {
@@ -63,40 +64,13 @@ public class UrlSending extends AsyncTask<InputStream, Void, Void> {
         }
         httpURLConnection.setDoOutput(true);
         Log.i("XXXX", "here");
-        //StringBuffer responseBody=new StringBuffer();
         OutputStream os = null;
         try {
             os = httpURLConnection.getOutputStream();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //        JSONObject root = new JSONObject();
-        //        JSONObject notification = new JSONObject();
-        //        try {
-        //            notification.put("body", "hello");
-        //        } catch (JSONException e) {
-        //            e.printStackTrace();
-        //        }
-        //        try {
-        //            notification.put("title", "invitation");
-        //        } catch (JSONException e) {
-        //            e.printStackTrace();
-        //        }
-        //        try {
-        //            root.put("notification", notification);
-        //        } catch (JSONException e) {
-        //            e.printStackTrace();
-        //        }
-        //        try {
-        //            root.put("to", s);
-        //        } catch (JSONException e) {
-        //            e.printStackTrace();
-        //        }
-        String body = "{\"message\" : \n\t " +
-                "{ \"token\" : \"" + s + "\",\n\t" +
-                "\"data\": {\n\t\t" +
-                "\"title\": \"" + "invitation" + "\",\n\t\t" +
-                "\"body\": " + "\"Hyein\"\n\t\t}" + "\n\t}" + "\n}";
+
         Log.i("XXXX", String.valueOf(body));
         try {
             os.write(body.toString().getBytes("utf-8"));
@@ -133,6 +107,7 @@ public class UrlSending extends AsyncTask<InputStream, Void, Void> {
         }
         return null;
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static String AccessToken(InputStream[] streams) throws IOException {
         Path current = Paths.get("");
