@@ -5,10 +5,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -19,19 +17,15 @@ import com.thenerds.ilgwon.alarmbomb.R;
 import com.thenerds.ilgwon.alarmbomb.module_alarm.AlarmAdapter;
 import com.thenerds.ilgwon.alarmbomb.module_alarm.AlarmData;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import static com.thenerds.ilgwon.alarmbomb.user_interface.AlarmAddActivity.Dest_pushToken;
-import static com.thenerds.ilgwon.alarmbomb.user_interface.MainActivity.uid;
 import static com.thenerds.ilgwon.alarmbomb.user_interface.MainActivity.user_name;
 import static com.thenerds.ilgwon.alarmbomb.user_interface.MainActivity.user_token;
 
@@ -119,16 +113,11 @@ public class AlarmSettingActivity extends AppCompatActivity {
                 int mm = sharedPref.getInt("list" + i + "mm", 0);
                 int reqCode = sharedPref.getInt("list" + i + "reqCode", 0);
                 String mission = sharedPref.getString("list" + i + "mission", null);
-                try {
-                    //last one 인것만 send
-                    if (i == size) {
-                        sendINV(hh, mm, reqCode);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                //last one 인것만 send
+                if (i == size) {
+                    sendINV(hh, mm, reqCode);
                 }
+
                 alarmArray.add(new AlarmData(hh, mm, mission, reqCode));
             }
         alarmAdapter.notifyDataSetChanged();
@@ -181,8 +170,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
         alarmManager.set(AlarmManager.RTC_WAKEUP, gregorianCalendar.getTimeInMillis(), pi);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    void sendINV(int hh, int mm, int request) throws MalformedURLException, IOException, JSONException {
+    void sendINV(int hh, int mm, int request) {
         InputStream Token_file = getResources().openRawResource(R.raw.service_account);
         JSONObject body = new JSONObject();
         JSONObject message = new JSONObject();
@@ -191,16 +179,22 @@ public class AlarmSettingActivity extends AppCompatActivity {
         JSONObject root = new JSONObject();
         JSONObject second = new JSONObject();
         JSONObject third = new JSONObject();
-        third.put("title", "invitation");
-        third.put("friend_name", user_name);//클라이언트 이름 넣을것
-        third.put("code", String.valueOf(request));
-        third.put("time", hh + " : " + mm);
-        third.put("from_user",user_token);
-        second.put("token", Dest_pushToken);
-        second.put("data", third);
-        root.put("message", second);
-        
-        UrlSending url = (UrlSending) new UrlSending(root.toString()).execute(Token_file);
+        try {
+            third.put("title", "invitation");
+            third.put("friend_name", user_name);//클라이언트 이름 넣을것
+            third.put("code", String.valueOf(request));
+            third.put("time", hh + " : " + mm);
+            third.put("from_user", user_token);
+            second.put("token", Dest_pushToken);
+            second.put("data", third);
+            root.put("message", second);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            UrlSending url = (UrlSending) new UrlSending(root.toString()).execute(Token_file);
+        }
+
+
     }
 
 
