@@ -100,7 +100,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             String message = data.get("friend_name");
             Intent intent = new Intent(this, AlarmWakedActivity.class);
             intent.putExtra("friend_name", message);
-            stopService(intent);
+            startActivity(intent);
 
             //알람끄기
         }
