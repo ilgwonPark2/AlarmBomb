@@ -14,6 +14,7 @@ public class AlarmWakedActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AlarmReceivedActivity.isWakeup = true;
         AlarmReceivedActivity._AlarmReceivedActivity.finish();
         setContentView(R.layout.activity_alarm_money);
 
