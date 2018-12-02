@@ -7,6 +7,8 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmReceivedActivity;
 import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmSettingActivity;
 import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmWakedActivity;
+import com.thenerds.ilgwon.alarmbomb.user_interface.Invitation;
+import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmWakedActivity;
 
 import java.util.Map;
 
@@ -75,5 +77,19 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             //알람끄기
         }
         Log.i(TAG, title);
+    }
+    private void sendNotification(){
+        Intent intent=new Intent(this, Invitation.class);
+//        intent.putExtra();
+//        intent.putExtra();
+//        intent.putExtra();
+//        intent.putExtra();
+//        intent.putExtra();
+
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+
     }
 }
