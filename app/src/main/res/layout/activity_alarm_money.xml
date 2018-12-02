@@ -31,6 +31,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="78dp"
         android:text="Dobby is free..!"
-        android:textSize="24sp"
+        android:textSize="30sp"
         android:textStyle="bold" />
 </RelativeLayout>
