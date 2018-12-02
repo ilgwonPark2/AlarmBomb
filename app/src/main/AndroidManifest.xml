@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.thenerds.ilgwon.alarmbomb"
     android:versionCode="1"
-    android:versionName="1.0.0">
+    android:versionName="1.2.0">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
