@@ -43,6 +43,7 @@
         <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.MissionDecibelMeterActivity"></activity>
         <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.MissionShakingActivity"></activity>
         <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.SignUpActivity"></activity>
+        <activity android:name="com.thenerds.ilgwon.alarmbomb.user_interface.Invitation"></activity>
 
         <service android:name="com.thenerds.ilgwon.alarmbomb.service.AlarmRingService" />
         <service android:name=".service.FirebaseMessagingService">
