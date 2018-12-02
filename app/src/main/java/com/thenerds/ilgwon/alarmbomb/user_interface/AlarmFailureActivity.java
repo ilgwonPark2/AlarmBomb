@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
@@ -17,11 +15,9 @@ import com.thenerds.ilgwon.alarmbomb.service.AlarmRingService;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -34,11 +30,7 @@ public class AlarmFailureActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mission_failure);
         intent = getIntent();
-        try {
-            sendINV("mission_failure");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        sendINV("mission_failure");
     }
 
 
@@ -112,8 +104,7 @@ public class AlarmFailureActivity extends Activity {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    void sendINV(String title) throws MalformedURLException, IOException {
+    void sendINV(String title) {
 
         InputStream Token_file = getResources().openRawResource(R.raw.service_account);
         JSONObject body = new JSONObject();
@@ -128,7 +119,8 @@ public class AlarmFailureActivity extends Activity {
             body.put("message", message);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            UrlSending url = (UrlSending) new UrlSending(body.toString()).execute(Token_file);
         }
-        UrlSending url = (UrlSending) new UrlSending(body.toString()).execute(Token_file);
     }
 }
