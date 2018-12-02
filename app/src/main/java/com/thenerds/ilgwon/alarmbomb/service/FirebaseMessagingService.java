@@ -6,18 +6,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
-import com.thenerds.ilgwon.alarmbomb.Model.NotificationModel;
 import com.thenerds.ilgwon.alarmbomb.R;
 import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmReceivedActivity;
-import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmSettingActivity;
 import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmWakedActivity;
 import com.thenerds.ilgwon.alarmbomb.user_interface.Invitation;
-import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmWakedActivity;
 
 import java.util.Map;
 
@@ -51,10 +47,10 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             String req = data.get("code");
 
             SharedPreferences pref = getApplicationContext().getSharedPreferences("Alarm", MODE_PRIVATE);
-//            SharedPreferences.Editor editor = pref.edit();
+            //            SharedPreferences.Editor editor = pref.edit();
 
             int size = pref.getInt("size", 0);
-            Log.i(TAG, String.valueOf(size));
+            Log.i(TAG, "FirebaseMessagingSErivce size: " + String.valueOf(size));
             for (int i = 1; i < size + 1; i++) {
                 int reqCode = pref.getInt("list" + i + "reqCode", 0);
                 //Log.i("TAG", String.valueOf(reqCode));
@@ -64,9 +60,9 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                     pref.edit().putBoolean("list" + i + "isFriend", true).apply();
                     pref.edit().commit();
                     result = pref.getBoolean("list" + i + "isFriend", false);
-                    Log.i("TAG", String.valueOf(result));
+                    Log.i("TAG", "FirebaseMessagingSErivce list" + i + "isFriend");
+                    Log.i("TAG", "FirebaseMessagingSErivce " + String.valueOf(result));
                     break;
-
                 }
             }
 
@@ -117,13 +113,13 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     }
 
     private void sendNotification(String friend, String time, String code, String from) {
-//        Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.naver.com"));
+        //        Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.naver.com"));
         Intent intent = new Intent(this, Invitation.class);
         intent.putExtra("friend", friend);
         intent.putExtra("time", time);
         intent.putExtra("code", code);
         intent.putExtra("from", from);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        //        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1123, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.bomb)
@@ -139,8 +135,9 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
 
     }
-    private void onlyNotification(String title){
-//        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+    private void onlyNotification(String title) {
+        //        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.bomb)
                 .setContentTitle(title)

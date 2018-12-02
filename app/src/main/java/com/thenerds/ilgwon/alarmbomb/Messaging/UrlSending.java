@@ -15,18 +15,16 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 
 import javax.net.ssl.HttpsURLConnection;
 
 public class UrlSending extends AsyncTask<InputStream, Void, Void> {
-//    String s;
+    //    String s;
     String body;
 
     public UrlSending(String body) {
-//        this.s = s;
+        //        this.s = s;
         this.body = body;
         //Log.i("X","here");
     }

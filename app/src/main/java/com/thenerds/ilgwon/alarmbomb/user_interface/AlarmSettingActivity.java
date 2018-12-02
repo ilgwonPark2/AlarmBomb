@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -158,6 +159,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
         intent.putExtra("time", hour + ":" + minute);
         intent.putExtra("data", "Date: " + currentCalendar.getTime().toLocaleString());
         intent.putExtra("index", i);
+        Log.i("TAG", "SettingActivity list" + i + "index");
         intent.putExtra("mission", mission);
         intent.putExtra("reqCode", reqCode);
         intent.putExtra("accountNum", accountNum);

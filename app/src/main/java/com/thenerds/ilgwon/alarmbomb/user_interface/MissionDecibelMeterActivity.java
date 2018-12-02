@@ -40,9 +40,9 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
     int refresh = 0;
     private DecibelRecorder mRecorder;
     CountDownTimer myCountDownTimer;
-    private static final int Countdown = 30 * 1000;
+    private static final int Countdown = 5 * 1000;
     private static final int Interval = 1000;
-    int count=300;
+    int count = 5;
 
 
     /**
@@ -90,7 +90,7 @@ public class MissionDecibelMeterActivity extends Activity implements android.sup
         mmVal = findViewById(R.id.mmval);
         maxVal = findViewById(R.id.maxval);
         curVal = findViewById(R.id.curval);
-        timer=findViewById(R.id.timer);
+        timer = findViewById(R.id.timer);
 
         // set a refresh button.
         refreshButton = findViewById(R.id.refreshbutton);

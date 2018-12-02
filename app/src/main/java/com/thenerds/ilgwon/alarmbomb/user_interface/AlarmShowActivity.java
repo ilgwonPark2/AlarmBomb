@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.thenerds.ilgwon.alarmbomb.R;
@@ -46,6 +47,7 @@ public class AlarmShowActivity extends AppCompatActivity {
             time = intent_pending.getStringExtra("time");
             data = intent_pending.getStringExtra("data");
             index = intent_pending.getIntExtra("index", 0);
+            Log.i("TAG", "ShowActivity: index: " + String.valueOf(index));
             mission = intent_pending.getStringExtra("mission");
             reqCode = intent_pending.getIntExtra("reqCode", 0);
             accountNum = intent_pending.getStringExtra("accountNum");
@@ -79,25 +81,34 @@ public class AlarmShowActivity extends AppCompatActivity {
                     break;
             }
         } else if (resultCode == RESULT_CANCELED) {
+            sharedPref = getSharedPreferences("Alarm", Context.MODE_PRIVATE);
             Boolean isFriend = sharedPref.getBoolean("list" + index + "isFriend", false);
+            Log.i("TAG", "ShowActivity list" + index + "isFriend");
+            Log.i("TAG", "ShowActivity " + isFriend.toString());
+            Log.i("TAG", "ShowActivity intent check" + String.valueOf(data.equals(null)));
+            Log.i("TAG", "ShowActivity intent check" + String.valueOf(data == (null)));
             if (isFriend) {
                 if (data.getBooleanExtra("fail", false)) {
+                    Log.i("TAG", "ShowActivity fail true");
                     Intent intent_failure = new Intent(this, AlarmFailureActivity.class);
                     intent_failure.putExtra("accountBank", accountBank);
                     intent_failure.putExtra("accountNum", accountNum);
                     startActivity(intent_failure);
+                } else {
+                    Log.i("TAG", "ShowActivity fail false");
                 }
             } else {
-                if (data == null) {
-                    zombie();
-                }
+                //                if (data.equals(null)) {
+                zombie();
+                Log.i("TAG", "ShowActivity zombie");
+                //                }
             }
         } else {
-            if (data == null) {
-                zombie();
-            } else {
-                isComplete = true;
-            }
+            //            if (data.equals(null)) {
+            zombie();
+            //            } else {
+            //                isComplete = true;
+            //            }
         }
     }
 
@@ -126,6 +137,7 @@ public class AlarmShowActivity extends AppCompatActivity {
             intent_zombie.putExtra("data", data);
             intent_zombie.putExtra("mission", mission);
             intent_zombie.putExtra("reqCode", reqCode);
+            intent_zombie.putExtra("index", index);
             intent_zombie.putExtra("accountBank", accountBank);
             intent_zombie.putExtra("accountNum", accountNum);
             // stop service since a service begins after starting activity.

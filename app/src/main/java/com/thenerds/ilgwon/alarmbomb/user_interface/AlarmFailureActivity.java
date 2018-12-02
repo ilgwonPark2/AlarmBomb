@@ -113,7 +113,6 @@ public class AlarmFailureActivity extends Activity {
         try {
             data.put("title", title);
             data.put("friend_name", MainActivity.user_name);
-            body.put("data", data);
             message.put("token", AlarmAddActivity.Dest_pushToken);
             message.put("data", data);
             body.put("message", message);
