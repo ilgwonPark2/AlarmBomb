@@ -119,8 +119,9 @@ public class AlarmSettingActivity extends AppCompatActivity {
                 String mission = sharedPref.getString("list" + i + "mission", null);
                 try {
                     //last one 인것만 send
-                    if(i==size){
-                    sendINV(hh,mm,reqCode);}
+                    if (i == size) {
+                        sendINV(hh, mm, reqCode);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -146,7 +147,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
         sharedEditor.putString("list" + i + "mission", mission);
         sharedEditor.putInt("list" + i + "reqCode", reqCode);
         sharedEditor.putInt("size", i);
-        sharedEditor.putBoolean("isFriend",true);
+        sharedEditor.putBoolean("list" + i + "isFriend", false);
         sharedEditor.putString("list" + i + "accountNum", accountNum);
         sharedEditor.putString("list" + i + "accountBank", accountBank);
         sharedEditor.commit();
@@ -165,6 +166,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
         Intent intent = new Intent(AlarmSettingActivity.this, AlarmShowActivity.class);
         intent.putExtra("time", hour + ":" + minute);
         intent.putExtra("data", "dd: " + currentCalendar.getTime().toLocaleString());
+        intent.putExtra("index", i);
         intent.putExtra("mission", mission);
         intent.putExtra("reqCode", reqCode);
         intent.putExtra("accountNum", accountNum);
@@ -176,33 +178,25 @@ public class AlarmSettingActivity extends AppCompatActivity {
                 reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.set(AlarmManager.RTC_WAKEUP, gregorianCalendar.getTimeInMillis(), pi);
     }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
-    void sendINV(int hh,int mm,int request) throws MalformedURLException, IOException, JSONException {
+    void sendINV(int hh, int mm, int request) throws MalformedURLException, IOException, JSONException {
         InputStream Token_file = getResources().openRawResource(R.raw.service_account);
         JSONObject body = new JSONObject();
         JSONObject message = new JSONObject();
         JSONObject data = new JSONObject();
 
-          JSONObject root=new JSONObject();
-          JSONObject second=new JSONObject();
-          JSONObject third=new JSONObject();
-          third.put("title","invitation");
-          third.put("friend_name",user_name);//클라이언트 이름 넣을것
-          third.put("code", String.valueOf(request));
-          third.put("time",hh+" : "+mm);
-          second.put("token",Dest_pushToken);
-          second.put("data",third);
-          root.put("message",second);
-//            data.accumulate("title", "invitation");
-//            data.accumulate("name",user_name);
-//            data.accumulate("time",hh+" : "+mm);
-//            data.accumulate("code",request);
-//            body.accumulate("data", data);
-//            message.accumulate("token", Dest_pushToken);
-//            message.accumulate("data", data);
-//            body.accumulate("message", message);
-
-
+        JSONObject root = new JSONObject();
+        JSONObject second = new JSONObject();
+        JSONObject third = new JSONObject();
+        third.put("title", "invitation");
+        third.put("friend_name", user_name);//클라이언트 이름 넣을것
+        third.put("code", String.valueOf(request));
+        third.put("time", hh + " : " + mm);
+        second.put("token", Dest_pushToken);
+        second.put("data", third);
+        root.put("message", second);
+        
         UrlSending url = (UrlSending) new UrlSending(root.toString()).execute(Token_file);
     }
 

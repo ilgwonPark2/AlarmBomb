@@ -1,26 +1,15 @@
 package com.thenerds.ilgwon.alarmbomb.user_interface;
 
 
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.JsonReader;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.thenerds.ilgwon.alarmbomb.R;
 import com.thenerds.ilgwon.alarmbomb.service.AlarmRingService;
-
-import org.json.JSONObject;
-
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
 
 
 public class AlarmShowActivity extends AppCompatActivity {
@@ -32,23 +21,31 @@ public class AlarmShowActivity extends AppCompatActivity {
     private String mission;
     private String accountNum;
     private String accountBank;
+    private int index;
     private int reqCode;
     boolean isComplete = false;
     public static final int DEFAULT_MISSION_NOTHING = 900;
     public static final int DEFAULT_MISSION_DECIBEL = 901;
     public static final int DEFAULT_MISSION_SHAKING = 902;
     public static final int DEFAULT_MISSION_FEE = 903;
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor sharedEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_show);
+
+        sharedPref = getSharedPreferences("Alarm", Context.MODE_PRIVATE);
+
         textViewAlarmedTime = (TextView) findViewById(R.id.textViewAlarmedTime);
         intent_pending = getIntent();
+
         // If pending intent has mission extra, it saves extras.
         if (intent_pending.hasExtra("mission")) {
             time = intent_pending.getStringExtra("time");
             data = intent_pending.getStringExtra("data");
+            index = intent_pending.getIntExtra("index", 0);
             mission = intent_pending.getStringExtra("mission");
             reqCode = intent_pending.getIntExtra("reqCode", 0);
             accountNum = intent_pending.getStringExtra("accountNum");
@@ -82,11 +79,18 @@ public class AlarmShowActivity extends AppCompatActivity {
                     break;
             }
         } else if (resultCode == RESULT_CANCELED) {
-            if (data.getBooleanExtra("fail", false)) {
-                Intent intent_failure = new Intent(this, AlarmFailureActivity.class);
-                intent_failure.putExtra("accountBank", accountBank);
-                intent_failure.putExtra("accountNum", accountNum);
-                startActivity(intent_failure);
+            Boolean isFriend = sharedPref.getBoolean("list" + index + "isFriend", false);
+            if (isFriend) {
+                if (data.getBooleanExtra("fail", false)) {
+                    Intent intent_failure = new Intent(this, AlarmFailureActivity.class);
+                    intent_failure.putExtra("accountBank", accountBank);
+                    intent_failure.putExtra("accountNum", accountNum);
+                    startActivity(intent_failure);
+                }
+            } else {
+                if (data == null) {
+                    zombie();
+                }
             }
         } else {
             if (data == null) {
@@ -135,9 +139,6 @@ public class AlarmShowActivity extends AppCompatActivity {
      */
     protected void triggerMission(String mission) {
         switch (mission) {
-            //            case "Do Nothing":
-            //                Toast.makeText(this, "function comes soon. (pending)", Toast.LENGTH_LONG).show();
-            //                break;
             case "Decibel":
                 Intent intent_decibel = new Intent(AlarmShowActivity.this, MissionDecibelMeterActivity.class);
                 startActivityForResult(intent_decibel, DEFAULT_MISSION_DECIBEL);
@@ -146,9 +147,6 @@ public class AlarmShowActivity extends AppCompatActivity {
                 Intent intent_shaking = new Intent(AlarmShowActivity.this, MissionShakingActivity.class);
                 startActivityForResult(intent_shaking, DEFAULT_MISSION_SHAKING);
                 break;
-            //            case "Fee":
-            //                Toast.makeText(this, "function comes soon. (pending)", Toast.LENGTH_LONG).show();
-            //                break;
             default:
                 break;
         }
