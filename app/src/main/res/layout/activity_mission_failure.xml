@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="184dp"
-        app:srcCompat="@drawable/send_money" />
+        android:background="@drawable/send_money" />
 
     <TextView
         android:id="@+id/textView7"

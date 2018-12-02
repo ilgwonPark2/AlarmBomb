@@ -137,7 +137,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     }
 
     private void onlyNotification(String title) {
-        //        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.bomb)
                 .setContentTitle(title)
