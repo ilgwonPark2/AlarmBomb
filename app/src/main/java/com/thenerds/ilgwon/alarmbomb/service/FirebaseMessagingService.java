@@ -66,6 +66,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                     result = pref.getBoolean("list" + i + "isFriend", false);
                     Log.i("TAG", String.valueOf(result));
                     break;
+
                 }
             }
 
@@ -112,6 +113,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
             //알람끄기
         }
+        Log.i(TAG, title);
     }
 
     private void sendNotification(String friend, String time, String code, String from) {

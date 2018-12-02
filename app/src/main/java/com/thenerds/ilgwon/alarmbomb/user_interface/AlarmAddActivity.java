@@ -134,7 +134,7 @@ public class AlarmAddActivity extends Activity {
      */
     public void checkPermission(String type) {
         // Check 3 permissions to do this mission.
-        if (type == "decibel") {
+        if (type.equals("decibel")) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -161,13 +161,13 @@ public class AlarmAddActivity extends Activity {
             } else {
                 finish();
             }
-        } else if (type == "contacts") {
+        } else if (type.equals("contacts")) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
 
                 // displaying AlertDialog with rationale
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder((AlarmAddActivity.this), 0);
-                    builder.setTitle("AUDIO PERMISSION").setMessage("RECORD AUDIO, STORAGE ACCESS permission is needed to estimate decibel! Would you try to get permission again?")
+                    builder.setTitle("Contact PERMISSION").setMessage("Contact permission is needed. Would you try to get permission again?")
                             .setNegativeButton("No", null)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
