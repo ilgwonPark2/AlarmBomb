@@ -21,7 +21,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="37dp"
-        android:layout_marginBottom="33dp" />
+        android:layout_marginBottom="33dp"
+        android:fontFamily="monospace"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView11"
@@ -31,6 +34,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="78dp"
         android:text="Dobby is free..!"
-        android:textSize="30sp"
+        android:textSize="36sp"
         android:textStyle="bold" />
 </RelativeLayout>

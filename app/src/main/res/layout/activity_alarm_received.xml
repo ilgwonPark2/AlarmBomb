@@ -5,7 +5,19 @@
     android:id="@+id/jigsaw"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@android:color/background_dark">
+    android:background="@color/common_google_signin_btn_text_dark_focused">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="326dp"
+        android:layout_height="186dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="21dp"
+        android:layout_marginBottom="323dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/jigsaw"
+        android:cropToPadding="true" />
 
     <TextView
         android:id="@+id/textView9"
@@ -15,7 +27,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="407dp"
+        android:layout_marginTop="385dp"
         android:layout_marginEnd="10dp"
         android:background="@android:color/background_dark"
         android:text="Let the alarm begin"
@@ -24,18 +36,6 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:typeface="monospace" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="326dp"
-        android:layout_height="186dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="21dp"
-        android:layout_marginBottom="238dp"
-        android:adjustViewBounds="true"
-        android:background="@drawable/jigsaw"
-        android:cropToPadding="true" />
 
     <TextView
         android:id="@+id/from_friend"
