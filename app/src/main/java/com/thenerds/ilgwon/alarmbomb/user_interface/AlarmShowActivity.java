@@ -52,7 +52,7 @@ public class AlarmShowActivity extends AppCompatActivity {
             accountBank = intent_pending.getStringExtra("accountBank");
             //  Trigger the mission.
             triggerMission(mission);
-            textViewAlarmedTime.setText(data + "\n" + mission + "\n" );
+            textViewAlarmedTime.setText(time + "\n" + data + "\n" + mission + "\n" + reqCode);
         }
     }
 

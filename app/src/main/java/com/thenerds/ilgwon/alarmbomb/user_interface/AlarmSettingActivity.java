@@ -167,7 +167,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
         //  Put following data to the intent for the AlarmShowActivity.
         Intent intent = new Intent(AlarmSettingActivity.this, AlarmShowActivity.class);
         intent.putExtra("time", hour + ":" + minute);
-        intent.putExtra("data", "dd: " + currentCalendar.getTime().toLocaleString());
+        intent.putExtra("data", "Date: " + currentCalendar.getTime().toLocaleString());
         intent.putExtra("index", i);
         intent.putExtra("mission", mission);
         intent.putExtra("reqCode", reqCode);
