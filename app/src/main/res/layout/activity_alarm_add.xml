@@ -31,10 +31,10 @@
 
                 <EditText
                     android:id="@+id/friendtext"
-                    android:layout_width="177dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hint="find your friend by phone number"
+                    android:hint="Find Friend"
                     android:textSize="24sp" />
 
                 <Button
@@ -42,6 +42,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="Search" />
+
+                <Button
+                    android:id="@+id/btn_contacts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Contacts" />
             </LinearLayout>
 
             <LinearLayout

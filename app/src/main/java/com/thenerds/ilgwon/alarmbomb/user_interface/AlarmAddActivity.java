@@ -6,11 +6,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -27,23 +27,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.thenerds.ilgwon.alarmbomb.Messaging.UrlSending;
 import com.thenerds.ilgwon.alarmbomb.Model.NotificationModel;
 import com.thenerds.ilgwon.alarmbomb.Model.UserModel;
 import com.thenerds.ilgwon.alarmbomb.R;
 import com.thenerds.ilgwon.alarmbomb.module_alarm.FriendAdapter;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static com.thenerds.ilgwon.alarmbomb.user_interface.MainActivity.user_name;
 
 public class AlarmAddActivity extends Activity {
     int hh;
@@ -52,6 +43,7 @@ public class AlarmAddActivity extends Activity {
     TimePicker timePickerAlarmTime;
     Button btnAddAlarm;
     Button btnSearchFriend;
+    Button btnContacts;
     EditText search_phone;
     TextView userid;
     public static final int DEFAULT_ALARM_REQUEST = 800;
@@ -76,6 +68,7 @@ public class AlarmAddActivity extends Activity {
 
         btnAddAlarm = (Button) findViewById(R.id.btnAddAlarm);
         btnSearchFriend = (Button) findViewById(R.id.search);
+        btnContacts = findViewById(R.id.btn_contacts);
         search_phone = (EditText) findViewById(R.id.friendtext);
         userid = (TextView) findViewById(R.id.userid);
         timePickerAlarmTime = (TimePicker) findViewById(R.id.timePickerAlarmTime);
@@ -111,60 +104,26 @@ public class AlarmAddActivity extends Activity {
                 intent.putExtra("reqCode", reqCode);
                 setResult(Activity.RESULT_OK, intent);
 
-
-
                 if (mission_select == "Decibel") {
-                    checkPermission();
+                    checkPermission("decibel");
                 } else {
                     finish();
                 }
             }
         });
+
         btnSearchFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String friend_phone = search_phone.getText().toString();
-                Query query = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("phone").equalTo(friend_phone);
-                query.addValueEventListener(new ValueEventListener() {
+                findFriend(friend_phone);
 
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        destinationModel = new UserModel();
-                        List<String> temp = new ArrayList<String>();
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        for (DataSnapshot d : dataSnapshot.getChildren()) {
-                            temp.add(d.getValue().toString());
-                        }
-                        if (temp.size() != 0) {
-                            String value = temp.get(0);
-                            value = value.substring(1, value.length() - 1);
-                            String[] keyValue = value.split(", ");
-                            for (String pair : keyValue) {
-                                String[] entry = pair.split("=");
-                                map.put(entry[0].trim(), entry[1].trim());
-                            }
-                            destinationModel.account_bank = map.get("accountBank");
-                            Dest_account_bank = destinationModel.account_bank;
-                            destinationModel.account = map.get("accountNumber");
-                            Dest_account = destinationModel.account;
-                            destinationModel.destination_id = map.get("uid");
-                            Dest_id = destinationModel.destination_id;
-                            destinationModel.uid = map.get("userID");
-                            Dest_uid = destinationModel.uid;
-                            destinationModel.pushToken = map.get("pushToken");
-                            Dest_pushToken = destinationModel.pushToken;
-                        } else {
-                            Dest_uid = "No such id exists";
-                        }
-                        userid.setText(Dest_uid);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
+            }
+        });
+        btnContacts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkPermission("contacts");
             }
         });
 
@@ -173,34 +132,64 @@ public class AlarmAddActivity extends Activity {
     /**
      * check permission to the user.
      */
-    public void checkPermission() {
+    public void checkPermission(String type) {
         // Check 3 permissions to do this mission.
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (type == "decibel") {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
-            // displaying AlertDialog with rationale
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder((AlarmAddActivity.this), 0);
-                builder.setTitle("AUDIO PERMISSION").setMessage("RECORD AUDIO, STORAGE ACCESS permission is needed to estimate decibel! Would you try to get permission again?")
-                        .setNegativeButton("No", null)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                ActivityCompat.requestPermissions(AlarmAddActivity.this,
-                                        new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
-                                        7777);
-                            }
-                        });
-                builder.show();
+                // displaying AlertDialog with rationale
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder((AlarmAddActivity.this), 0);
+                    builder.setTitle("AUDIO PERMISSION").setMessage("RECORD AUDIO, STORAGE ACCESS permission is needed to estimate decibel! Would you try to get permission again?")
+                            .setNegativeButton("No", null)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    ActivityCompat.requestPermissions(AlarmAddActivity.this,
+                                            new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                                            7777);
+                                }
+                            });
+                    builder.show();
+                } else {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                            7777);
+                }
             } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
-                        7777);
+                finish();
             }
-        } else {
-            finish();
+        } else if (type == "contacts") {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+
+                // displaying AlertDialog with rationale
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder((AlarmAddActivity.this), 0);
+                    builder.setTitle("AUDIO PERMISSION").setMessage("RECORD AUDIO, STORAGE ACCESS permission is needed to estimate decibel! Would you try to get permission again?")
+                            .setNegativeButton("No", null)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    ActivityCompat.requestPermissions(AlarmAddActivity.this,
+                                            new String[]{Manifest.permission.READ_CONTACTS},
+                                            8888);
+                                }
+                            });
+                    builder.show();
+                } else {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.READ_CONTACTS},
+                            8888);
+                }
+            } else {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+                startActivityForResult(intent, 8989);
+            }
         }
+
     }
 
     @Override
@@ -208,8 +197,73 @@ public class AlarmAddActivity extends Activity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 7777) {
             finish();
+        } else if (requestCode == 8888) {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+            startActivityForResult(intent, 8989);
         }
     }
 
 
+    public void findFriend(String number) {
+
+        Query query = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("phone").equalTo(number);
+        query.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                destinationModel = new UserModel();
+                List<String> temp = new ArrayList<String>();
+                HashMap<String, String> map = new HashMap<String, String>();
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    temp.add(d.getValue().toString());
+                }
+                if (temp.size() != 0) {
+                    String value = temp.get(0);
+                    value = value.substring(1, value.length() - 1);
+                    String[] keyValue = value.split(", ");
+                    for (String pair : keyValue) {
+                        String[] entry = pair.split("=");
+                        map.put(entry[0].trim(), entry[1].trim());
+                    }
+                    destinationModel.account_bank = map.get("accountBank");
+                    Dest_account_bank = destinationModel.account_bank;
+                    destinationModel.account = map.get("accountNumber");
+                    Dest_account = destinationModel.account;
+                    destinationModel.destination_id = map.get("uid");
+                    Dest_id = destinationModel.destination_id;
+                    destinationModel.uid = map.get("userID");
+                    Dest_uid = destinationModel.uid;
+                    destinationModel.pushToken = map.get("pushToken");
+                    Dest_pushToken = destinationModel.pushToken;
+                } else {
+                    Dest_uid = "No such id exists";
+                }
+                userid.setText(Dest_uid);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 8989 && resultCode == RESULT_OK) {
+            Cursor cursor = getContentResolver().query(data.getData(),
+                    new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                            ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
+            cursor.moveToFirst();
+            String number = cursor.getString(1);
+            number = number.replace("-", "");
+            cursor.close();
+            findFriend(number.trim());
+        }
+
+    }
 }
+
