@@ -25,7 +25,7 @@ public class UrlSending extends AsyncTask<InputStream, Void, Void> {
 //    String s;
     String body;
 
-    public UrlSending( String body) {
+    public UrlSending(String body) {
 //        this.s = s;
         this.body = body;
         //Log.i("X","here");
@@ -107,12 +107,8 @@ public class UrlSending extends AsyncTask<InputStream, Void, Void> {
         return null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static String AccessToken(InputStream[] streams) throws IOException {
-        Path current = Paths.get("");
-        String ssss = current.toAbsolutePath().toString();
-        Log.i("patj", ssss);
-        Log.i("Hello", "dfsf");
+
         //{
         //File token_dir = new File(getFilesDir() + "/sample");
         //File token_file = new File(token_dir.getAbsolutePath() + "/someimage.png");

@@ -7,8 +7,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -57,43 +59,58 @@ public class Invitation extends Activity {
         time = invitation.getStringExtra("time");
         Friend = invitation.getStringExtra("friend");
         code = invitation.getStringExtra("code");
-        from=invitation.getStringExtra("from");
+        from = invitation.getStringExtra("from");
 
         friend_name.setText(Friend);
         Time.setText(time);
 
     }
 
-    public void yes_act() throws JSONException {
+    public void yes_act(View v) {
         InputStream Token_file = getResources().openRawResource(R.raw.service_account);
         JSONObject root = new JSONObject();
         JSONObject second = new JSONObject();
         JSONObject third = new JSONObject();
-        third.put("title","YES");
-        third.put("code", code);
-        second.put("data", third);
-        second.put("token", from);
-        root.put("message", second);
+        try {
+            third.put("title", "YES");
+            third.put("code", code);
+            second.put("data", third);
+            second.put("token", from);
+            root.put("message", second);
 
-        UrlSending url = (UrlSending) new UrlSending(root.toString()).execute(Token_file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            UrlSending url = (UrlSending) new UrlSending(root.toString()).execute(Token_file);
+            Toast.makeText(this,"You've sent an approval.",Toast.LENGTH_LONG).show();
+            this.finish();
+        }
+
+//        UrlSending url = (UrlSending) new UrlSending(root.toString()).execute(Token_file);
 
     }
 
 
-
-    public void no_act() throws JSONException {
+    public void no_act(View v)  {
         InputStream Token_file = getResources().openRawResource(R.raw.service_account);
         JSONObject root = new JSONObject();
         JSONObject second = new JSONObject();
         JSONObject third = new JSONObject();
-        third.put("title","NO");
+        try{
+        third.put("title", "NO");
         third.put("code", code);
         second.put("data", third);
         second.put("token", from);
-        root.put("message", second);
+        root.put("message", second);}
+        catch(Exception e){
+            e.printStackTrace();
+        }
 
-        UrlSending url = (UrlSending) new UrlSending(root.toString()).execute(Token_file);
-
+        finally {
+            UrlSending url = (UrlSending) new UrlSending(root.toString()).execute(Token_file);
+            Toast.makeText(this,"You've sent an unapproval.",Toast.LENGTH_LONG).show();
+            this.finish();
+        }
     }
 
 }

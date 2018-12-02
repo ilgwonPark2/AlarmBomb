@@ -35,31 +35,37 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         //receive type1 알람 신청 승낙?
         if (title.equals("invitation")) {
             Log.i("invitation", "invitation");
-            String friend=data.get("friend_name");
-            String time=data.get("time");
-            String code=data.get("code");
-            String from=data.get("from");
-            sendNotification(friend,time,code,from);
+            String friend = data.get("friend_name");
+            String time = data.get("time");
+            String code = data.get("code");
+            String from = data.get("from_user");
+            sendNotification(friend, time, code, from);
 
         }
         //receive type2 승낙했음
-        if (title.equals("OK")) {
-            Log.i(TAG, "OK");
+        if (title.equals("YES")) {
+            Log.i(TAG, "YES?");
+            onlyNotification(title);
 
             //isfriend 수정
+            String req = data.get("code");
 
-        String req=data.get("code");
-        SharedPreferences pref =getSharedPreferences("Alarm", MODE_PRIVATE);
-        SharedPreferences.Editor editor=pref.edit();
-        int size=pref.getInt("size", 0);
-            for (int i = 1; i < size + 1; i++){
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("Alarm", MODE_PRIVATE);
+//            SharedPreferences.Editor editor = pref.edit();
+
+            int size = pref.getInt("size", 0);
+            Log.i(TAG, String.valueOf(size));
+            for (int i = 1; i < size + 1; i++) {
                 int reqCode = pref.getInt("list" + i + "reqCode", 0);
-                if(String.valueOf(reqCode) == req){
-                    Boolean result=pref.getBoolean("list" + i + "isFriend",true);
-                    pref.edit().putBoolean("list" + i + "isFriend", false).apply();
-                    Log.i("Result",String.valueOf(result));
+                //Log.i("TAG", String.valueOf(reqCode));
+                if (String.valueOf(reqCode).equals(req)) {
+                    Log.i("TAG", String.valueOf(reqCode));
+                    Boolean result = pref.getBoolean("list" + i + "isFriend", false);
+                    pref.edit().putBoolean("list" + i + "isFriend", true).apply();
+                    pref.edit().commit();
+                    result = pref.getBoolean("list" + i + "isFriend", false);
+                    Log.i("TAG", String.valueOf(result));
                     break;
-
                 }
             }
 
@@ -68,6 +74,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         //receive type3 거절했음
         if (title.equals("NO")) {
             Log.i(TAG, "NO");
+            onlyNotification(title);
 
             //pass
         }
@@ -105,17 +112,17 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
             //알람끄기
         }
-        Log.i(TAG, title);
     }
-    private void sendNotification(String friend,String time,String code,String from){
+
+    private void sendNotification(String friend, String time, String code, String from) {
 //        Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.naver.com"));
-        Intent intent=new Intent(this, Invitation.class);
-        intent.putExtra("friend",friend);
-        intent.putExtra("time",time);
-        intent.putExtra("code",code);
-        intent.putExtra("from",from);
+        Intent intent = new Intent(this, Invitation.class);
+        intent.putExtra("friend", friend);
+        intent.putExtra("time", time);
+        intent.putExtra("code", code);
+        intent.putExtra("from", from);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingIntent=PendingIntent.getActivity(this,1123,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1123, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.bomb)
                 .setContentTitle(friend + " send you to Alarm BOMB!")
@@ -124,10 +131,22 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 .setWhen(System.currentTimeMillis())
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentIntent(pendingIntent);
-        NotificationManager notificationManager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1123,notificationBuilder.build());
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1123, notificationBuilder.build());
         //startActivity(intent);
 
+
+    }
+    private void onlyNotification(String title){
+//        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.bomb)
+                .setContentTitle(title)
+                .setAutoCancel(true)
+                .setWhen(System.currentTimeMillis())
+                .setDefaults(Notification.DEFAULT_ALL);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1123, notificationBuilder.build());
 
     }
 }
