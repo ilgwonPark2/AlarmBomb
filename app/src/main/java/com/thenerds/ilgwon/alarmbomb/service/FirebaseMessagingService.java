@@ -6,18 +6,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
-import com.thenerds.ilgwon.alarmbomb.Model.NotificationModel;
 import com.thenerds.ilgwon.alarmbomb.R;
 import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmReceivedActivity;
-import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmSettingActivity;
 import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmWakedActivity;
 import com.thenerds.ilgwon.alarmbomb.user_interface.Invitation;
-import com.thenerds.ilgwon.alarmbomb.user_interface.AlarmWakedActivity;
 
 import java.util.Map;
 
@@ -35,11 +31,11 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         //receive type1 알람 신청 승낙?
         if (title.equals("invitation")) {
             Log.i("invitation", "invitation");
-            String friend=data.get("friend_name");
-            String time=data.get("time");
-            String code=data.get("code");
-            String from=data.get("from");
-            sendNotification(friend,time,code,from);
+            String friend = data.get("friend_name");
+            String time = data.get("time");
+            String code = data.get("code");
+            String from = data.get("from");
+            sendNotification(friend, time, code, from);
 
         }
         //receive type2 승낙했음
@@ -48,16 +44,16 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
             //isfriend 수정
 
-        String req=data.get("code");
-        SharedPreferences pref =getSharedPreferences("Alarm", MODE_PRIVATE);
-        SharedPreferences.Editor editor=pref.edit();
-        int size=pref.getInt("size", 0);
-            for (int i = 1; i < size + 1; i++){
+            String req = data.get("code");
+            SharedPreferences pref = getSharedPreferences("Alarm", MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            int size = pref.getInt("size", 0);
+            for (int i = 1; i < size + 1; i++) {
                 int reqCode = pref.getInt("list" + i + "reqCode", 0);
-                if(String.valueOf(reqCode) == req){
-                    Boolean result=pref.getBoolean("list" + i + "isFriend",true);
+                if (String.valueOf(reqCode) == req) {
+                    Boolean result = pref.getBoolean("list" + i + "isFriend", true);
                     pref.edit().putBoolean("list" + i + "isFriend", false).apply();
-                    Log.i("Result",String.valueOf(result));
+                    Log.i("Result", String.valueOf(result));
                     break;
 
                 }
@@ -107,15 +103,16 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         }
         Log.i(TAG, title);
     }
-    private void sendNotification(String friend,String time,String code,String from){
-//        Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.naver.com"));
-        Intent intent=new Intent(this, Invitation.class);
-        intent.putExtra("friend",friend);
-        intent.putExtra("time",time);
-        intent.putExtra("code",code);
-        intent.putExtra("from",from);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingIntent=PendingIntent.getActivity(this,1123,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+    private void sendNotification(String friend, String time, String code, String from) {
+        //        Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.naver.com"));
+        Intent intent = new Intent(this, Invitation.class);
+        intent.putExtra("friend", friend);
+        intent.putExtra("time", time);
+        intent.putExtra("code", code);
+        intent.putExtra("from", from);
+        //        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1123, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.bomb)
                 .setContentTitle(friend + " send you to Alarm BOMB!")
@@ -124,10 +121,18 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 .setWhen(System.currentTimeMillis())
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentIntent(pendingIntent);
-        NotificationManager notificationManager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1123,notificationBuilder.build());
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1123, notificationBuilder.build());
         //startActivity(intent);
+    }
 
+    @Override
+    public boolean onUnbind(Intent intent) {
+        return super.onUnbind(intent);
+    }
 
+    @Override
+    public void onRebind(Intent intent) {
+        super.onRebind(intent);
     }
 }
