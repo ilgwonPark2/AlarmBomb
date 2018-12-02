@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="60dp"
         android:layout_marginTop="168dp"
-        app:srcCompat="@drawable/dobby" />
+        android:background="@drawable/dobby" />
 
     <TextView
         android:id="@+id/from_friend2"

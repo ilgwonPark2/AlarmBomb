@@ -94,6 +94,7 @@ public class AlarmShowActivity extends AppCompatActivity {
                     intent_failure.putExtra("accountBank", accountBank);
                     intent_failure.putExtra("accountNum", accountNum);
                     startActivity(intent_failure);
+                    isComplete = true;
                 } else {
                     Log.i("TAG", "ShowActivity fail false");
                 }
