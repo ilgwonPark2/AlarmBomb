@@ -104,7 +104,7 @@ public class AlarmAddActivity extends Activity {
                 intent.putExtra("reqCode", reqCode);
                 setResult(Activity.RESULT_OK, intent);
 
-                if (mission_select == "Decibel") {
+                if (mission_select.equals("Decibel")) {
                     checkPermission("decibel");
                 } else {
                     finish();
