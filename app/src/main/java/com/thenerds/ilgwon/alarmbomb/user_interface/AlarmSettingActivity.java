@@ -31,7 +31,9 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import static com.thenerds.ilgwon.alarmbomb.user_interface.AlarmAddActivity.Dest_pushToken;
+import static com.thenerds.ilgwon.alarmbomb.user_interface.MainActivity.uid;
 import static com.thenerds.ilgwon.alarmbomb.user_interface.MainActivity.user_name;
+import static com.thenerds.ilgwon.alarmbomb.user_interface.MainActivity.user_token;
 
 public class AlarmSettingActivity extends AppCompatActivity {
     private AlarmManager alarmManager;
@@ -193,6 +195,7 @@ public class AlarmSettingActivity extends AppCompatActivity {
         third.put("friend_name", user_name);//클라이언트 이름 넣을것
         third.put("code", String.valueOf(request));
         third.put("time", hh + " : " + mm);
+        third.put("from",user_token);
         second.put("token", Dest_pushToken);
         second.put("data", third);
         root.put("message", second);

@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private String password = "";
     public static String uid;
     public static String user_name;
+    public static String user_token;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -167,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
     void passPushTokenToServer() {
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String token = FirebaseInstanceId.getInstance().getToken();
+        user_token=token;
         Map<String, Object> map = new HashMap<>();
         map.put("pushToken", token);
         FirebaseDatabase.getInstance().getReference().child("users").child(uid).updateChildren(map);
